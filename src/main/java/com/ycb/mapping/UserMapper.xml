@@ -138,8 +138,4 @@
       zone = #{zone,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-  <select id="login" parameterType="java.lang.String" resultMap="BaseResultMap">
-  	 SELECT * FROM  user where  phone = #{0} and password = #{1},
-  </select>
 </mapper>
