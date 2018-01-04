@@ -3,8 +3,12 @@ package com.ycb.service.impl;
 import com.ycb.dao.MachineMapper;
 import com.ycb.entity.Machine;
 import com.ycb.service.MachineService;
+import com.ycb.util.PageUtil;
+import com.ycb.util.ReturnJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 /**
@@ -18,16 +22,22 @@ public class MachineServiceImp implements MachineService{
     private MachineMapper machineMapper;
 
     @Override
-    public void addMachine(Machine machine) {
+    public ReturnJson addMachine(Machine machine) {
+
+        ReturnJson rj = new ReturnJson();
 
         if(machine == null){
 
         }
         int i =  machineMapper.insert(machine);
-        if(i < 1){
-
+        if (i>0){
+            rj.setMsg("修改成功");
+            rj.setSuccess(true);
+        }else{
+            rj.setSuccess(false);
+            rj.setMsg("修改失败");
         }
-
+        return rj;
     }
 
     @Override
@@ -41,22 +51,45 @@ public class MachineServiceImp implements MachineService{
     }
 
     @Override
-    public void deleteMachine(int id) {
+    public ReturnJson deleteMachine(int id) {
+
+        ReturnJson rj = new ReturnJson();
 
         int i = machineMapper.deleteByPrimaryKey(id);
 
-        if(i < 1){
-
+        if (i>0){
+            rj.setMsg("修改成功");
+            rj.setSuccess(true);
+        }else{
+            rj.setSuccess(false);
+            rj.setMsg("修改失败");
         }
+        return rj;
     }
 
     @Override
-    public void updateMachine(Machine machine) {
+    public ReturnJson updateMachine(Machine machine) {
+
+        ReturnJson rj = new ReturnJson();
 
         int i = machineMapper.updateByPrimaryKey(machine);
 
-        if(i < 1){
-
+        if (i>0){
+            rj.setMsg("修改成功");
+            rj.setSuccess(true);
+        }else{
+            rj.setSuccess(false);
+            rj.setMsg("修改失败");
         }
+        return rj;
+    }
+
+    @Override
+    public PageUtil<Machine> findMachineList(PageUtil<Machine> pageUtil) {
+        List<Machine> list =  machineMapper.selectMachineList(pageUtil);
+        Integer totalCount=machineMapper.selectCount(pageUtil);
+        pageUtil.setTotalCount(totalCount);
+        pageUtil.setList(list);
+        return pageUtil;
     }
 }

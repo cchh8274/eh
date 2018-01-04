@@ -149,4 +149,44 @@
       createTime = #{createtime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectCount" parameterType="org.jk.util.PageUtil" resultType="Integer">
+    select count(1) FROM machine
+    <where>
+      <if test="whereMap!=null and whereMap.title!=null and whereMap.title!=''">
+        and title like '%${whereMap.title}%'
+      </if>
+      <if test="whereMap !=null and whereMap.minPrice = null and whereMap.minPrice!=''">
+        and PRICE &gt; whereMap.minPrice
+      </if>
+      <if test="whereMap !=null and whereMap.maxPrice = null and whereMap.maxPrice!=''">
+        and PRICE &lt; whereMap.maxPrice
+      </if>
+    </where>
+  </select>
+
+  <select id="selectMachineList" resultMap="BaseResultMap1" parameterType="org.jk.util.PageUtil">
+
+    select * from
+    (
+    select s.*,rownum rm FROM
+    (
+    select <include refid="Base_Column_List_tow"/> FROM machine
+    <where>
+      <if test="whereMap!=null and whereMap.title!=null and whereMap.title!=''">
+        and title like '%${whereMap.title}%'
+      </if>
+      <if test="whereMap !=null and whereMap.minPrice = null and whereMap.minPrice!=''">
+        and PRICE &gt; whereMap.minPrice
+      </if>
+      <if test="whereMap !=null and whereMap.maxPrice = null and whereMap.maxPrice!=''">
+        and PRICE &lt; whereMap.maxPrice
+      </if>
+    </where>
+    )
+    s where rownum &lt;= #{end}
+    )
+    where rm &gt; #{start}
+  </select>
+
 </mapper>
