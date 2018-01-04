@@ -1,6 +1,6 @@
 package com.ycb.dao;
 
-import com.ycb.domin.User;
+import com.ycb.entity.User;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Integer id);

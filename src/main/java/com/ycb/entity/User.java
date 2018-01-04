@@ -1,4 +1,4 @@
-package com.ycb.domin;
+package com.ycb.entity;
 
 public class User {
     private Integer id;
