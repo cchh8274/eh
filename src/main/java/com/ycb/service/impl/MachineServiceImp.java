@@ -1,4 +1,4 @@
-package com.ycb.service.imp;
+package com.ycb.service.impl;
 
 import com.ycb.service.MachineService;
 
