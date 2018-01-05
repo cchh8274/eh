@@ -21,29 +21,34 @@ public class MachineController {
     @Autowired
     private MachineService machineService;
 
+    //添加
     @RequestMapping(value = "addMachine", method = RequestMethod.POST)
     @ResponseBody
     public ReturnJson addMachine(Machine machine){
         return machineService.addMachine(machine);
     }
 
+    //主键查询
     @RequestMapping(value = "findMachine", method = RequestMethod.POST)
     @ResponseBody
     public Machine queryMachine(int id){
         return machineService.findMachine(id);
     }
 
+    //删除
     @RequestMapping(value = "deleteMachine", method = RequestMethod.POST)
     public ReturnJson deleteMachine(int id){
         return machineService.deleteMachine(id);
     }
 
+    //修改
     @RequestMapping(value = "updateMachine", method = RequestMethod.POST)
     @ResponseBody
     public ReturnJson updateMachine(Machine machine){
         return machineService.updateMachine(machine);
     }
 
+    //分页展示
     @RequestMapping(value = "findMachineList", method = RequestMethod.POST)
     @ResponseBody
     public DataGridJson queryMachineList(PageUtil<Machine> pageUtil, Integer rows, Integer page){
@@ -54,6 +59,12 @@ public class MachineController {
         dj.setTotal(pageUtil.getTotalCount());
         dj.setRows(pageUtil.getList());
         return dj;
+    }
+
+    //跳转到机器添加页面
+    @RequestMapping("toadd")
+    public String toadd(){
+        return "/machine/addMachine";
     }
 
 }
