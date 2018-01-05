@@ -3,16 +3,16 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  	<context-param>
+	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring.xml,classpath:spring-mybatis.xml</param-value>
 	</context-param>
 	<filter>
-<!-- 		<description>字符集过滤器</description> -->
+		<!-- <description>字符集过滤器</description> -->
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
-<!-- 			<description>字符集编码</description> -->
+			<!-- <description>字符集编码</description> -->
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
 		</init-param>
@@ -42,12 +42,24 @@
 		<servlet-name>springMVC</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+
+	<!-- 验证码 -->
+	<servlet>
+		<servlet-name>imageCode</servlet-name>
+		<servlet-class>com.ycb.util.ImageCodeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>imageCode</servlet-name>
+		<url-pattern>/imageCode</url-pattern>
+	</servlet-mapping>
+	<!--配置首页 -->
 	<welcome-file-list>
 		<welcome-file>/index.html</welcome-file>
+		<welcome-file>/index.jsp</welcome-file>
 	</welcome-file-list>
-	
+
 	<!-- 配置session超时时间，单位分钟 -->
-<!-- 	<session-config> -->
-<!-- 		<session-timeout>15</session-timeout> -->
-<!-- 	</session-config> -->
+	<!-- <session-config> -->
+	<!-- <session-timeout>15</session-timeout> -->
+	<!-- </session-config> -->
 </web-app>

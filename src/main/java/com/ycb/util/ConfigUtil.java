@@ -12,8 +12,7 @@ public class ConfigUtil {
 //	这个类的作用就是读取资源属性文件（properties），然后根据.properties文件的名称信息（本地化信息），匹配当前系统的国别语言信息（也可以程序指定），然后获取相应的properties文件的内容。
 	
 
-	//config代表 properties配置文件的名称！！！
-	private static final ResourceBundle bundle = ResourceBundle.getBundle("config");
+	private static final ResourceBundle bundle = java.util.ResourceBundle.getBundle("config");
 
 	/**
 	 * 获得sessionInfo名字

@@ -8,7 +8,6 @@ import com.ycb.util.ReturnJson;
  * Created by zhm on 2018/1/3.
  */
 public interface MachineService {
-
     ReturnJson addMachine(Machine machine);
 
     Machine findMachine(int id);

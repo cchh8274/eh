@@ -1,5 +1,17 @@
 package com.ycb.util;
 
+/**
+ * <pre>项目名称：ssh-zjui    
+ * 类名称：ReturnJson    
+ * 类描述：     JSON模型
+ *                用户后台向前台返回的JSON对象
+ * 创建人：  朱冀京
+ * 创建时间：2017年3月20日 上午7:32:30    
+ * 修改人： 朱冀京
+ * 修改时间：2017年3月20日 上午7:32:30    
+ * 修改备注：       
+ * @version </pre>
+ */
 public class ReturnJson implements java.io.Serializable {
 
 	/**
