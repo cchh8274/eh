@@ -1,7 +1,7 @@
 package com.ycb.util;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /** 
  * <pre>项目名称：ssh-02    
@@ -34,17 +34,16 @@ public class PageUtil<T> {
 	// 分页list
 	private List<T> list;
 	
+	//查询条件map
+	private HashMap<String,Object> whereMap;
 	
-	private Map<String,Object> map;
 
-	
-
-	public Map<String, Object> getMap() {
-		return map;
+	public HashMap<String, Object> getWhereMap() {
+		return whereMap;
 	}
 
-	public void setMap(Map<String, Object> map) {
-		this.map = map;
+	public void setWhereMap(HashMap<String, Object> whereMap) {
+		this.whereMap = whereMap;
 	}
 
 	public Integer getCpage() {
@@ -60,7 +59,7 @@ public class PageUtil<T> {
 
 	public Integer getPageSize() {
 		if (pageSize == null) {
-			this.pageSize = 3;
+			this.pageSize = 5;
 		}
 		return pageSize;
 	}
@@ -91,7 +90,7 @@ public class PageUtil<T> {
 
 //	每页开始位置 ----  (当前页-1)*每页条数
 	public Integer getStart() {
-		start = (start-1)*getPageSize();
+		start = (getCpage()-1)*getPageSize();
 		return start;
 	}
 

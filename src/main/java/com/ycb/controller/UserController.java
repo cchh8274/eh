@@ -50,18 +50,18 @@ public class UserController {
 			rj.setMsg("请输入用户名或者密码");
 			return;
 		}
-		if (StringUtils.isBlank(user.getImgcode())) {
-			rj.setSuccess(false);
-			rj.setMsg("请输入验证码");
-			return;
-		}
-		// 获取session中的验证码
-		String code = (String) request.getSession().getAttribute("imageCode");
-		if (!StringUtils.equals(code, user.getImgcode())) {
-			rj.setSuccess(false);
-			rj.setMsg("验证码输入错误!");
-			return;
-		}
+//		if (StringUtils.isBlank(user.getImgcode())) {
+//			rj.setSuccess(false);
+//			rj.setMsg("请输入验证码");
+//			return;
+//		}
+//		// 获取session中的验证码
+//		String code = (String) request.getSession().getAttribute("imageCode");
+//		if (!StringUtils.equals(code, user.getImgcode())) {
+//			rj.setSuccess(false);
+//			rj.setMsg("验证码输入错误!");
+//			return;
+//		}
 		SysUser u = userService.checkSysUserLogin(user);
 		if (null != u) {// 用户名正确
 			if (u.getPwd().equals(MD5Util.md5(user.getPwd()))) {// 密码正确
