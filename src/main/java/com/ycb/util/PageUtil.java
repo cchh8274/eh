@@ -1,12 +1,16 @@
 package com.ycb.util;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /** 
  * <pre>项目名称：ssh-02    
  * 类名称：Page    
  * 类描述：    分页工具类
+ * 创建人：  朱冀京
+ * 创建时间：2017年2月16日 下午1:43:49    
+ * 修改人： 朱冀京
+ * 修改时间：2017年2月16日 下午1:43:49    
  * 修改备注：       
  * @version </pre>    
  */
@@ -27,23 +31,20 @@ public class PageUtil<T> {
 	//每页开始位置 ----  (当前页-1)*每页条数
 	private Integer start;
 	
-	
-	//每页结束位置
-	private Integer end;
-	
 	// 分页list
 	private List<T> list;
 	
-	//查询条件map
-	private HashMap<String,Object> whereMap;
+	
+	private Map<String,Object> map;
 
+	
 
-	public HashMap<String, Object> getWhereMap() {
-		return whereMap;
+	public Map<String, Object> getMap() {
+		return map;
 	}
 
-	public void setWhereMap(HashMap<String, Object> whereMap) {
-		this.whereMap = whereMap;
+	public void setMap(Map<String, Object> map) {
+		this.map = map;
 	}
 
 	public Integer getCpage() {
@@ -59,7 +60,7 @@ public class PageUtil<T> {
 
 	public Integer getPageSize() {
 		if (pageSize == null) {
-			this.pageSize = 5;
+			this.pageSize = 3;
 		}
 		return pageSize;
 	}
@@ -90,31 +91,14 @@ public class PageUtil<T> {
 
 //	每页开始位置 ----  (当前页-1)*每页条数
 	public Integer getStart() {
-		start = (getCpage()-1)*getPageSize();
+		start = (start-1)*getPageSize();
 		return start;
 	}
 
 	public void setStart(Integer start) {
 		this.start = start;
 	}
-	
-	
-/*	1 2 3
-	456
-	789*/
-	
-	public Integer getEnd() {
-		return this.cpage*this.pageSize;
-	}
 
-	public void setEnd(Integer end) {
-		this.end = end;
-	}
-	
-	
-
-	
-	
 	public List<T> getList() {
 		return list;
 	}
@@ -122,7 +106,19 @@ public class PageUtil<T> {
 	public void setList(List<T> list) {
 		this.list = list;
 	}
-
-
-
+	
+	
+	
+	
+		
+	 
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
