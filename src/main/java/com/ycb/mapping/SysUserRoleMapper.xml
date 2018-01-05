@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycb.dao.SysUserRoleMapper">
+	<!-- 结果集 -->
+	<resultMap  type="com.ycb.entity.SysUserRole"  id="resultMap">
+		<result property="sysUserId" column="sysuser_id" />
+		<result property="sysRoleId" column="sysrole_id" />
+	</resultMap>
+
+	<!-- 字段 -->
+	<sql id="column_sql">
+		sysuser_id , sysrole_id
+	</sql>
+
+	<!--批量新增 用户角色信息 -->
+	<insert id="insertUserRoleList" parameterType="java.util.ArrayList">
+		insert into t_sysuser_sysrole_info (
+		<include refid="column_sql" />
+		)
+		values
+		<foreach collection="roleResourceList" item="item" open="("
+			close=")" separator=","> 
+			 	#{item.sysUserId},#{item.sysRoleId}
+		</foreach>
+	</insert>
+
+	<!-- 根据用户id删除 用户角色信息 -->
+	<delete id="deleteUserRoleByUserId" parameterType="com.ycb.entity.SysUserRole">
+		delete from t_sysuser_sysrole_info where sysuser_id = #id#
+	</delete>
+
+	<!-- 根据用户id 查询用户角色信息 -->
+	<select id="getUserRoleList" resultMap="resultMap"
+		parameterType="com.ycb.entity.SysUser">
+		select
+		<include refid="column_sql" />
+		from t_sysuser_sysrole_info where sysuser_id = #id#
+	</select>
+
+
+</mapper>
