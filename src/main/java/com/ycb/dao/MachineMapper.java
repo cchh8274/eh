@@ -7,6 +7,7 @@ import com.ycb.util.PageUtil;
 import java.util.List;
 
 public interface MachineMapper {
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(Machine record);
@@ -22,4 +23,6 @@ public interface MachineMapper {
     List<Machine> selectMachineList(PageUtil<Machine> pageUtil);
 
     Integer selectCount(PageUtil<Machine> pageUtil);
+
+    int deleteMachineArr(List<Integer> list);
 }

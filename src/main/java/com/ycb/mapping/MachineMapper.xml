@@ -181,5 +181,11 @@
     </if>
   </select>
 
+  <delete id="deleteMachineArr" parameterType="java.util.ArrayList">
+    delete from machine where id
+    <foreach collection="list" close=")" open=" in (" separator="," item="id" index="i">
+      #{id}
+    </foreach>
+  </delete>
 
 </mapper>

@@ -61,6 +61,12 @@ public class MachineController {
         return dj;
     }
 
+    //批量删除
+    @RequestMapping(value = "deleteMachineArr", method = RequestMethod.POST)
+    public ReturnJson deleteMachineArr(String ids){
+        return machineService.deleteMachineArr(ids);
+    }
+
     //跳转到机器添加页面
     @RequestMapping("toadd")
     public String toadd(){

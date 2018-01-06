@@ -8,6 +8,7 @@ import com.ycb.util.ReturnJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -91,5 +92,24 @@ public class MachineServiceImp implements MachineService{
         pageUtil.setTotalCount(totalCount);
         pageUtil.setList(list);
         return pageUtil;
+    }
+
+    @Override
+    public ReturnJson deleteMachineArr(String ids) {
+        ReturnJson rj = new ReturnJson();
+        String[] split = ids.split(",");
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i <split.length ; i++) {
+            list.add(Integer.valueOf(split[i]));
+        }
+        int j = machineMapper.deleteMachineArr(list);
+        if (j>0){
+            rj.setMsg("删除成功");
+            rj.setSuccess(true);
+        }else{
+            rj.setSuccess(false);
+            rj.setMsg("删除失败");
+        }
+        return rj;
     }
 }

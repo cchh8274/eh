@@ -17,4 +17,6 @@ public interface MachineService {
     ReturnJson updateMachine(Machine machine);
 
     PageUtil<Machine> findMachineList(PageUtil<Machine> pageUtil);
+
+    ReturnJson deleteMachineArr(String ids);
 }
