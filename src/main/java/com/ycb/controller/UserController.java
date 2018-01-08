@@ -3,7 +3,6 @@ package com.ycb.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jk.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,12 +11,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ycb.entity.SysUser;
 import com.ycb.entity.business.SessionInfo;
+import com.ycb.service.UserService;
 import com.ycb.util.ConfigUtil;
 import com.ycb.util.MD5Util;
 import com.ycb.util.ReturnJson;
 
 @Controller
-@RequestMapping("user")
+@RequestMapping("12121212")
 public class UserController {
 
 	@Autowired
@@ -37,6 +37,7 @@ public class UserController {
 			// 校验数据
 			userFeng(user, rj, request);
 		} catch (Exception e) {
+			e.printStackTrace();
 			rj.setSuccess(false);
 			rj.setMsg("系统错误, 请联系管理员!!");
 		}

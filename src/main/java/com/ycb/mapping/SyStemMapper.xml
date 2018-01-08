@@ -28,8 +28,8 @@
 	<!-- 根据loginName查询user用户 -->
 	<select id="selectSysUserByloginName" resultType="com.ycb.entity.SysUser"
 		parameterType="java.lang.String">
-		select * from sys_user where
-		loginname =#{loginname}
+		select * from t_sysuser_info where
+		sysuser_loginname =#{loginname}
 	</select>
 
 	<insert id="insertSysUser" parameterType="com.ycb.entity.SysUser">

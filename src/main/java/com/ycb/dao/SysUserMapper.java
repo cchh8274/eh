@@ -16,7 +16,7 @@ public interface SysUserMapper {
 	void saveSysUser(SysUser user);
 
 	//校验用户
-	SysUser checkSysUser(SysUser user);
+	SysUser selectSysUserByloginName(SysUser user);
 
 	//根据id查询用户
 	SysUser selectUserById(String userId);

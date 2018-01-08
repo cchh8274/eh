@@ -3,12 +3,12 @@ package com.ycb.service.impl;
 import java.util.Date;
 import java.util.UUID;
 
-import org.jk.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ycb.dao.SyStemMapper;
 import com.ycb.entity.SysUser;
+import com.ycb.service.UserService;
 import com.ycb.util.MD5Util;
 
 @Service
@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
 	private SyStemMapper syStemMapper;
 
 	public SysUser checkSysUserLogin(SysUser user) {
-		return syStemMapper.selectSysUserByloginName(user.getLoginname());
+		return syStemMapper.selectSysUserByloginName(user.getLoginname().trim());
 	}
 
 	public void saveSysUser(SysUser user) {

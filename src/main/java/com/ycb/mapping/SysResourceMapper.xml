@@ -64,7 +64,7 @@
 		on t2.sysrole_id = t3.sysrole_id
 		join t_sysresource_info t4
 		on t3.sysresource_id = t4.id
-		where t1.sysuser_id = #userId#
+		where t1.sysuser_id = #{userId}
 	</select>
 
 
@@ -75,15 +75,15 @@
 		select
 		<include refid="search_sql" />
 		from
-		t_sys_user t1
+		t_sysuser_info t1
 		join t_sysuser_sysrole_info t2
 		on t1.sysuser_id = t2.sysuser_id
 		join t_sysrole_sysresource_info t3
 		on t2.sysrole_id = t3.sysrole_id
 		join t_sysresource_info t4
 		on t3.sysresource_id = t4.id
-		where t1.sysuser_id = #userId#
-		and t4.resourcetypeId = #resourceTypeId#
+		where t1.sysuser_id = #{userId}
+		and t4.resourcetypeId = #{resourceTypeId}
 	</select>
 
 

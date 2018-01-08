@@ -88,7 +88,7 @@ public class SysUserServiceImpl implements SysUserService {
 	
 	@Override
 	public SysUser checkSysUser(SysUser user) {
-		return userDao.checkSysUser(user);
+		return userDao.selectSysUserByloginName(user);
 	}
 	
 	@Override

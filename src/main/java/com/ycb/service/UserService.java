@@ -1,4 +1,4 @@
-package org.jk.user.service;
+package com.ycb.service;
 
 import com.ycb.entity.SysUser;
 
