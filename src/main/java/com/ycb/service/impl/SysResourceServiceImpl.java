@@ -197,5 +197,6 @@ public class SysResourceServiceImpl implements SysResourceService {
 			// TODO Auto-generated method stub
 			return resourceDao.queryById(id);
 		}
-	
+		
 }
+

@@ -187,5 +187,10 @@
       #{id}
     </foreach>
   </delete>
-
+  <select id="queryMachineCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  	select count(0)  from order where createTime =""  and mid =''
+  </select>
+    <select id="queryMachineMonthCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  	select count(0)  from order where createMonth =""  and mid =''
+  </select>
 </mapper>

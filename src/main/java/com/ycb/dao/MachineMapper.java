@@ -25,4 +25,9 @@ public interface MachineMapper {
     Integer selectCount(PageUtil<Machine> pageUtil);
 
     int deleteMachineArr(List<Integer> list);
+
+	Integer queryMachineCount(Integer i);
+	Integer queryMachineMonthCount(Integer i);
+
+	
 }

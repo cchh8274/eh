@@ -1,10 +1,12 @@
 package com.ycb.service.impl;
 
 import com.ycb.dao.MachineMapper;
+import com.ycb.entity.Amount;
 import com.ycb.entity.Machine;
 import com.ycb.service.MachineService;
 import com.ycb.util.PageUtil;
 import com.ycb.util.ReturnJson;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -112,4 +114,15 @@ public class MachineServiceImp implements MachineService{
         }
         return rj;
     }
+
+	@Override
+	public Integer queryMachineCount(Integer i) {
+		return	machineMapper.queryMachineCount(i);
+	}
+
+	@Override
+	public Integer queryMachineCountMonth(Integer i) {
+		// TODO Auto-generated method stub
+		return machineMapper.queryMachineMonthCount(i);
+	}
 }

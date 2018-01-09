@@ -1,5 +1,6 @@
 package com.ycb.service;
 
+import com.ycb.entity.Amount;
 import com.ycb.entity.Machine;
 import com.ycb.util.PageUtil;
 import com.ycb.util.ReturnJson;
@@ -19,4 +20,8 @@ public interface MachineService {
     PageUtil<Machine> findMachineList(PageUtil<Machine> pageUtil);
 
     ReturnJson deleteMachineArr(String ids);
+
+	Integer queryMachineCount(Integer i);
+
+	Integer queryMachineCountMonth(Integer i);
 }

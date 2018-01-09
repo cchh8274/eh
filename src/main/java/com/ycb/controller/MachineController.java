@@ -1,10 +1,12 @@
 package com.ycb.controller;
 
+import com.ycb.entity.Amount;
 import com.ycb.entity.Machine;
 import com.ycb.service.MachineService;
 import com.ycb.util.DataGridJson;
 import com.ycb.util.PageUtil;
 import com.ycb.util.ReturnJson;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,5 +74,19 @@ public class MachineController {
     public String toadd(){
         return "/machine/addMachine";
     }
+    
+    //查询日销量
+    @RequestMapping(value = "queryMachineCount", method = RequestMethod.POST)
+    @ResponseBody
+    public Integer queryMachineCount(Integer i){
+        return machineService.queryMachineCount(i);
+    }
+    //查询月销量
+    @RequestMapping(value = "queryMachineCountMonth", method = RequestMethod.POST)
+	@ResponseBody
+	public  Integer  queryMyAmount(Integer i) {
+		return machineService.queryMachineCountMonth(i);
+	}
+	
 
 }
