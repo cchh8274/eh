@@ -156,7 +156,7 @@
 			$(nodes).each(function(){
 				resourceIds += this.id+",";
 			});
-			/* $.post(
+			$.post(
 					sys.contextPath+'/resource/grantResourceOfRole.do',
 					{'sysRoleId':roleId,'sysResourceId':resourceIds},
 					function(data){
@@ -164,26 +164,7 @@
 						$("#"+dialogId).dialog('close');
 					},
 					'json'
-			); */
-			$.ajax({
-				url:sys.contextPath+'/resource/grantResourceOfRole.do',
-				type:'POST',
-				data:{'sysRoleId':roleId,'sysResourceId':resourceIds},
-				dataType:'json',
-				success:function(data){
-					$.messager.alert('提示信息',data.msg,'info');
-					$("#"+dialogId).dialog('close');
-				},
-				error:function(data){
-					 if(data.responseText=='noAuthority'){
-		                    //ajax请求没有访问权限时的处理  
-		                    parent.location.href=sys.contextPath+"/error/noAuthority.jsp";
-		                 //   window.location.href=sys.contextPath+"/error/noAuthority.jsp";
-		                }
-				}
-			})
-			
-			
+			);
 			
 		}
 		

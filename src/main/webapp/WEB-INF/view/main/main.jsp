@@ -11,18 +11,21 @@
 </script>
 </head>
 <body id="mainLayout" class="easyui-layout">
-	<div data-options="region:'north',title:'单',collapsible:false" style="overflow:hidden;" class="logo"></div>
+	<div data-options="region:'north',href:'<%=request.getContextPath()%>/main/north.do'" style="height: 70px; overflow: hidden;" class="logo"></div>
 	<div data-options="region:'west',href:'',split:true" title="导航" style="width: 200px; padding: 10px;">
 		<ul id="mainMenu"></ul>
 	</div>
 	<div data-options="region:'center'" style="overflow: hidden;">
 		<div id="mainTabs">
 			<div title="首页" data-options="iconCls:'icon-filter'">
-				<iframe src="<%=request.getContextPath()%>/main/home.do" allowTransparency="true" style="border: 0; width: 100%; height: 99%;" frameBorder="0"></iframe>
+		<!-- 	<table id="tts" style="width:600px;height:400px"></table> -->
+				<iframe src="<%=contextPath%>/main/home.do" allowTransparency="true" style="border: 0; width: 100%; height: 99%;" frameBorder="0"></iframe>
+				
 			</div>
+			 
 		</div>
 	</div>
-	<div data-options="region:'south',href:'<%=request.getContextPath()%>/main/south.do',border:false" style="height: 30px; overflow: hidden;"></div>
+	<div data-options="region:'south',href:'<%=contextPath%>/main/south.do',border:false" style="height: 30px; overflow: hidden;"></div>
 
 	<div id="loginDialog" title="解锁登录" style="display: none;">
 		<form method="post" class="easyui-form" >
@@ -59,6 +62,27 @@
 	</div>
 	
 	<script type="text/javascript" charset="utf-8">
+<%-- 	$(function(){
+		$('#tts').treegrid({    
+		    url:'<%=request.getContextPath()%>/resource/getResourceTree.do',    
+		    idField:'id',    
+		    treeField:'text',  
+		    method:'post',
+		    columns:[[    
+		        {field:'id',title:'id',width:60,align:'right'},    
+		        {field:'text',title:'text',width:80}, 
+		        {field:'attributes',title:'url',width:80,
+		        	formatter:function(value,row,index){
+		        		if(value){
+		        			return value.url;
+		        		}else{
+		        			return "";
+		        		}
+		        	}	
+		        }, 
+		    ]]    
+		});  
+	}) --%>
 	
 	/*
 	*自定义验证规则----两次密码必须一致

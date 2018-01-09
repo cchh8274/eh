@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,10 @@ public class SysResourceServiceImpl implements SysResourceService {
 	
 	@Override
 	public List<Tree> selectMainMenu(String userId) {
-		
-		List<SysResource> resourceList =  resourceDao.selectMainMenu(userId);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userId", userId);
+		map.put("resourceTypeId", "0");
+		List<SysResource> resourceList =  resourceDao.selectMainMenu(map);
 		
 		
 		

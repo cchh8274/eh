@@ -90,4 +90,26 @@
       dlen = #{dlen,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="queryMyAmount" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select * from account where uid=#{userID}
+  </select>
+  
+  <select id="selectCount" parameterType="com.ycb.util.PageUtil" resultType="Integer" >
+  	select count(0)  from account where 1=1
+  	<if test="pageUtil.whereMap !=null">
+  		
+  	</if>
+  </select>
+   <select id="queryAllAmount" parameterType="com.ycb.util.PageUtil" resultType="com.ycb.entity.Amount" >
+  	select *  from account where 1=1
+  	<if test="pageUtil.whereMap !=null">
+  			
+  	</if>
+  	<if test="pageNumber != null and pageSize >= 0">
+      limit #{pageNumber} , #{pageSize}
+    </if>
+  </select>
+  
+  
 </mapper>

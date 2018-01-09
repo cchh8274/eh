@@ -1,13 +1,14 @@
 package com.ycb.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ycb.entity.SysResource;
 
 public interface SysResourceMapper {
 
 		//查询左侧菜单树
-		List<SysResource> selectMainMenu(String userId);
+		List<SysResource> selectMainMenu(Map<String,String> map);
 
 		//查询所有资源树
 		List<SysResource> getResourceTree();
