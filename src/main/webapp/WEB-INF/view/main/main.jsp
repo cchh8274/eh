@@ -19,13 +19,13 @@
 		<div id="mainTabs">
 			<div title="首页" data-options="iconCls:'icon-filter'">
 		<!-- 	<table id="tts" style="width:600px;height:400px"></table> -->
-				<iframe src="<%=contextPath%>/main/home.do" allowTransparency="true" style="border: 0; width: 100%; height: 99%;" frameBorder="0"></iframe>
+				<iframe src="<%=request.getContextPath()%>/main/home.do" allowTransparency="true" style="border: 0; width: 100%; height: 99%;" frameBorder="0"></iframe>
 				
 			</div>
 			 
 		</div>
 	</div>
-	<div data-options="region:'south',href:'<%=contextPath%>/main/south.do',border:false" style="height: 30px; overflow: hidden;"></div>
+	<div data-options="region:'south',href:'<%=request.getContextPath()%>/main/south.do',border:false" style="height: 30px; overflow: hidden;"></div>
 
 	<div id="loginDialog" title="解锁登录" style="display: none;">
 		<form method="post" class="easyui-form" >
