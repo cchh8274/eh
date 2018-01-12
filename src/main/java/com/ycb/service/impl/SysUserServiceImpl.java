@@ -102,9 +102,9 @@ public class SysUserServiceImpl implements SysUserService {
 
 	public PageUtil<SysUser> selectUserList(PageUtil<SysUser> userPage) {
 		int totalCount = (int) userDao.selectUserCount(userPage);
-		PageUtil<SysUser> userList =  userDao.selectUserList(userPage);
+		List<SysUser> userList =  userDao.selectUserList(userPage);
 		userPage.setTotalCount(totalCount);
-		userPage.setList(userList.getList());
+		userPage.setList(userList);
 		return userPage;
 	}
 

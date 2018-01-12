@@ -10,7 +10,7 @@ import com.ycb.util.PageUtil;
 public interface SysUserMapper {
 
 	//分页查询
-	PageUtil<SysUser> selectUserList(PageUtil<SysUser> userPage);
+	List<SysUser> selectUserList(PageUtil<SysUser> userPage);
 
 	//注册用户
 	void saveSysUser(SysUser user);
