@@ -241,20 +241,12 @@ public class SysUserController {
 	@RequestMapping("selectUserList")
 	@ResponseBody
 	public Map<String,Object> selectUserList(Integer page,Integer rows,PageUtil<SysUser> userPage){
-		
-/*		PageUtil<User> userPage = new PageUtil<>();*/
 		userPage.setCpage(page);
 		userPage.setPageSize(rows);
-		//查询条件---map
-		System.out.println(userPage.getWhereMap());
-		//分页查询
 		userPage = userService.selectUserList(userPage);
-		
-		//封装到map 设置easyui的datagrid组件识别的json字符串
 		Map<String,Object> map = new HashMap<>();
 		map.put("total", userPage.getTotalCount());
 		map.put("rows", userPage.getList());
-		
 		return map;
 	}
 	
@@ -267,20 +259,3 @@ public class SysUserController {
 	
 
 }
-
-/*public static void main(String[] args){
-//json字符串
-//"{name:张三,age:15,sex:男}" 只认识双引号
-//name:张三,age:15,sex:男
-String s = "{"+"name:\"张三\",age:15,sex:\"男\""+"}";
-//json字符串---->json对象
-JSONObject parseObject = JSONObject.parseObject(s);
-//json对象  keySet() 获取所有key的set集合
-Set<String> keySet = parseObject.keySet();
-// 获取key对应的set集合的迭代器
-Iterator<String> iterator = keySet.iterator();
-while (iterator.hasNext()) {
-	String key = iterator.next();
-	System.out.println(key+"---"+parseObject.get(key));
-}
-}*/

@@ -31,20 +31,12 @@ public class SysRoleController {
 	@ResponseBody
 	public Map<String, Object> selectRoleList(Integer page, Integer rows,
 			PageUtil<SysRole> rolePage) {
-
-		/* PageUtil<Role> RolePage = new PageUtil<>(); */
 		rolePage.setCpage(page);
 		rolePage.setPageSize(rows);
-		// 查询条件---map
-		System.out.println(rolePage.getWhereMap());
-		// 分页查询
 		rolePage = roleService.selectRoleList(rolePage);
-
-		// 封装到map 设置easyui的datagrid组件识别的json字符串
 		Map<String, Object> map = new HashMap<>();
 		map.put("total", rolePage.getTotalCount());
 		map.put("rows", rolePage.getList());
-
 		return map;
 	}
 

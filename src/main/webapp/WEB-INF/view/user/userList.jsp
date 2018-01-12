@@ -11,11 +11,6 @@
 </head>
 <body>
 
-	<!-- ID唯一！！！  -->
-	
-	<!-- 条件查询表单 -->
-	
-	<!-- easyui渲染方式二  datagrid() -->
 	<table id="userDataGrid"></table>
 	
 	<!-- datagrid 工具条 -->
