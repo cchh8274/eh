@@ -11,7 +11,7 @@ public interface SysResourceMapper {
 		List<SysResource> selectMainMenu(Map<String,String> map);
 
 		//查询所有资源树
-		List<SysResource> getResourceTree();
+		List<SysResource> selectResourceTree();
 
 //		根据用户id查询拥有的resource资源权限
 		List<SysResource> selectResourceByUserId(String userId);

@@ -27,4 +27,6 @@ public interface SysUserMapper {
 	//根据用户ID查询角色信息
 	List<SysUserRole> selectUserRoleList(SysUser user);
 
+	int selectUserCount(PageUtil<SysUser> userPage);
+
 }

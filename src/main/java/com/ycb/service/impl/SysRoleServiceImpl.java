@@ -19,19 +19,26 @@ public class SysRoleServiceImpl implements SysRoleService {
 
 	@Autowired
 	private SysRoleMapper sysRoleDao;
-	
+
 	@Override
 	public PageUtil<SysRole> selectRoleList(PageUtil<SysRole> rolePage) {
-		return sysRoleDao.selectRoleList(rolePage);
+		int totalCount = (int) sysRoleDao.selectRoleListCount(rolePage);
+
+		List<SysRole> roleList = sysRoleDao.selectRoleListPage(rolePage);
+
+		rolePage.setTotalCount(totalCount);
+		rolePage.setList(roleList);
+
+		return rolePage;
 	}
-	
+
 	@Override
 	public List<SysRole> getRoleTree() {
-		
+
 		List<SysRole> roleList = sysRoleDao.getRoleTree();
-		
+
 		Collections.sort(roleList);
-		
+
 		List<SysUser> userList = new ArrayList<>();
 		Collections.sort(userList, new Comparator<SysUser>() {
 			@Override
@@ -41,5 +48,5 @@ public class SysRoleServiceImpl implements SysRoleService {
 		});
 		return roleList;
 	}
-	
+
 }

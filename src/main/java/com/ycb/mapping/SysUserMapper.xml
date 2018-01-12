@@ -28,7 +28,7 @@
  	
  	<select id="selectUserList" resultMap="resultMap" >
 		select  <include refid="column_sql"/>
-		from t_sysuser_info
+		from t_sysuser_info limit #{start},#{pageSize}
 	</select>
  	
  	

@@ -191,20 +191,9 @@
 		*/
 		mainMenu = $('#mainMenu').tree({
 			//请求后台url
-			url:'<%=request.getContextPath()%>/resource/selectMainMenu.do',
-			//访问方式默认post
-			//method:'post',
-			//显示复选框
-			checkbox:true,
-			//选中子节点时是否级联选中父节点
-			cascadeCheck:true,
-			//末级节点显示复选框
-			onlyLeafCheck:true,
-			//显示虚线
-			lines:true,
+			url:'<%=request.getContextPath()%>/resource/getResourceTree.do',
 			parentField:'pid',
 			lines:true,
-			onLoadSuccess:function(node, data){$(this).tree('collapseAll')},
 			onClick:function(node){
 				//node点击的当前节点
 			//	alert(node.text+node.attributes.url);
@@ -271,41 +260,33 @@
 		return str;
 };
 
-$.fn.tree.defaults.loadFilter = function (data, parent) {
-    var opt = $(this).data().tree.options;
-    var idFiled,
-    textFiled,
-    parentField;
-    if (opt.parentField) {
-        idFiled = opt.idFiled || 'id';
-        textFiled = opt.textFiled || 'text';
-        parentField = opt.parentField;
-        
-        var i,
-        l,
-        treeData = [],
-        tmpMap = [];
-        
-        for (i = 0, l = data.length; i < l; i++) {
-            tmpMap[data[i][idFiled]] = data[i];
-        }
-        
-        for (i = 0, l = data.length; i < l; i++) {
-            if (tmpMap[data[i][parentField]] && data[i][idFiled] != data[i][parentField]) {
-                if (!tmpMap[data[i][parentField]]['children'])
-                    tmpMap[data[i][parentField]]['children'] = [];
-                data[i]['text'] = data[i][textFiled];
-                tmpMap[data[i][parentField]]['children'].push(data[i]);
-            } else {
-                data[i]['text'] = data[i][textFiled];
-                treeData.push(data[i]);
-            }
-        }
-        return treeData;
-    }
-    return data;
+$.fn.tree.defaults.loadFilter = function(data, parent) {
+	var opt = $(this).data().tree.options;
+	var idFiled, textFiled, parentField;
+	if (opt.parentField) {
+		idFiled = opt.idFiled || 'id';
+		textFiled = opt.textFiled || 'text';
+		parentField = opt.parentField;
+		var i, l, treeData = [], tmpMap = [];
+		for (i = 0, l = data.length; i < l; i++) {
+			tmpMap[data[i][idFiled]] = data[i];
+		}
+		for (i = 0, l = data.length; i < l; i++) {
+			if (tmpMap[data[i][parentField]] && data[i][idFiled] != data[i][parentField]) {
+				if (!tmpMap[data[i][parentField]]['children'])
+					tmpMap[data[i][parentField]]['children'] = [];
+				data[i]['text'] = data[i][textFiled];
+				tmpMap[data[i][parentField]]['children'].push(data[i]);
+			} else {
+				data[i]['text'] = data[i][textFiled];
+				treeData.push(data[i]);
+			}
+		}
+		return treeData;
+	}
+	return data;
 };
-	
+
 	
 	
 	

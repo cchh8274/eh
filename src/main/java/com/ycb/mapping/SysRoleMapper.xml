@@ -22,9 +22,9 @@
 	<!-- 拼接查询条件 -->
 	<sql id="whereSql">
 		where 1=1  
-		<if test="whereMap.roleName !=null">
-					and		name like '%$whereMap.roleName$%'
-		</if>
+<!-- 		<if test="whereMap.roleName !=null"> -->
+<!-- 					and		name like '%$whereMap.roleName$%' -->
+<!-- 		</if> -->
 	</sql>
 
 
@@ -46,7 +46,7 @@
 		from
 		t_sysrole_info
 		<include refid="whereSql" />
-		limit #start#,#pageSize#
+		limit #{start},#{pageSize}
 	</select>
 
 

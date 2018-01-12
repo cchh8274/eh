@@ -11,4 +11,8 @@ public interface SysRoleMapper {
 
 	PageUtil<SysRole> selectRoleList(PageUtil<SysRole> rolePage);
 
+	int selectRoleListCount(PageUtil<SysRole> rolePage);
+
+	List<SysRole> selectRoleListPage(PageUtil<SysRole> rolePage);
+
 }
