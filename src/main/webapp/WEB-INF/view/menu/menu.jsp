@@ -10,52 +10,41 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<!-- tree插件 -->
-	<ul id="menuTree">
 	
-	</ul>
-	<!-- 异步tree加载 -->
-	<!-- 递归tree加载 -->
-	<script type="text/javascript">
-		
-		$(function(){
-			
-			$("#menuTree").tree({
-				//请求后台url
-				url:'<%=request.getContextPath()%>/menu/selectMenuList.do',
-				//访问方式默认post
-				//method:'post',
-				//显示复选框
-				checkbox:true,
-				//选中子节点时是否级联选中父节点
-				cascadeCheck:true,
-				//末级节点显示复选框
-				onlyLeafCheck:true,
-				//显示虚线
-				lines:true,
-				onClick:function(node){
-					//node点击的当前节点
-					alert(node.text+node.id+node.state);
-				},
-			});
-		})
-	</script>
-	
-	<input value="获取所有被选中的节点的id">
-
-	
-	<input value="回显节点的是否被选中状态">
-	
-	<!--  
-		
-		
-		
-	
-	
-	 -->
-	
+	<table id="maintable"></table>
 	
 
+
+<script type="text/javascript" charset="utf-8">
+$(function(){
 	
+	$("#maintable").datagrid({
+		url:'<%=request.getContextPath()%>/user/selectUserList.do',
+		method:'post',
+		pagination:true,
+		rownumbers:true,
+		pageNumber:1,
+		pageSize:2,
+		pageList:[2,4,6,8],
+		striped : true,
+		rownumbers : true,
+		pagination : true,
+		singleSelect : true,
+		idField : 'id',
+		loadMsg:'候着。。。',
+		toolbar: '#tb',
+		columns:[ 
+		    [
+			     {field:'id',title:'ID',width:120},    
+			     {field:'loginname',title:'账户名',width:120},    
+			     {field:'name',title:'真实名',width:120},    
+			     {field:'createdatetime',title:'创建时间',width:120},    
+			     {field:'updatedatetime',title:'修改时间',width:120},    
+		    ]    
+		] 
+	});
+	
+})
+</script>	
 </body>
 </html>

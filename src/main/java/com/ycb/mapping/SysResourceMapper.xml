@@ -39,13 +39,13 @@
 	</resultMap>
 
 	<!--查询 resourceList集合 -->
-	<select id="selectResourceList" resultMap="resultMap"
-		parameterType="com.ycb.entity.SysResource">
+	<select id="selectResourceList1" resultMap="resultMap"
+		parameterType="java.lang.String">
 		select
 		<include refid="column_sql" />
 		from
 		t_sysresource_info where 1=1 and
-		<if test="pid !=null">
+		<if test="pid !=null and pid != ''">
 			and pid = #{pid}
 		</if>
 		pid is null
@@ -59,9 +59,11 @@
 		from
 		t_sysuser_info t1
 		join t_sysuser_sysrole_info t2
-		on t1.sysuser_id = t2.sysuser_id
+		on t1.sysuser_id =
+		t2.sysuser_id
 		join t_sysrole_sysresource_info t3
-		on t2.sysrole_id = t3.sysrole_id
+		on t2.sysrole_id =
+		t3.sysrole_id
 		join t_sysresource_info t4
 		on t3.sysresource_id = t4.id
 		where t1.sysuser_id = #{userId}
@@ -77,13 +79,16 @@
 		from
 		t_sysuser_info t1
 		join t_sysuser_sysrole_info t2
-		on t1.sysuser_id = t2.sysuser_id
+		on t1.sysuser_id =
+		t2.sysuser_id
 		join t_sysrole_sysresource_info t3
-		on t2.sysrole_id = t3.sysrole_id
+		on t2.sysrole_id =
+		t3.sysrole_id
 		join t_sysresource_info t4
 		on t3.sysresource_id = t4.id
 		where t1.sysuser_id = #{userId}
-		and t4.resourcetypeId = #{resourceTypeId}
+		and t4.resourcetypeId =
+		#{resourceTypeId}
 	</select>
 
 
@@ -105,13 +110,55 @@
 		parameterType="com.ycb.entity.SysResource">
 		select
 		*
-		from t_sysresource_info where 1=1  
-		and  resourcetypeId ='0'
+		from t_sysresource_info where 1=1
+		and resourcetypeId ='0'
 		<if test="resourcetypeId !=null">
-		and
+			and
 			resourcetypeId = #{resourcetypeId};
 		</if>
 	</select>
-	
 
+	<!-- 查询菜单url资源 tree -->
+	<select id="selectMenuCount" resultMap="resultMap"
+		parameterType="com.ycb.util.PageUtil">
+		select count(0)
+		from t_sysresource_info where 1=1 and
+		resourcetypeId='0'
+	</select>
+	<!-- 查询菜单url资源 tree -->
+	<select id="selectUserList" resultMap="resultMap" parameterType="com.ycb.util.PageUtil">
+		select *
+		from t_sysresource_info where 1=1 and resourcetypeId='0' limit
+		#{start},#{pageSize}
+	</select>
+
+	<select id="selectResourceList" resultType="com.ycb.entity.SysResource">
+		select * from
+		t_sysresource_info
+	</select>
+
+	<select id="selectPid" parameterType="java.lang.String"
+		resultType="com.ycb.entity.SysResource">
+		select * from t_sysresource_info where id = #{string}
+	</select>
+	<delete id="delres" parameterType="java.lang.String">
+		delete from t_sysresource_info
+		where id = #{string}
+	</delete>
+	<insert id="inserRes" parameterType="com.ycb.entity.SysResource">
+		insert into
+		t_sysresource_info (ID, CREATEDATETIME, DESCRIPTION,
+		ICONCLS, NAME,
+		SEQ,
+		UPDATEDATETIME, URL, pid,
+		resourcetypeId)
+		values
+		(#{id,jdbcType=VARCHAR}, #{createdatetime,jdbcType=TIMESTAMP},
+		#{description,jdbcType=VARCHAR},
+		#{iconcls,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR}, #{seq,jdbcType=INTEGER},
+		#{updatedatetime,jdbcType=TIMESTAMP}, #{url,jdbcType=VARCHAR},
+		#{pid,jdbcType=VARCHAR},
+		#{resourcetypeid,jdbcType=VARCHAR})
+	</insert>
 </mapper>

@@ -3,6 +3,7 @@ package com.ycb.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,11 +18,13 @@ import com.ycb.entity.SysResource;
 import com.ycb.entity.SysResourceType;
 import com.ycb.entity.SysRole;
 import com.ycb.entity.SysRoleResource;
+import com.ycb.entity.SysUser;
 import com.ycb.entity.business.SessionInfo;
 import com.ycb.entity.business.Tree;
 import com.ycb.service.SysResourceService;
 import com.ycb.service.SysRoleResourceService;
 import com.ycb.util.ConfigUtil;
+import com.ycb.util.PageUtil;
 import com.ycb.util.ReturnJson;
 
 @Controller
@@ -247,6 +250,46 @@ public class SysResourceController {
 		
 		return treeList;
 		
+	}
+	
+	/**
+	 * @param page  当前页
+	 * @param rows  每页条数
+	 * @return 分页selectMenuList信息
+	 */
+	@RequestMapping("selectMenuList")
+	@ResponseBody
+	public Map<String,Object> selectUserList(Integer page,Integer rows,PageUtil<SysResource> userPage){
+		userPage.setCpage(page);
+		userPage.setPageSize(rows);
+		userPage = resourceService.selectMenuList(userPage);
+		Map<String,Object> map = new HashMap<>();
+		map.put("total", userPage.getTotalCount());
+		map.put("rows", userPage.getList());
+		return map;
+	}
+	
+	@RequestMapping("toMenuList")
+	public String toUserList(){
+		return "menu/menu";
+	}
+	
+	
+	@RequestMapping("delRes")
+	@ResponseBody
+	public Map<String,String> delRes(String id){
+		Map<String,String> map = new HashMap<>();
+		map.put("id",id);
+		resourceService.delRes(map);
+		return map;
+	}
+	
+	@RequestMapping("addResource")
+	@ResponseBody
+	public Map<String,String> inserRes(SysResource sysResource){
+		resourceService.inserRes(sysResource);
+		Map<String,String> map = new HashMap<>();
+		return map;
 	}
 
 }

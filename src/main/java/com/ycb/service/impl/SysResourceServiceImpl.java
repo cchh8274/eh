@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import com.ycb.entity.SysResourceType;
 import com.ycb.entity.SysUser;
 import com.ycb.entity.business.Tree;
 import com.ycb.service.SysResourceService;
+import com.ycb.util.PageUtil;
 
 @Service
 public class SysResourceServiceImpl implements SysResourceService {
@@ -40,11 +42,7 @@ public class SysResourceServiceImpl implements SysResourceService {
 
 	@Override
 	public List<SysResource> selectResourceList(String id) {
-
-		List<SysResource> selectResourceList = resourceDao
-				.selectResourceList(id);
-
-		return selectResourceList;
+		return resourceDao.selectResourceList();
 	}
 
 	@Override
@@ -141,4 +139,30 @@ public class SysResourceServiceImpl implements SysResourceService {
 		return resourceDao.queryById(id);
 	}
 
+	@Override
+	public PageUtil<SysResource> selectMenuList(PageUtil<SysResource> userPage) {
+			int totalCount = (int) resourceDao.selectMenuCount(userPage);
+			List<SysResource> userList =  resourceDao.selectUserList(userPage);
+			userPage.setTotalCount(totalCount);
+			userPage.setList(userList);
+			return userPage;
+		}
+
+	@Override
+	public void delRes(Map<String, String> map) {
+		SysResource re=resourceDao.selectPid(map.get("id"));
+		if(StringUtils.isEmpty(re.getPid())){
+			map.put("code", "false");
+			map.put("message", "请先删除子节点");
+			return;
+		}
+		resourceDao.delres(map.get("id"));
+	}
+
+	@Override
+	public void inserRes(SysResource sysResource) {
+		resourceDao.inserRes(sysResource);
+	}
+	
+	
 }

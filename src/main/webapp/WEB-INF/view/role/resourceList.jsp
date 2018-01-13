@@ -95,12 +95,7 @@
 					width : '90',
 					formatter : function(value, row) {
 						var str = '';
-						str += '<img class="iconImg ext-icon-note" title="查看"  onclick="showFun(\''+row.id+'\')"/>';
-						str+='<a class ="linkbutton" onclick="deleteResource(\''+row.id+'\')">删除</a>'
-						
-						
-						str += '<img class="iconImg ext-icon-note" title="查看"  onclick="showFun(\''+row.id+'\')"/>';
-						str+='<a class ="linkbutton" onclick="showFun(\''+row.id+'\')">查看</a>'
+						str+='<a class ="linkbutton" href="javascript:void(0)"  onclick="deleteResource(\''+row.id+'\')">删除</a>'
 						return str;
 					}
 				} ] ],
@@ -202,9 +197,26 @@
 			});    
 		}
 		
-		
+		//删除权限
 		function deleteResource(id){
-			alert(id);
+			$.ajax({
+				url:'<%=request.getContextPath()%>/resource/delRes.do',
+				data:{'id':id},
+				datatype:'json',
+				type:'post',
+				success:function(data){
+					if(data.code == "false"){
+						$.messager.alert('警告',"请先删除子节点!");
+					}else{
+						$.messager.alert('警告',"删除成功!");
+						$('#resourceTreegrid').treegrid('reload')
+					}
+					
+				},
+				error:function(){
+					$.messager.alert('警告',"ajax失败");
+				}
+			});
 		}
 		
 
