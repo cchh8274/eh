@@ -169,15 +169,15 @@
   <select id="selectMachineList" parameterType="com.ycb.util.PageUtil" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from machine
+    from machine  
 <!--     <if test="_parameter != null"> -->
 <!--       <include refid="Example_Where_Clause" /> -->
 <!--     </if> -->
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-    <if test="pageNumber != null and pageSize >= 0">
-      limit #{pageNumber} , #{pageSize}
+<!--     <if test="orderByClause != null"> -->
+<!--       order by ${orderByClause} -->
+<!--     </if> -->
+    <if test="start != null and pageSize >= 0">
+      limit #{start} , #{pageSize}
     </if>
   </select>
 
@@ -192,5 +192,13 @@
   </select>
     <select id="queryMachineMonthCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
   	select count(0)  from order where createMonth =""  and mid =''
+  </select>
+  
+    <select id="selectUnit"  resultType="com.ycb.entity.Unit">
+  	select id,name from unit
+  </select>
+  
+      <select id="queryUnitMat"  resultType="com.ycb.entity.Machine">
+  	select * from machine where adress =#{name}
   </select>
 </mapper>

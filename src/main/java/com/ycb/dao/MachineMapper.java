@@ -2,6 +2,7 @@ package com.ycb.dao;
 
 
 import com.ycb.entity.Machine;
+import com.ycb.entity.Unit;
 import com.ycb.util.PageUtil;
 
 import java.util.List;
@@ -28,6 +29,10 @@ public interface MachineMapper {
 
 	Integer queryMachineCount(Integer i);
 	Integer queryMachineMonthCount(Integer i);
+
+	List<Unit> selectUnit();
+
+	List<Machine> queryUnitMat(String name);
 
 	
 }

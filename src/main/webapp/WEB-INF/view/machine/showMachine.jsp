@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: zhm
-  Date: 2018/1/5
-  Time: 20:32
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -14,52 +7,13 @@
     <title>Title</title>
 </head>
 <body>
-<form id="addform">
-    <div>
-        <label for="name">机器名称</label>
-        <input name="name" class="easyui-validatebox" type="text">
-    </div>
-    <div>
-        <label for="adress">投放位置</label>
-        <input name="adress" class="easyui-validatebox" type="text">
-    </div>
-    <div>
-        <label for="mid">机器ID</label>
-        <input name="mid" class="easyui-numberbox" type="text" data-options="min:0,precision:2">
-    </div>
-    <div>
-        <label for="price">单个名额价格</label>
-        <input name="price" class="easyui-validatebox" type="text">
-    </div>
-    <div>
-        <label for="isUse">是否投入使用</label>
-        <input name="isUse" class="easyui-validatebox" value="1" type="radio">已投入
-        <input name="isUse" class="easyui-validatebox" value="2" type="radio">未投入
-    </div>
-    <div>
-        <label for="aplces">总名额</label>
-        <input name="aplces" class="easyui-validatebox" type="text">
-    </div>
-    <div>
-        <label for="laplces">剩余名额</label>
-        <input name="laplces" class="easyui-validatebox" type="text">
-    </div>
-    <div>
-        <label for="rplces">已售名额</label>
-        <input name="rplces" class="easyui-validatebox" type="text">
-    </div>
-</form>
+<div class="easyui-panel" title="咖啡机管理" 	style="width: 98%; height: 600px">
 <table id="machineDataGrid"></table>
+</div>
 <div id="tb">
     <a href="javascript:addMachine()" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">新增</a>
     <a href="javascript:updateUser()" class="easyui-linkbutton" data-options="iconCls:'icon-help',plain:true">修改</a>
     <a href="javascript:deleteMachineArr()" class="easyui-linkbutton" data-options="iconCls:'icon-help',plain:true">删除</a>
-    <a href="javascript:editUserInline()" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" >开始编辑</a>
-    <a href="javascript:cancleEditUserInline()" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" >取消修改</a>
-    <a href="javascript:updateUserInline()" class="easyui-linkbutton" data-options="iconCls:'ext-icon-arrow_green',plain:true" >点击修改</a>
-    <a href="javascript:poitest()" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" >导出excle表格</a>
-    <a href="javascript:downImportUserTemplate()" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" >下载导入Excel模板</a>
-    <a href="javascript:updateItemStatus()" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" >改变状态</a>
 </div>
 
 <div id = "addDiv"></div>
@@ -146,14 +100,16 @@
                     });
                 }
             });
+        }else{
+        	  $.messager.alert('我的消息',"请选择要删除的数据",'info');
         }
     }
 
     //添加
     function addMachine(){
         $("#addDiv").dialog({
-            title: '添加商品',
-            width: 600,
+            title: '添加机器',
+            width: 280,
             height: 300,
             closed: false,
             cache: false,
@@ -164,7 +120,7 @@
                 handler:function(){
                     $.ajax({
                         url:"<%=request.getContextPath()%>/machine/addMachine.do",
-                        data:$("#addform").serialize(),
+                        data:$("#addformMerche").serialize(),
                         dataType:'json',
                         type:'post',
                         success:function(data){
@@ -173,7 +129,6 @@
                                 $("#addDiv").dialog('close');
                                 $("#machineDataGrid").datagrid('reload');
                             }
-                            $.messager.alert('我的消息',data.msg,'info');
                         },
                         error:function(){
                             $.messager.alert('我的消息','请求失败','info');
@@ -195,13 +150,14 @@
 
     $(function(){
         $("#machineDataGrid").datagrid({
-            url:"<%=request.getContextPath()%>/item/queryItemList.do",
+            url:"<%=request.getContextPath()%>/machine/findMachineList.do",
             method:'post',
             pagination:true,
+            fit:true,
             rownumbers:true,
             pageNumber:1,
-            pageSize:2,
-            pageList:[2,4,6,8],
+            pageSize:10,
+            pageList:[10,20,30,50],
             striped : true,
             rownumbers : true,
             pagination : true,
@@ -210,40 +166,25 @@
             selectOnCheck:false,
             toolbar:'#tb',
             idField : 'id',
-            loadMsg:'等着。。。',
+            loadMsg:'laod...',
             sortName:'id',
             toolbar: '#tb',
             columns:[
                 [
                     {field:'',title:'code',checkbox:true,width:120},
-                    {field:'id',title:'ID',width:120,order:'desc'},
+                    {field:'id',title:'ID',width:120,order:'desc',hidden:true},
+                    {field:'name',title:'机器名称',width:120,order:'desc'},
                     {field:'adress',title:'投放位置',width:120,editor:'text'},
                     {field:'mid',title:'机器ID',width:120,editor:'text'},
                     {field:'price',title:'单个名额价格',width:120,editor:'text'},
                     {field:'aplces',title:'总名额',width:120,editor:'text'},
                     {field:'laplces',title:'剩余名额',width:120},
                     {field:'rplces',title:'已售名额',width:120},
-                    {field:'isUse',title:'是否投入使用',width:120,
-                        editor: {
-                            type: 'combobox',
-                            options: {
-                                valueField: 'id',
-                                textField: 'value',
-                                data: [{
-                                    id: '1',
-                                    value: '已投入'
-                                },{
-                                    id: '2',
-                                    value: '未投入'
-                                }],
-
-                                required: true,
-                            }
-                        },
+                    {field:'isuse',title:'是否投入使用',width:120,
                         formatter:function(value,row,index){
-                            if (value==1) {
+                            if (value=='1') {
                                 return "已投入";
-                            }else if (value ==2) {
+                            }else if (value =='2') {
                                 return "未投入";
                             }
                         }

@@ -13,10 +13,6 @@
 	
 	<!-- treeGrid 的工具条-->
 	<div id="toolbar" style="display: none;">
-				<a onclick="redoFun();" href="javascript:void(0);" class="easyui-linkbutton"
-				 data-options="plain:true,iconCls:'ext-icon-resultset_next'">展开</a>
-				 <a onclick="undoFun();" href="javascript:void(0);" class="easyui-linkbutton" 
-				 data-options="plain:true,iconCls:'ext-icon-resultset_previous'">折叠</a>
 				  <a onclick="addFun();" href="javascript:void(0);" class="easyui-linkbutton" 
 				 data-options="plain:true,iconCls:'ext-icon-resultset_previous'">新增</a>
 	</div>
@@ -161,8 +157,8 @@
 		function addFun(){
 			addDialog = $('#addResrouceDialog').dialog({    
 			    title: '新增资源',    
-			    width: 600,    
-			    height: 500,    
+			    width: 300,    
+			    height: 330,    
 			    closed: false,    
 			    cache: false,    
 			    href: sys.contextPath+'/resource/toAddResource.do',    
@@ -194,7 +190,8 @@
 						
 					}
 				}]
-			});    
+			}); 
+			$('#addResrouceDialog').window('center')
 		}
 		
 		//删除权限

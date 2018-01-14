@@ -1,7 +1,12 @@
 package com.ycb.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
 import com.ycb.entity.Amount;
 import com.ycb.entity.Machine;
+import com.ycb.entity.Unit;
 import com.ycb.service.MachineService;
 import com.ycb.util.DataGridJson;
 import com.ycb.util.PageUtil;
@@ -23,20 +28,7 @@ public class MachineController {
     @Autowired
     private MachineService machineService;
 
-    //添加
-    @RequestMapping(value = "addMachine", method = RequestMethod.POST)
-    @ResponseBody
-    public ReturnJson addMachine(Machine machine){
-        return machineService.addMachine(machine);
-    }
-
-    //主键查询
-    @RequestMapping(value = "findMachine", method = RequestMethod.POST)
-    @ResponseBody
-    public Machine queryMachine(int id){
-        return machineService.findMachine(id);
-    }
-
+ 
     //删除
     @RequestMapping(value = "deleteMachine", method = RequestMethod.POST)
     public ReturnJson deleteMachine(int id){
@@ -65,6 +57,7 @@ public class MachineController {
 
     //批量删除
     @RequestMapping(value = "deleteMachineArr", method = RequestMethod.POST)
+    @ResponseBody
     public ReturnJson deleteMachineArr(String ids){
         return machineService.deleteMachineArr(ids);
     }
@@ -73,6 +66,12 @@ public class MachineController {
     @RequestMapping("toadd")
     public String toadd(){
         return "/machine/addMachine";
+    }
+    
+  //跳转到机器添加页面
+    @RequestMapping("toMachine")
+    public String toMachine(){
+        return "/machine/showMachine";
     }
     
     //查询日销量
@@ -88,5 +87,31 @@ public class MachineController {
 		return machineService.queryMachineCountMonth(i);
 	}
 	
+    //查询机器数
+    @RequestMapping(value = "queryUnitMat", method = RequestMethod.POST)
+	@ResponseBody
+	public  List<Machine>  queryUnitMat(String  name,HttpServletResponse response) {
+		return machineService.queryUnitMat(name);
+	}
+    
+   
+    //添加
+    @RequestMapping(value = "addMachine", method = RequestMethod.POST)
+    @ResponseBody
+    public ReturnJson addMachine(Machine machine){
+        return machineService.addMachine(machine);
+    }
 
+    //主键查询
+    @RequestMapping(value = "findMachine", method = RequestMethod.POST)
+    @ResponseBody
+    public Machine queryMachine(int id){
+        return machineService.findMachine(id);
+    }
+    
+    @RequestMapping(value = "selectUnit", method = RequestMethod.POST)
+    @ResponseBody
+    public List<Unit> selectUnit(){
+        return machineService.selectUnit();
+    }
 }

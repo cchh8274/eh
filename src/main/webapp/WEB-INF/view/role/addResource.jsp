@@ -8,60 +8,54 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 	<div class="easyui-panel">
 		<form id="addResource" method="post">
-			<table border="0">
+			<table border="0" align="center">
 				<tr>
-					<td>编号</td>
-					<td><input id="id" name="id" class="easyui-validatebox" /></td>
+					<td align="right">编号:</td>
+					<td><input id="id" name="id" class="easyui-textbox" /></td>
 				</tr>
 				<tr>
-					<td>资源名称</td>
-					<td><input id="name" name="name" class="easyui-validatebox" /></td>
+					<td align="right">资源名称:</td>
+					<td><input id="name" name="name" class="easyui-textbox" /></td>
 				</tr>
 				<tr>
-					<td>资源类型</td>
+					<td align="right">资源类型:</td>
 					<td><input id="resourcetypeId" name="resourcetypeId"
 						class="easyui-combobox"
 						data-options="valueField:'id',textField:'name'" /></td>
 
 				</tr>
 				<tr>
-					<td>资源路径</td>
-					<td><input id="url" name="url" class="easyui-validatebox"
+					<td align="right">资源路径:</td>
+					<td><input id="url" name="url" class="easyui-textbox"
 						value="0" /></td>
 				</tr>
 				<tr>
-					<td>叶子节点</td>
-					<td><select id="cc" name="leafNode" style="width: 150px"></select>
-						<div id="sp">
-							<div style="color: #99BBE8; background: #fafafa; padding: 5px;">必须选择一个</div>
-							<div style="padding: 10px">
-								<input type="radio" name="leaf" value="1"><span>是</span><br />
-								<input type="radio" name="leaf" value="0"><span>否</span>
-							</div>
-						</div></td>
+					<td align="right">叶子节点:</td>
+					<td><input name="leafNode" class="easyui-textbox" value="1"
+						type="radio" />是 <input name="leafNode" class="easyui-textbox"
+						value="0" type="radio" />否</td>
 				</tr>
 				<tr>
-					<td>资源描述</td>
+					<td align="right">资源描述:</td>
 					<!-- multiline:true 多行文本框  -->
-					<td><input id="" name="description" class="easyui-validatebox"
-						data-options="multiline:true" /></td>
+					<td><input id="" name="description" class="easyui-textbox"
+						/></td>
 				</tr>
 				<tr>
-					<td>顺序</td>
+					<td align="right">顺序:</td>
 					<td><input id="" name="seq" class="easyui-numberspinner"
 						data-options="min:0,max:100000,editable:false" /></td>
 				</tr>
 				<tr>
-					<td>上级资源</td>
+					<td align="right">上级资源:</td>
 					<td><input id="pid" name="pid" class="easyui-combotree"
 						data-options="" /></td>
 				</tr>
 				<tr>
-					<td>资源图标</td>
-					<td><input id="" name="iconCls" class="easyui-validatebox"
+					<td align="right">资源图标:</td>
+					<td><input id="" name="iconCls" class="easyui-textbox"
 						data-options="" /></td>
 				</tr>
 			</table>

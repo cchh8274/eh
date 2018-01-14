@@ -3,6 +3,7 @@ package com.ycb.service.impl;
 import com.ycb.dao.MachineMapper;
 import com.ycb.entity.Amount;
 import com.ycb.entity.Machine;
+import com.ycb.entity.Unit;
 import com.ycb.service.MachineService;
 import com.ycb.util.PageUtil;
 import com.ycb.util.ReturnJson;
@@ -34,11 +35,11 @@ public class MachineServiceImp implements MachineService{
         }
         int i =  machineMapper.insert(machine);
         if (i>0){
-            rj.setMsg("修改成功");
+            rj.setMsg("添加机器成功!");
             rj.setSuccess(true);
         }else{
             rj.setSuccess(false);
-            rj.setMsg("修改失败");
+            rj.setMsg("添加机器成功，请联系管理员!");
         }
         return rj;
     }
@@ -124,5 +125,16 @@ public class MachineServiceImp implements MachineService{
 	public Integer queryMachineCountMonth(Integer i) {
 		// TODO Auto-generated method stub
 		return machineMapper.queryMachineMonthCount(i);
+	}
+
+	@Override
+	public List<Unit> selectUnit() {
+		// TODO Auto-generated method stub
+		return machineMapper.selectUnit();
+	}
+
+	@Override
+	public List<Machine> queryUnitMat(String name) {
+		return machineMapper.queryUnitMat(name);
 	}
 }

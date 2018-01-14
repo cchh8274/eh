@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>欢迎登录某某某系统</h1>
+	<h1>欢迎登陆易创吧后台管理系统</h1>
 </body>
 </html>
