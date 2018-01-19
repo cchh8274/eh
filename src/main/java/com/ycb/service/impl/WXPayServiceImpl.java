@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.github.wxpay.sdk.WXPay;
+import com.ycb.model.WXParamerVO;
 import com.ycb.service.WXPayService;
 import com.ycb.util.Contant;
 import com.ycb.util.WxConfig;
@@ -14,7 +15,7 @@ import com.ycb.util.WxConfig;
 public class WXPayServiceImpl implements WXPayService {
 
 	@Override
-	public void requsetWXpay() {
+	public Map<String,String> requsetWXpay(WXParamerVO vo) {
 		WxConfig config = new WxConfig();
 		WXPay wxpay = new WXPay(config);
 		Map<String, String> data = new HashMap<String, String>();
@@ -34,6 +35,7 @@ public class WXPayServiceImpl implements WXPayService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 	
 	
@@ -52,7 +54,7 @@ public class WXPayServiceImpl implements WXPayService {
 		data.put("notify_url",Contant.notify_url);// 通知地址
 		data.put("trade_type", Contant.trade_type);// 交易类型
 		data.put("limit_pay", Contant.limit_pay);// 指定支付方式
-		data.put("openid", Contant.);// 用户标识
+		data.put("openid", "");// 用户标识
 		
 		return null;
 	}

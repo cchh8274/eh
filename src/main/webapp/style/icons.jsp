@@ -1,12 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
-	String contextPath = request.getContextPath();
-%>
 <!DOCTYPE html>
 <html>
 <head>
 <title></title>
-<%@ include file="/common/include.jsp"%>
+<%@include file="/common/include.jsp"%>
 <script type="text/javascript">
 	var selectIcon = function($dialog, $input) {
 		$input.val($(':radio:checked').val()).attr('class', $(':radio:checked').val());
