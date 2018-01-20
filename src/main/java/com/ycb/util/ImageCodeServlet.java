@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
-import com.sun.image.codec.jpeg.ImageFormatException;
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
+//import com.sun.image.codec.jpeg.ImageFormatException;
+//import com.sun.image.codec.jpeg.JPEGCodec;
+//import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 /**
  * ImageCodeServlet 图片验证码
@@ -95,20 +95,20 @@ public class ImageCodeServlet extends HttpServlet {
 
 
 		
-		// 输出图像
-		try {
-			ServletOutputStream out = response.getOutputStream();// 得到HTTP的流
-//			response.setContentType("image/jpeg");
-			JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);// 产生JPEG的图像加码器
-			encoder.encode(imgbuf);
-			out.flush();
-		} catch (ImageFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		// 输出图像
+//		try {
+//			ServletOutputStream out = response.getOutputStream();// 得到HTTP的流
+////			response.setContentType("image/jpeg");
+//			JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);// 产生JPEG的图像加码器
+//			encoder.encode(imgbuf);
+//			out.flush();
+//		} catch (ImageFormatException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	/**

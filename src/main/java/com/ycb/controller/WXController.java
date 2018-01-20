@@ -44,7 +44,7 @@ public class WXController {
 	 * 支付接口响应
 	 * @return
 	 */
-	@RequestMapping("/order")
+	@RequestMapping("/responseResult")
 	@ResponseBody
 	public Map<String, String> responseResult() {
 		wxPayService.requsetWXpay(null);
