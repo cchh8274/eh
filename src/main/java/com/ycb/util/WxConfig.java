@@ -7,7 +7,7 @@ import java.io.InputStream;
 
 import com.github.wxpay.sdk.WXPayConfig;
 
-public class WxConfig implements WXPayConfig {
+public class WxConfig /**implements WXPayConfi g **/ {
 
 	private byte[] certData;
 
