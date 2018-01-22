@@ -7,19 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.wxpay.sdk.WXPay;
-import com.ycb.dao.WxOrderMapper;
-import com.ycb.entity.WxOrder;
-import com.ycb.model.RequestOrder;
+//import com.ycb.dao.WxOrderMapper;
+//import com.ycb.entity.WxOrder;
+//import com.ycb.model.RequestOrder;
 import com.ycb.model.WXParamerVO;
 import com.ycb.service.WXPayService;
 import com.ycb.util.Contant;
-import com.ycb.util.IdGenTools;
+//import com.ycb.util.IdGenTools;
 import com.ycb.util.WxConfig;
 
 @Service
 public class WXPayServiceImpl implements WXPayService {
-	@Autowired
-	private WxOrderMapper  wxOrderMapper;
+//	@Autowired
+//	private WxOrderMapper  wxOrderMapper;
 //	
 //	@Override
 //	public Map<String,String> requsetWXpay(WXParamerVO vo) {
@@ -70,24 +70,44 @@ public class WXPayServiceImpl implements WXPayService {
 	/**
 	 * 插入订单 
 	 */
-	@Override
-	public String insert(RequestOrder vo) {
-		String orderNo=IdGenTools.cteateId();
-		WxOrder  wxOrder=new WxOrder();
-		wxOrder.setTotalFee(vo.getTotalfee());
-		wxOrder.setNum(vo.getNum());
-		wxOrder.setOpenId(vo.getOpenid());
-		wxOrder.setUnit(vo.getUnit());
-		wxOrder.setOrderNo(orderNo);
-		wxOrderMapper.insertSelective(wxOrder);
-		return orderNo;
-	}
+//	public String insert(RequestOrder vo) {
+//		String orderNo=IdGenTools.cteateId();
+//		WxOrder  wxOrder=new WxOrder();
+//		wxOrder.setTotalFee(vo.getTotalfee());
+//		wxOrder.setNum(vo.getNum());
+//		wxOrder.setOpenId(vo.getOpenid());
+//		wxOrder.setUnit(vo.getUnit());
+//		wxOrder.setOrderNo(orderNo);
+//		wxOrderMapper.insertSelective(wxOrder);
+//		return orderNo;
+//	}
 
 
 
-	@Override
 	public Map<String, String> requsetWXpay(String order) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	public void requsetWXpay(Map<String, String> resultMap) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * 回调结果通知
+	 */
+	public void callBackWXpay(Map<String, String> resultMap) {
+		String code =resultMap.get("return_code");
+		if(!code.equals("success")){
+			return ;
+		}
+		String orderno=resultMap.get("out_trade_no");		
+		
+		resultMap.clear();
+		resultMap.put("return_code", "success");
+		resultMap.put("return_msg", "接受成功");
+		
 	}
 }

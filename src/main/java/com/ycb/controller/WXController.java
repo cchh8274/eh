@@ -15,9 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.druid.support.http.util.IPAddress;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.github.wxpay.sdk.WXPayUtil;
 import com.ycb.model.RequestOrder;
 import com.ycb.model.WXParamerVO;
 import com.ycb.service.WXPayService;
+import com.ycb.util.DateUtils;
+import com.ycb.util.HttpUtils;
+import com.ycb.util.IPAdressUtils;
+import com.ycb.util.WxUrlUtils;
 
 /**
  * 微信支付调起
@@ -31,6 +39,9 @@ public class WXController {
 	@Autowired
 	private WXPayService wxPayService;
 
+	private static final String old = "yyyy年MM月dd日";
+	private static final String format = "yyyyMMdd";
+
 	/**
 	 * 金额 /数据 机器 1.自己订单生成订单 2，微信请求下单
 	 * 
@@ -40,20 +51,14 @@ public class WXController {
 	@ResponseBody
 	public Map<String, String> requestWXPay(RequestOrder vo,
 			HttpServletRequest request) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
-		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd");
-		try {
-			vo.setStartTime(sdf1.format(sdf.parse(vo.getStartTime())));
-			vo.setEndTime(sdf1.format(sdf.parse(vo.getEndTime())));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		vo.setStartTime(DateUtils.format(old, format, vo.getStartTime()));
+		vo.setEndTime(DateUtils.format(old, format, vo.getEndTime()));
+		String ipadree=IPAdressUtils.getIpAddr(request);
 		String order = wxPayService.insert(vo);
 
 		vo.setOrderno(order);
-//	e	Map<String, String> map = wxPayService.requsetWXpay(order);
-		Map<String, String> map=new HashMap<String, String>();
+		// e Map<String, String> map = wxPayService.requsetWXpay(order);
+		Map<String, String> map = new HashMap<String, String>();
 		map.put("code", "success");
 		return map;
 	}
@@ -65,49 +70,24 @@ public class WXController {
 	 */
 	@RequestMapping("/responseResult")
 	@ResponseBody
-	public Map<String, String> responseResult() {
-		wxPayService.requsetWXpay(null);
-		return null;
+	public String responseResult(String xml) {
+		// 转化xml 为map
+		Map<String, String> resultMap = WXPayUtil.xmlToMap(xml);
+		wxPayService.callBackWXpay(resultMap);
+		return WXPayUtil.mapToXml(resultMap);
 	}
 
 	/**
-	 * 获取当前请求的ip地址
+	 * 获取用户的openID
 	 * 
-	 * @param request
 	 * @return
 	 */
-	public String getIpAddr(HttpServletRequest request) {
-		String ipAddress = request.getHeader("x-forwarded-for");
-		if (ipAddress == null || ipAddress.length() == 0
-				|| "unknown".equalsIgnoreCase(ipAddress)) {
-			ipAddress = request.getHeader("Proxy-Client-IP");
-		}
-		if (ipAddress == null || ipAddress.length() == 0
-				|| "unknown".equalsIgnoreCase(ipAddress)) {
-			ipAddress = request.getHeader("WL-Proxy-Client-IP");
-		}
-		if (ipAddress == null || ipAddress.length() == 0
-				|| "unknown".equalsIgnoreCase(ipAddress)) {
-			ipAddress = request.getRemoteAddr();
-			if (ipAddress.equals("127.0.0.1")
-					|| ipAddress.equals("0:0:0:0:0:0:0:1")) {
-				// 根据网卡取本机配置的IP
-				InetAddress inet = null;
-				try {
-					inet = InetAddress.getLocalHost();
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-				}
-				ipAddress = inet.getHostAddress();
-			}
-		}
-		// 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
-		if (ipAddress != null && ipAddress.length() > 15) { // "***.***.***.***".length()
-															// = 15
-			if (ipAddress.indexOf(",") > 0) {
-				ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
-			}
-		}
-		return ipAddress;
+	@RequestMapping("/openid")
+	@ResponseBody
+	public String requestOpenid(String code) {
+		String url = WxUrlUtils.getOpenid(code);
+		String result = HttpUtils.submitGet(url);
+		JSONObject info = JSON.parseObject(result);
+		return (String) info.get("openid");
 	}
 }
