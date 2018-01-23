@@ -7,6 +7,8 @@ import com.ycb.util.PageUtil;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 public interface MachineMapper {
 
     int deleteByPrimaryKey(Integer id);
@@ -33,6 +35,8 @@ public interface MachineMapper {
 	List<Unit> selectUnit();
 
 	List<Machine> queryUnitMat(String name);
+
+	int queryMachine(@Param("unit")String unit, @Param("mach")String mach);
 
 	
 }

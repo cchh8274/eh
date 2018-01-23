@@ -263,8 +263,9 @@ public class HttpUtils {
 
     public static void main(String[] args) {
 //        String sb = submitPostByHeader("http://localhost:8080", "{\"a\":\"aa\"}",DEFAULT_JSON_HEADER_UTF_8);
-        String  s=  submitGet("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx88cb890e1e079473&secret=5982d81fbb3a64d413e9a4f1eabe0898&"
-        		+ "code=011Wlbsh2Xk3dl0Zzsh2MZZrh2Elbsw&grant_type=authorization_code");
+//        String  s=  submitGet("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx88cb890e1e079473&secret=5982d81fbb3a64d413e9a4f1eabe0898&"
+//        		+ "code=001uQYww1HOwoa0gI3zw1bOgxw1uQYwM&grant_type=authorization_code");
+        String  s=  submitGet("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx88cb890e1e079473&secret=5982d81fbb3a64d413e9a4f1eabe0898&code=071Y0cDq1gv6bn0Ep5Cq1VX2Dq1Y0cDB&grant_type=authorization_code");
         System.out.println(s.toString());
     }
 }

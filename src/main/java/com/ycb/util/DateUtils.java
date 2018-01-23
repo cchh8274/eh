@@ -3,6 +3,8 @@ package com.ycb.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -81,4 +83,37 @@ public class DateUtils {
         return StringUtils.isEmpty(format)?null:(format.equals("yyyyMMdd")?new SimpleDateFormat("yyyyMMdd"):(format.equals("yyyy")?new SimpleDateFormat("yyyy"):(format.equals("yyyyMMdd_")?new SimpleDateFormat("yyyy-MM-dd"):(format.equals("yyyyMMdd_IU")?new SimpleDateFormat("yyyy/MM/dd"):(format.equals("yyyyMMddC")?new SimpleDateFormat("yyyy年MM月dd日"):(format.equals("yyyyMM")?new SimpleDateFormat("yyyyMM"):(format.equals("yyyyMM_")?new SimpleDateFormat("yyyy-MM"):(format.equals("yyyy")?new SimpleDateFormat("yyyy"):(format.equals("HHmmss")?new SimpleDateFormat("HHmmss"):(format.equals("HHmmss_")?new SimpleDateFormat("HH:mm:ss"):(format.equals("HHmmssC")?new SimpleDateFormat("HH点mm分ss秒"):(format.equals("yyyyMMddHHmmss")?new SimpleDateFormat("yyyyMMddHHmmss"):(format.equals("yyyyMMddHHmmssC")?new SimpleDateFormat("yyyy年MM月dd日HH点mm分ss秒"):(format.equals("yyyyMMddHHmmssSSS")?new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS"):(format.equals("yyyyMMddHHmmss_")?new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"):(format.equals("yyyyMMddHHmmss_UI")?new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"):(format.equals("yyyyMMddHHmmss_IU")?new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"):new SimpleDateFormat(format))))))))))))))))));
     }
 
+	
+	public static Date paresDate(String format,String date) {
+		SimpleDateFormat sdf=new SimpleDateFormat(format);
+		try {
+			return sdf.parse(date);
+		} catch (ParseException e) {
+			return null;
+		}
+    }
+	
+	 public static String getFormatedDateString(float timeZoneOffset){
+	        if (timeZoneOffset > 13 || timeZoneOffset < -12) {
+	            timeZoneOffset = 0;
+	        }
+	        
+	        int newTime=(int)(timeZoneOffset * 60 * 60 * 1000);
+	        TimeZone timeZone;
+	        String[] ids = TimeZone.getAvailableIDs(newTime);
+	        if (ids.length == 0) {
+	            timeZone = TimeZone.getDefault();
+	        } else {
+	            timeZone = new SimpleTimeZone(newTime, ids[0]);
+	        }
+	    
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        sdf.setTimeZone(timeZone);
+	        return sdf.format(new Date());
+	    }
+	 
+	 public static String getbjTime(){
+		 String betime=getFormatedDateString(8);
+		 return format("yyyy-MM-dd HH:mm:ss", "yyyyMMddHHmmss", betime);
+	 }
 }

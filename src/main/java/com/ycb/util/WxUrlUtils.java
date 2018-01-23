@@ -18,7 +18,7 @@ public class WxUrlUtils {
 		final String openid_url="https://api.weixin.qq.com/sns/oauth2/access_token";
 		StringBuffer  url=new StringBuffer();
 		url.append(openid_url)
-		.append("&appid=").append(appid)
+		.append("?appid=").append(appid)
 		.append("&secret=").append(appSecret)
 		.append("&code=").append(code)
 		.append("&grant_type=authorization_code");
