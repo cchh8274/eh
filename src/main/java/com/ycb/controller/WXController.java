@@ -48,15 +48,16 @@ public class WXController {
 	 */
 	@RequestMapping(value = "requestOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> requestWXPay(RequestOrder vo,
-			HttpServletRequest request) {
-//		String startTime=DateUtils.format(old, format, vo.getStartTime());
+	public Map<String, String> requestWXPay(RequestOrder vo,HttpServletRequest request) {
+		logger.info("微信下单开始");
 		String startTime=DateUtils.getbjTime();
+		logger.info("订单开始时间为=>"+startTime);
 		vo.setStartTime(startTime);
 		Calendar calendar=Calendar.getInstance();
 		calendar.setTime(DateUtils.paresDate(format, startTime));
 		calendar.add(Calendar.MINUTE, 5);
 		String endTime=DateUtils.formatDate(calendar.getTime(), format);
+		logger.info("订单存活时间为=>"+endTime);
 		vo.setEndTime(endTime);
 		logger.info("微信发起的订单请求数据为=>" + vo.toString());
 		String ipadree = IPAdressUtils.getIpAddr(request);
