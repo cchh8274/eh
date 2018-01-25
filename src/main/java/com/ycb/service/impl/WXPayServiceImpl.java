@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.wxpay.sdk.WXPay;
+import com.github.wxpay.sdk.WXPayConstants;
+import com.github.wxpay.sdk.WXPayUtil;
 import com.ycb.controller.WXController;
 import com.ycb.dao.MachineMapper;
 import com.ycb.dao.WxOrderMapper;
@@ -21,7 +23,6 @@ import com.ycb.util.AmountUtils;
 import com.ycb.util.Contant;
 import com.ycb.util.HttpUtils;
 import com.ycb.util.IDGeneratorTools;
-import com.ycb.util.KeyUtils;
 import com.ycb.util.Sign;
 
 @Service
@@ -51,10 +52,12 @@ public class WXPayServiceImpl implements WXPayService {
 			 **/
 			Map<String, String> data = createWxData(vo);
 			PayConfig payInfo = new PayConfig();
-			WXPay wxpay = new WXPay(payInfo);
+			WXPay wxpay = new WXPay(payInfo,WXPayConstants.SignType.MD5,true);
 			logger.info("请求微信的报文为=>" + JSON.toJSONString(data));
 			Map<String, String> resp = wxpay.unifiedOrder(data);
 			logger.info("请求微信返回的报文为=>" + JSON.toJSONString(resp));
+			boolean  res= wxpay.isResponseSignatureValid(data);
+			logger.info("判断签名是一致=>" +res);
 			if (!resp.get("result_code").equals("SUCCESS") || !resp.get("return_code").equals("SUCCESS")) {
 				call.put("code", "false");
 				return call;
@@ -62,17 +65,36 @@ public class WXPayServiceImpl implements WXPayService {
 			String pay = resp.get("prepay_id");
 			String wxsign = resp.get("sign");
 			String wxnocestr = resp.get("nonce_str");
-			call.put("package", pay);
-			call.put("paytimestamp", Sign.create_timestamp());
-			call.put("paynonceStr", wxnocestr);
-			call.put("paySign", KeyUtils.signMap(creMap(resp)));
+			call.put("appId", payInfo.getAppID());
+			call.put("package", "prepay_id="+pay);
+			call.put("timeStamp", Sign.create_timestamp());
+			call.put("nonceStr", wxnocestr);
+			call.put("signType", "MD5");
+			call.put("paySign",wxsign);
+			logger.info("微信返回组装的MAP=>" + JSON.toJSONString(call));
+			String jmSign=WXPayUtil.generateSignature(call,payInfo.getKey());
+			logger.info("返回结果进行签名=》"+jmSign);
+			boolean  bsign=isSign(call,payInfo.getKey(),jmSign);
+			call.put("paySign",jmSign);
+			logger.info("返回结果两者签名校验=》"+bsign);
+			logger.info("微信返回组装的MAP 签名完成=>" + JSON.toJSONString(call));
 		} catch (Exception e) {
 			e.printStackTrace();
 			call.put("code", "false");
 		}
 		return call;
 	}
-
+	
+	
+	
+	
+	private boolean  isSign(Map<String, String> call,String key,String sign) throws Exception{
+		call.put("sign", sign);
+		String  xml=WXPayUtil.mapToXml(call);
+		logger.info("返回结果签名校验时=》"+xml);
+		logger.info("返回结果签名校验的Map=》"+JSON.toJSONString(call));
+		return WXPayUtil.isSignatureValid(xml,key);
+	}
 	/**
 	 * 插入业务系统表
 	 * 
