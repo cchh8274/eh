@@ -9,8 +9,7 @@ public class PayConfig implements WXPayConfig {
 	private static final String appid = "wx88cb890e1e079473";
 	private static final String mchid = "1496252192";
 	private static final String key = "ycbqc18103517010zly17611540713ch";
-	private static final String box_key = "371b07d70d2c15198c9e72e26175b74b";
-
+	private static final String box_key = "dff3e9abba5296d1ca1e552e3475bb20";
 
 	@Override
 	public String getAppID() {

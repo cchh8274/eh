@@ -22,12 +22,12 @@ public class WxPayTest {
 		data.put("sign_type", "MD5");
 		data.put("body", Contant.body); // 商品描述
 		data.put("detail", Contant.detil); // 商品详情
-		data.put("out_trade_no", "4151215051515"); // 商户订单号
+		data.put("out_trade_no", "4151215061515"); // 商户订单号
 		data.put("fee_type", Contant.fee_type);// 标价币种
 		data.put("total_fee", "10");// 标价金额
 		data.put("spbill_create_ip", "117.73.154.210");// 终端IP
-		data.put("time_start", "20180124022119");// 交易起始时间
-		data.put("time_expire", "20180124022920");// 交易结束时间
+		data.put("time_start", "20180128210100");// 交易起始时间
+		data.put("time_expire","20180128210700");// 交易结束时间
 		// data.put("goods_tag", Contant.goods_tag);// 订单优惠标记
 		data.put("notify_url", Contant.notify_url);// 通知地址
 		data.put("trade_type", Contant.trade_type);// 交易类型

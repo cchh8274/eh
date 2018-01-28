@@ -42,23 +42,26 @@ public class WXPayServiceImpl implements WXPayService {
 			logger.info("生成的订单号为=>" + orderNo);
 			String amount = AmountUtils.changeY2F(vo.getTotalfee());
 			logger.info("生成的订单金额为=>" + amount);
+			vo.setTotalfee(amount);
 			vo.setOrderno(orderNo);
-			insertWXorder(vo); // 出入业务系统表
-			/**
-			 * int i = machineMapper.queryMachine(vo.getUnit(), vo.getMach());
-			 * Map<String,Integer> accach=new HashMap<String, Integer>();
-			 * accach.put("id", i);
-			 * accach.put("num",Integer.valueOf(vo.getNum()));
-			 **/
-			Map<String, String> data = createWxData(vo);
 			PayConfig payInfo = new PayConfig();
-			WXPay wxpay = new WXPay(payInfo,WXPayConstants.SignType.MD5,true);
-			logger.info("请求微信的报文为=>" + JSON.toJSONString(data));
-			Map<String, String> resp = wxpay.unifiedOrder(data);
-			logger.info("请求微信返回的报文为=>" + JSON.toJSONString(resp));
-			boolean  res= wxpay.isResponseSignatureValid(data);
-			logger.info("判断签名是一致=>" +res);
-			if (!resp.get("result_code").equals("SUCCESS") || !resp.get("return_code").equals("SUCCESS")) {
+			insertWXorder(vo); // 出入业务系统表
+			// Map<String, String> data = createWxData(vo);
+			String dataxml = createWxData(vo, payInfo.getKey());
+
+			// WXPay wxpay = new
+			// WXPay(payInfo,WXPayConstants.SignType.MD5,true);
+			// logger.info("请求微信的报文为=>" + JSON.toJSONString(data));
+			logger.info("请求微信的报文为=>" + dataxml);
+			// Map<String, String> resp = wxpay.unifiedOrder(data);
+			String responseXML = HttpUtils.submitPost("https://api.mch.weixin.qq.com/sandboxnew/pay/unifiedorder", dataxml);
+			logger.info("请求微信返回的报文为=>" + responseXML);
+			Map<String, String> resp = WXPayUtil.xmlToMap(responseXML);
+			// logger.info("请求微信返回的报文为=>" + JSON.toJSONString(resp));
+			// c boolean res= wxpay.isResponseSignatureValid(data);
+//			logger.info("判断签名是一致=>" + res);
+			if (!resp.get("result_code").equals("SUCCESS")
+					|| !resp.get("return_code").equals("SUCCESS")) {
 				call.put("code", "false");
 				return call;
 			}
@@ -66,17 +69,18 @@ public class WXPayServiceImpl implements WXPayService {
 			String wxsign = resp.get("sign");
 			String wxnocestr = resp.get("nonce_str");
 			call.put("appId", payInfo.getAppID());
-			call.put("package", "prepay_id="+pay);
+			call.put("package", "prepay_id=" + pay);
 			call.put("timeStamp", Sign.create_timestamp());
 			call.put("nonceStr", wxnocestr);
 			call.put("signType", "MD5");
-			call.put("paySign",wxsign);
+			// call.put("paySign",wxsign);
 			logger.info("微信返回组装的MAP=>" + JSON.toJSONString(call));
-			String jmSign=WXPayUtil.generateSignature(call,payInfo.getKey());
-			logger.info("返回结果进行签名=》"+jmSign);
-			boolean  bsign=isSign(call,payInfo.getKey(),jmSign);
-			call.put("paySign",jmSign);
-			logger.info("返回结果两者签名校验=》"+bsign);
+			String jmSign = WXPayUtil.generateSignature(call, payInfo.getKey());
+			logger.info("签名一次结果进行签名=》" + wxsign);
+			logger.info("签名二次结果进行签名=》" + jmSign);
+			boolean bsign = isSign(call, payInfo.getKey(), jmSign);
+			// call.put("paySign",jmSign);
+			logger.info("返回结果两者签名校验=》" + bsign);
 			logger.info("微信返回组装的MAP 签名完成=>" + JSON.toJSONString(call));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -84,17 +88,16 @@ public class WXPayServiceImpl implements WXPayService {
 		}
 		return call;
 	}
-	
-	
-	
-	
-	private boolean  isSign(Map<String, String> call,String key,String sign) throws Exception{
+
+	private boolean isSign(Map<String, String> call, String key, String sign)
+			throws Exception {
 		call.put("sign", sign);
-		String  xml=WXPayUtil.mapToXml(call);
-		logger.info("返回结果签名校验时=》"+xml);
-		logger.info("返回结果签名校验的Map=》"+JSON.toJSONString(call));
-		return WXPayUtil.isSignatureValid(xml,key);
+		String xml = WXPayUtil.mapToXml(call);
+		logger.info("返回结果签名校验时=》" + xml);
+		logger.info("返回结果签名校验的Map=》" + JSON.toJSONString(call));
+		return WXPayUtil.isSignatureValid(xml, key);
 	}
+
 	/**
 	 * 插入业务系统表
 	 * 
@@ -110,20 +113,23 @@ public class WXPayServiceImpl implements WXPayService {
 		wxOrderMapper.insertSelective(wxOrder);
 	}
 
-	private Map<String, String> createWxData(RequestOrder vo) {
+	private String createWxData(RequestOrder vo, String key) throws Exception {
 		Map<String, String> data = new HashMap<String, String>();
-		data.put("device_info", "WEB"); // 商品描述
-		data.put("sign_type", "MD5");
+		// data.put("device_info", "WEB"); // 商品描述
+//		data.put("sign_type", "MD5");
 		data.put("body", "小张南山店-超市"); // 商品描述
 		data.put("out_trade_no", vo.getOrderno()); // 商户订单号
-		data.put("total_fee", "88");// 标价金额
+		data.put("appid", "wx88cb890e1e079473");
+		data.put("mch_id", "1496252192");
+		data.put("nonce_str", WXPayUtil.generateNonceStr());
+		data.put("total_fee", vo.getTotalfee());// 标价金额
 		data.put("spbill_create_ip", vo.getIpadress());// 终端IP
 		data.put("time_start", vo.getStartTime());// 交易起始时间
 		data.put("time_expire", vo.getEndTime());// 交易结束时间
 		data.put("notify_url", Contant.notify_url);// 通知地址
 		data.put("trade_type", Contant.trade_type);// 交易类型
 		data.put("openid", vo.getOpenid());// 用户标识
-		return data;
+		return WXPayUtil.generateSignedXml(data, key);
 	}
 
 	private HashMap<String, String> creMap(Map<String, String> resp) {

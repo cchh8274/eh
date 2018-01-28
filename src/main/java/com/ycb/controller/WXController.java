@@ -1,5 +1,7 @@
 package com.ycb.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,22 +50,23 @@ public class WXController {
 	 */
 	@RequestMapping(value = "requestOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> requestWXPay(RequestOrder vo,HttpServletRequest request) {
+	public Map<String, String> requestWXPay(RequestOrder vo,
+			HttpServletRequest request) {
 		logger.info("微信下单开始");
-		String startTime=DateUtils.getbjTime();
-		logger.info("订单开始时间为=>"+startTime);
+		String startTime = DateUtils.getbjTime();
+		logger.info("订单开始时间为=>" + startTime);
 		vo.setStartTime(startTime);
-		Calendar calendar=Calendar.getInstance();
+		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(DateUtils.paresDate(format, startTime));
 		calendar.add(Calendar.MINUTE, 5);
-		String endTime=DateUtils.formatDate(calendar.getTime(), format);
-		logger.info("订单存活时间为=>"+endTime);
+		String endTime = DateUtils.formatDate(calendar.getTime(), format);
+		logger.info("订单存活时间为=>" + endTime);
 		vo.setEndTime(endTime);
 		logger.info("微信发起的订单请求数据为=>" + vo.toString());
 		String ipadree = IPAdressUtils.getIpAddr(request);
 		logger.info("微信发起的订单请求IP地址为=>" + ipadree);
 		vo.setIpadress(ipadree);
-		Map<String,String> order = wxPayService.payOrder(vo);
+		Map<String, String> order = wxPayService.payOrder(vo);
 		logger.info("微信发起的订单请求完成=>" + JSON.toJSONString(order));
 		return order;
 	}
@@ -74,22 +77,44 @@ public class WXController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/responseResult")
+	@RequestMapping(value = "responseResult", method = RequestMethod.POST)
 	@ResponseBody
-	public String responseResult(String xml) throws Exception {
-		logger.info("微信回调开始=>" +xml);
-		// 转化xml 为map
+	public String responseResult(String xml, HttpServletRequest request)
+			throws Exception {
 		Map<String, String> resultMap = null;
 		try {
-			resultMap = WXPayUtil.xmlToMap(xml);
-			logger.info("微信回调开始=>" +JSON.toJSONString(resultMap));
-			wxPayService.callBackWXpay(resultMap);
-			logger.info("微信回调完成=>" +JSON.toJSONString(resultMap));
+			InputStream inStream = request.getInputStream();
+			int _buffer_size = 1024;
+			if (inStream != null) {
+				ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+				byte[] tempBytes = new byte[_buffer_size];
+				int count = -1;
+				while ((count = inStream.read(tempBytes, 0, _buffer_size)) != -1) {
+					outStream.write(tempBytes, 0, count);
+				}
+				tempBytes = null;
+				outStream.flush();
+				// 将流转换成字符串
+				String result = new String(outStream.toByteArray(), "UTF-8");
+				System.out.println("截获的头部未见 =======》" + result);
+				logger.info("微信回调开始=>" + result);
+				resultMap = WXPayUtil.xmlToMap(result);
+			}
+			// 通知微信支付系统接收到信息
+
+			logger.info("微信回调开始=>" + xml);
+			// 转化xml 为map
+			logger.info("微信回调开始=>" + JSON.toJSONString(resultMap));
+//			wxPayService.callBackWXpay(resultMap);
+			logger.info("微信回调完成=>" + JSON.toJSONString(resultMap));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return WXPayUtil.mapToXml(resultMap);
+		Map<String,String> reM=new HashMap<String, String>();
+		reM.put("return_code", "SUCCESS");
+		reM.put("return_msg", "OK");
+		System.out.println("re wx  ----------"+WXPayUtil.mapToXml(reM));
+		return WXPayUtil.mapToXml(reM);
 	}
 
 	/**
@@ -111,10 +136,10 @@ public class WXController {
 		map.put("openid", (String) info.get("openid"));
 		return map;
 	}
-	
+
 	@RequestMapping("/config")
 	@ResponseBody
-	public  Map<String, String>  config(String url){
+	public Map<String, String> config(String url) {
 		logger.info("获取配置信息");
 		return wxPayService.config(url);
 	}
