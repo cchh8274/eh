@@ -54,7 +54,8 @@ public class WXPayServiceImpl implements WXPayService {
 			// logger.info("请求微信的报文为=>" + JSON.toJSONString(data));
 			logger.info("请求微信的报文为=>" + dataxml);
 			// Map<String, String> resp = wxpay.unifiedOrder(data);
-			String responseXML = HttpUtils.submitPost("https://api.mch.weixin.qq.com/sandboxnew/pay/unifiedorder", dataxml);
+//			String responseXML = HttpUtils.submitPost("https://api.mch.weixin.qq.com/sandboxnew/pay/unifiedorder", dataxml);
+			String responseXML = HttpUtils.submitPost("https://api.mch.weixin.qq.com/pay/unifiedorder", dataxml);
 			logger.info("请求微信返回的报文为=>" + responseXML);
 			Map<String, String> resp = WXPayUtil.xmlToMap(responseXML);
 			// logger.info("请求微信返回的报文为=>" + JSON.toJSONString(resp));

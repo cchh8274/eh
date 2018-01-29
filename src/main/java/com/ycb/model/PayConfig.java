@@ -23,7 +23,7 @@ public class PayConfig implements WXPayConfig {
 
 	@Override
 	public String getKey() {
-		return box_key;
+		return key;
 	}
 
 	@Override
