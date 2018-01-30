@@ -2,6 +2,7 @@ package com.ycb.service.impl;
 
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ycb.service.WxUserService;
 import com.ycb.util.HttpUtils;
 @Service
@@ -12,10 +13,22 @@ public class WxUserServiceImpl implements WxUserService {
 	@Override
 	public String getUserInfo(String openID) throws Exception {
 		String url="https://api.weixin.qq.com/cgi-bin/user/info?access_token="
-				+ session
+				+ getAccToken()
 				+ "&openid="+openID+"&lang=zh_CN";
 		String response=HttpUtils.submitGet(url);
 		return response;
 	}
-
+	
+	
+	
+	
+	private  String  getAccToken(){
+		  String url="https://api.weixin.qq.com/cgi-bin/token?"
+		  		+ "grant_type=client_credential"
+		  		+ "&appid=wx88cb890e1e079473"
+		  		+ "&secret=5982d81fbb3a64d413e9a4f1eabe0898";
+			String response=HttpUtils.submitGet(url);
+		JSONObject  token=JSONObject.parseObject(response);
+		return (String) token.get("access_token");
+	}
 }

@@ -81,8 +81,9 @@ public class WXController {
 	@ResponseBody
 	public String responseResult(String xml, HttpServletRequest request)
 			throws Exception {
-		Map<String, String> resultMap = null;
+		Map<String, String> reultMap = new HashMap<String, String>();
 		try {
+			Map<String, String> resultMap = null;
 			InputStream inStream = request.getInputStream();
 			int _buffer_size = 1024;
 			if (inStream != null) {
@@ -96,25 +97,24 @@ public class WXController {
 				outStream.flush();
 				// 将流转换成字符串
 				String result = new String(outStream.toByteArray(), "UTF-8");
-				System.out.println("截获的头部未见 =======》" + result);
+				logger.info("微信结果通知的报文结构为, WX =>" + result);
 				logger.info("微信回调开始=>" + result);
 				resultMap = WXPayUtil.xmlToMap(result);
 			}
 			// 通知微信支付系统接收到信息
-
 			logger.info("微信回调开始=>" + xml);
 			// 转化xml 为map
 			logger.info("微信回调开始=>" + JSON.toJSONString(resultMap));
-//			wxPayService.callBackWXpay(resultMap);
+			wxPayService.callBackWXpay(resultMap);
 			logger.info("微信回调完成=>" + JSON.toJSONString(resultMap));
+			reultMap.put("return_code", "SUCCESS");
+			reultMap.put("return_msg", "OK");
+			logger.info("微信结果通知成功,Response WX =>" + WXPayUtil.mapToXml(reultMap));
 		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
 			e.printStackTrace();
 		}
-		Map<String,String> reM=new HashMap<String, String>();
-		reM.put("return_code", "SUCCESS");
-		reM.put("return_msg", "OK");
-		System.out.println("re wx  ----------"+WXPayUtil.mapToXml(reM));
-		return WXPayUtil.mapToXml(reM);
+		return WXPayUtil.mapToXml(reultMap);
 	}
 
 	/**
