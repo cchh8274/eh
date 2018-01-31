@@ -11,6 +11,10 @@ public class Dic {
 
     private String accessToken;
 
+    private String ticket;
+
+    private String createtime;
+
     public Integer getId() {
         return id;
     }
@@ -49,5 +53,21 @@ public class Dic {
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken == null ? null : accessToken.trim();
+    }
+
+    public String getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(String ticket) {
+        this.ticket = ticket == null ? null : ticket.trim();
+    }
+
+    public String getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(String createtime) {
+        this.createtime = createtime == null ? null : createtime.trim();
     }
 }

@@ -7,9 +7,11 @@
     <result column="secret" jdbcType="VARCHAR" property="secret" />
     <result column="expires_in" jdbcType="VARCHAR" property="expiresIn" />
     <result column="access_token" jdbcType="VARCHAR" property="accessToken" />
+    <result column="ticket" jdbcType="VARCHAR" property="ticket" />
+    <result column="createtime" jdbcType="VARCHAR" property="createtime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, appid, secret, expires_in, access_token
+    id, appid, secret, expires_in, access_token, ticket, createtime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -23,9 +25,11 @@
   </delete>
   <insert id="insert" parameterType="com.ycb.entity.Dic">
     insert into dic (id, appid, secret, 
-      expires_in, access_token)
+      expires_in, access_token, ticket, 
+      createtime)
     values (#{id,jdbcType=INTEGER}, #{appid,jdbcType=VARCHAR}, #{secret,jdbcType=VARCHAR}, 
-      #{expiresIn,jdbcType=VARCHAR}, #{accessToken,jdbcType=VARCHAR})
+      #{expiresIn,jdbcType=VARCHAR}, #{accessToken,jdbcType=VARCHAR}, #{ticket,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ycb.entity.Dic">
     insert into dic
@@ -45,6 +49,12 @@
       <if test="accessToken != null">
         access_token,
       </if>
+      <if test="ticket != null">
+        ticket,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -61,6 +71,12 @@
       </if>
       <if test="accessToken != null">
         #{accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="ticket != null">
+        #{ticket,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -79,6 +95,12 @@
       <if test="accessToken != null">
         access_token = #{accessToken,jdbcType=VARCHAR},
       </if>
+      <if test="ticket != null">
+        ticket = #{ticket,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -87,7 +109,9 @@
     set appid = #{appid,jdbcType=VARCHAR},
       secret = #{secret,jdbcType=VARCHAR},
       expires_in = #{expiresIn,jdbcType=VARCHAR},
-      access_token = #{accessToken,jdbcType=VARCHAR}
+      access_token = #{accessToken,jdbcType=VARCHAR},
+      ticket = #{ticket,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

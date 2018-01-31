@@ -30,11 +30,18 @@ public class WxUserController {
 
 	@Autowired
 	private WxUserService wxUserService;
-
+	
+	/**
+	 * 微信用户登录
+	 * @param code
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping("/getUserInfo")
 	public String getUserInfo(String code) {
+		logger.info("当前请求是我的页面微信登录..");
 		try {
+			
 			logger.info("当前登录的微信用户的openID=>" + code);
 			logger.info("当前的请求成功 ,code为=》" + code);
 			String url = WxUrlUtils.getOpenid(code);

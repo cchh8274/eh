@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.github.wxpay.sdk.WXPay;
-import com.github.wxpay.sdk.WXPayConstants;
 import com.github.wxpay.sdk.WXPayUtil;
 import com.ycb.controller.WXController;
 import com.ycb.dao.MachineMapper;
