@@ -18,7 +18,7 @@ import com.ycb.model.PayConfig;
 import com.ycb.model.RequestOrder;
 import com.ycb.service.WXPayService;
 import com.ycb.util.AmountUtils;
-import com.ycb.util.Contant;
+import com.ycb.util.Constants;
 import com.ycb.util.HttpUtils;
 import com.ycb.util.IDGeneratorTools;
 import com.ycb.util.Sign;
@@ -125,15 +125,15 @@ public class WXPayServiceImpl implements WXPayService {
 		data.put("spbill_create_ip", vo.getIpadress());// 终端IP
 		data.put("time_start", vo.getStartTime());// 交易起始时间
 		data.put("time_expire", vo.getEndTime());// 交易结束时间
-		data.put("notify_url", Contant.notify_url);// 通知地址
-		data.put("trade_type", Contant.trade_type);// 交易类型
+		data.put("notify_url", Constants.notify_url);// 通知地址
+		data.put("trade_type", Constants.trade_type);// 交易类型
 		data.put("openid", vo.getOpenid());// 用户标识
 		return WXPayUtil.generateSignedXml(data, key);
 	}
 
 	private HashMap<String, String> creMap(Map<String, String> resp) {
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("appId", Contant.appid);
+		map.put("appId", Constants.appid);
 		map.put("timeStamp", Sign.create_timestamp());
 		map.put("nonceStr", resp.get("nonce_str"));
 		map.put("package", "prepay_id=" + resp.get("prepay_id"));
@@ -143,8 +143,8 @@ public class WXPayServiceImpl implements WXPayService {
 	}
 
 	private Map<String, String> credMap(Map<String, String> resp) {
-		resp.put("appid", Contant.appid);
-		resp.put("mch_id", Contant.mch_id);
+		resp.put("appid", Constants.appid);
+		resp.put("mch_id", Constants.mch_id);
 		return resp;
 	}
 
@@ -187,7 +187,7 @@ public class WXPayServiceImpl implements WXPayService {
 	@Override
 	public Map<String, String> config(String url) {
 		Map<String, String> signmap = Sign.sign(toketULR("1"), url);
-		signmap.put("appId", Contant.appid);
+		signmap.put("appId", Constants.appid);
 		logger.info("生成数据=》" + JSON.toJSONString(signmap));
 		return signmap;
 	}

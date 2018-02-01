@@ -114,4 +114,7 @@
       createtime = #{createtime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <delete id="deleteAll">
+  	   delete from dic 
+  </delete>
 </mapper>

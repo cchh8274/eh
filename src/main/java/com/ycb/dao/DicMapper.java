@@ -14,4 +14,6 @@ public interface DicMapper {
     int updateByPrimaryKeySelective(Dic record);
 
     int updateByPrimaryKey(Dic record);
+
+	void deleteAll();
 }
