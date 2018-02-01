@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycb.dao.WxBackResultMapper">
+  <resultMap id="BaseResultMap" type="com.ycb.entity.WxBackResult">
+    <result column="appid" jdbcType="VARCHAR" property="appid" />
+    <result column="mch_id" jdbcType="VARCHAR" property="mchId" />
+    <result column="device_info" jdbcType="VARCHAR" property="deviceInfo" />
+    <result column="nonce_str" jdbcType="VARCHAR" property="nonceStr" />
+    <result column="sign" jdbcType="VARCHAR" property="sign" />
+    <result column="sign_type" jdbcType="VARCHAR" property="signType" />
+    <result column="result_code" jdbcType="VARCHAR" property="resultCode" />
+    <result column="err_code" jdbcType="VARCHAR" property="errCode" />
+    <result column="err_code_des" jdbcType="VARCHAR" property="errCodeDes" />
+    <result column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="is_subscribe" jdbcType="VARCHAR" property="isSubscribe" />
+    <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
+    <result column="bank_type" jdbcType="VARCHAR" property="bankType" />
+    <result column="total_fee" jdbcType="VARCHAR" property="totalFee" />
+    <result column="settlement_total_fee" jdbcType="VARCHAR" property="settlementTotalFee" />
+    <result column="fee_type" jdbcType="VARCHAR" property="feeType" />
+    <result column="cash_fee" jdbcType="VARCHAR" property="cashFee" />
+    <result column="cash_fee_type" jdbcType="VARCHAR" property="cashFeeType" />
+    <result column="coupon_fee" jdbcType="VARCHAR" property="couponFee" />
+    <result column="coupon_count" jdbcType="VARCHAR" property="couponCount" />
+    <result column="coupon_type" jdbcType="VARCHAR" property="couponType" />
+  </resultMap>
+  <insert id="insert" parameterType="com.ycb.entity.WxBackResult">
+    insert into wx_back_result (appid, mch_id, device_info, 
+      nonce_str, sign, sign_type, 
+      result_code, err_code, err_code_des, 
+      openid, is_subscribe, trade_type, 
+      bank_type, total_fee, settlement_total_fee, 
+      fee_type, cash_fee, cash_fee_type, 
+      coupon_fee, coupon_count, coupon_type
+      )
+    values (#{appid,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, #{deviceInfo,jdbcType=VARCHAR}, 
+      #{nonceStr,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{signType,jdbcType=VARCHAR}, 
+      #{resultCode,jdbcType=VARCHAR}, #{errCode,jdbcType=VARCHAR}, #{errCodeDes,jdbcType=VARCHAR}, 
+      #{openid,jdbcType=VARCHAR}, #{isSubscribe,jdbcType=VARCHAR}, #{tradeType,jdbcType=VARCHAR}, 
+      #{bankType,jdbcType=VARCHAR}, #{totalFee,jdbcType=VARCHAR}, #{settlementTotalFee,jdbcType=VARCHAR}, 
+      #{feeType,jdbcType=VARCHAR}, #{cashFee,jdbcType=VARCHAR}, #{cashFeeType,jdbcType=VARCHAR}, 
+      #{couponFee,jdbcType=VARCHAR}, #{couponCount,jdbcType=VARCHAR}, #{couponType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ycb.entity.WxBackResult">
+    insert into wx_back_result
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="appid != null">
+        appid,
+      </if>
+      <if test="mchId != null">
+        mch_id,
+      </if>
+      <if test="deviceInfo != null">
+        device_info,
+      </if>
+      <if test="nonceStr != null">
+        nonce_str,
+      </if>
+      <if test="sign != null">
+        sign,
+      </if>
+      <if test="signType != null">
+        sign_type,
+      </if>
+      <if test="resultCode != null">
+        result_code,
+      </if>
+      <if test="errCode != null">
+        err_code,
+      </if>
+      <if test="errCodeDes != null">
+        err_code_des,
+      </if>
+      <if test="openid != null">
+        openid,
+      </if>
+      <if test="isSubscribe != null">
+        is_subscribe,
+      </if>
+      <if test="tradeType != null">
+        trade_type,
+      </if>
+      <if test="bankType != null">
+        bank_type,
+      </if>
+      <if test="totalFee != null">
+        total_fee,
+      </if>
+      <if test="settlementTotalFee != null">
+        settlement_total_fee,
+      </if>
+      <if test="feeType != null">
+        fee_type,
+      </if>
+      <if test="cashFee != null">
+        cash_fee,
+      </if>
+      <if test="cashFeeType != null">
+        cash_fee_type,
+      </if>
+      <if test="couponFee != null">
+        coupon_fee,
+      </if>
+      <if test="couponCount != null">
+        coupon_count,
+      </if>
+      <if test="couponType != null">
+        coupon_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="appid != null">
+        #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="mchId != null">
+        #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceInfo != null">
+        #{deviceInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="nonceStr != null">
+        #{nonceStr,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null">
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="signType != null">
+        #{signType,jdbcType=VARCHAR},
+      </if>
+      <if test="resultCode != null">
+        #{resultCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errCode != null">
+        #{errCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errCodeDes != null">
+        #{errCodeDes,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="isSubscribe != null">
+        #{isSubscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null">
+        #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="bankType != null">
+        #{bankType,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null">
+        #{totalFee,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementTotalFee != null">
+        #{settlementTotalFee,jdbcType=VARCHAR},
+      </if>
+      <if test="feeType != null">
+        #{feeType,jdbcType=VARCHAR},
+      </if>
+      <if test="cashFee != null">
+        #{cashFee,jdbcType=VARCHAR},
+      </if>
+      <if test="cashFeeType != null">
+        #{cashFeeType,jdbcType=VARCHAR},
+      </if>
+      <if test="couponFee != null">
+        #{couponFee,jdbcType=VARCHAR},
+      </if>
+      <if test="couponCount != null">
+        #{couponCount,jdbcType=VARCHAR},
+      </if>
+      <if test="couponType != null">
+        #{couponType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

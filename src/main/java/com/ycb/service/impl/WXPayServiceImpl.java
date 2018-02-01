@@ -12,7 +12,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.wxpay.sdk.WXPayUtil;
 import com.ycb.controller.WXController;
 import com.ycb.dao.MachineMapper;
+import com.ycb.dao.WxBackResultMapper;
 import com.ycb.dao.WxOrderMapper;
+import com.ycb.entity.WxBackResult;
 import com.ycb.entity.WxOrder;
 import com.ycb.model.PayConfig;
 import com.ycb.model.RequestOrder;
@@ -31,6 +33,8 @@ public class WXPayServiceImpl implements WXPayService {
 	private WxOrderMapper wxOrderMapper;
 	@Autowired
 	private MachineMapper machineMapper;
+	@Autowired
+	private WxBackResultMapper wxBackResultMapper;
 
 	@Override
 	public Map<String, String> payOrder(RequestOrder vo) {
@@ -131,22 +135,6 @@ public class WXPayServiceImpl implements WXPayService {
 		return WXPayUtil.generateSignedXml(data, key);
 	}
 
-	private HashMap<String, String> creMap(Map<String, String> resp) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("appId", Constants.appid);
-		map.put("timeStamp", Sign.create_timestamp());
-		map.put("nonceStr", resp.get("nonce_str"));
-		map.put("package", "prepay_id=" + resp.get("prepay_id"));
-		map.put("signType", "MD5");
-		map.put("paySign", resp.get("sign"));
-		return map;
-	}
-
-	private Map<String, String> credMap(Map<String, String> resp) {
-		resp.put("appid", Constants.appid);
-		resp.put("mch_id", Constants.mch_id);
-		return resp;
-	}
 
 	/**
 	 * 回调结果通知
@@ -166,14 +154,23 @@ public class WXPayServiceImpl implements WXPayService {
 			resultMap.put("return_code", "FAIL");
 			resultMap.put("return_msg", "失敗");
 		}
+		
 		resultMap.clear();
+		insertCallBack(resultMap);
 		resultMap.put("return_code", "SUCCESS");
 		resultMap.put("return_msg", "OK");
 
 	}
-
+	
+	
+	private void insertCallBack(Map<String, String> resultMap){
+		WxBackResult  wxBackResult=new WxBackResult();
+		
+		wxBackResultMapper.insertSelective(wxBackResult);
+		
+	}
+	
 	private static String toketULR(String id) {
-
 		String token = HttpUtils
 				.submitGet("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx88cb890e1e079473&secret=5982d81fbb3a64d413e9a4f1eabe0898");
 		JSONObject oo = (JSONObject) JSON.parse(token);

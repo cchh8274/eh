@@ -27,7 +27,7 @@ import com.ycb.util.WxUrlUtils;
 
 /**
  * 微信支付调起
- * 
+ * 微信支付
  * @author chenghui
  *
  */
@@ -51,7 +51,7 @@ public class WXController {
 	@ResponseBody
 	public Map<String, String> requestWXPay(RequestOrder vo,
 			HttpServletRequest request) {
-		logger.info("微信下单开始");
+		logger.info("微信下单开始 Start");
 		String startTime = DateUtils.getbjTime();
 		logger.info("订单开始时间为=>" + startTime);
 		vo.setStartTime(startTime);

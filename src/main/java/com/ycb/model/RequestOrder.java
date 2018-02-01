@@ -5,7 +5,7 @@ public class RequestOrder {
 	private String  area; //区域
 	private String  unit;// 大学
 	private String  mach;//机器
-	private String  num; //单位
+	private String  num; //单位 份数
 	private String  totalfee; //金额
 	private String  startTime; //开始时间
 	private String  endTime; //结束时间
@@ -13,7 +13,6 @@ public class RequestOrder {
 	private String  orderno; //订单号
 	private String  ipadress; //ipadress
 	private String  url;
-	
 	
 	public String getUrl() {
 		return url;
