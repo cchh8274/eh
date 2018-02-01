@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.ycb.entity.Amount;
 import com.ycb.entity.Machine;
 import com.ycb.entity.Unit;
 import com.ycb.service.MachineService;

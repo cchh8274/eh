@@ -40,7 +40,6 @@ public class WXController {
 	@Autowired
 	private WXPayService wxPayService;
 
-	private static final String old = "yyyy年MM月dd日hh时mm分ss秒";
 	private static final String format = "yyyyMMddHHmmss";
 
 	/**

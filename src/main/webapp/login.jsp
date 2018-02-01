@@ -1,96 +1,120 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@include file="/common/include.jsp" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+	pageEncoding="UTF-8"%>
+<%@include file="/common/include.jsp"%>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+
+<title>易创吧后台管理系统</title>
+
+<!-- Bootstrap core CSS -->
+<link
+	href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet">
+<Style>
+		@
+		-ms-viewport {
+			width: device-width;
+		}
+		
+		@
+		-o-viewport {
+			width: device-width;
+		}
+		
+		@
+		viewport {
+			width: device-width;
+		}
+		
+		body {
+			padding-top: 40px;
+			padding-bottom: 40px;
+			background-color: #eee;
+		}
+		
+		.form-signin {
+			max-width: 330px;
+			padding: 15px;
+			margin: 0 auto;
+		}
+		
+		.form-signin .form-signin-heading, .form-signin .checkbox {
+			margin-bottom: 10px;
+		}
+		
+		.form-signin .checkbox {
+			font-weight: normal;
+		}
+		
+		.form-signin .form-control {
+			position: relative;
+			height: auto;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			padding: 10px;
+			font-size: 16px;
+		}
+		
+		.form-signin .form-control:focus {
+			z-index: 2;
+		}
+		
+		.form-signin input[type="email"] {
+			margin-bottom: -1px;
+			border-bottom-right-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+		
+		.form-signin input[type="password"] {
+			margin-bottom: 10px;
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
+		}
+</style>
+
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
+
 <body>
-<div id="loginDialog" title="用户登录" style="display: none;">
-	<form id="loginForm" method="post" >   
-		<table>
-       <tr>
-        <td><label for="name">用户名:</label></td>
-       <td> <input class="easyui-validatebox" type="text" name="loginname" data-options="required:true"  missingMessage="请输入用户名"/> </td>  
-	</tr>   
-	<tr>
-        <td><label for="password">密码:</label></td> 
-        <td><input class="easyui-validatebox" type="password" name="pwd" data-options="validType:'password'" /></td>   
-    </tr>
-      <tr>
-    	<td><label>验证码:</label></td>
-	    	<td><input  class="easyui-validatebox"  data-options="required:true" name="imgcode"   type="text" id="imgcode" style="width:60px"/>
-	    	<img src="<%=request.getContextPath()%>/imageCode" id="imgcoode" onclick="getImageCode()">
-	    	<label id="countDown"></label></td>
-	   		<td><a class="easyui-linkbutton"  href="javascript:getImageCode(countDown)" >看不清换一个</a></td>
-    </tr>
-		</table>
-	</form>
+	<div class="container">
+		<form class="form-signin">
+			<h2 class="form-signin-heading">Please sign in</h2>
+			<label for="inputEmail" class="sr-only">user name</label> <input
+				type="text" id="inputEmail" class="form-control"
+				placeholder="user name" required autofocus> <label
+				for="inputPassword" class="sr-only">Password</label> <input
+				type="password" id="inputPassword" class="form-control"
+				placeholder="Password" required>
+			<div class="checkbox">
+				<label> <input type="checkbox" value="remember-me">
+					Remember me
+				</label>
+			</div>
+			<button class="btn btn-lg btn-primary btn-block" type="button">Sign
+				in</button>
+		</form>
+
 	</div>
-	<script type="text/javascript">
-	function loginUser(){
-      	$.ajax({
-        		url:'<%=request.getContextPath()%>/user/checkSysUserLogin.do',
-        		type:'post',
-        		//同步
-        		async:false,
-        		data:$("#loginForm").serialize(),
-        		success:function(data){
-        			//用户不存在返回true
-        			if (data.success) {
-        				//alert(data.success);
-        				window.location.href="<%=request.getContextPath()%>/main/main.do";
-    				}else{
-    					$.messager.alert('警告',data.msg,"error");    
-    				}
-        		}
-        	})
- }
-	
-	
-			$(function(){
-		 		$('#loginDialog').dialog({    
-		 		    title: '登录',    
-			   		width: 400,    
-		 		    height: 200,     
-		 		    //不能关闭窗口
-		 		//    closed: true,    
-		 		    cache: false,    
-		 		    //模态窗口
-		 		    modal: true,
-		 		    top:250, 
-		 		    content : $("#loginForm"),
-		 		    buttons:[
-		 		             {
-		 		            	 text:'登录',
-		 		            	 iconCls:'',
-		 		            	 handler:function(){
-		 		            		loginUser();
-		 		              }
-		 		             },
-		 		           ],
-		 		  		onOpen : function() {
-		 					$('form :input:first').focus();
-		 					$('form :input').keyup(function(event) {
-		 						if (event.keyCode == 13) {
-		 							loginUser();
-		 						}
-		 					});
-		 				}
-		 		});    
-		 	})
-	
-	
-	
-	
-			//随机生成验证码图片
-	 	function getImageCode(){
-			var thisDate =  new Date();
-			//区分当前请求和上一次请求
-			document.getElementById("imgcoode").src="<%=request.getContextPath()%>/imageCode?f="+thisDate.getTime();
-	}
-	</script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 </body>
+<script type="text/javascript" charset="utf-8">
+</script>
 </html>

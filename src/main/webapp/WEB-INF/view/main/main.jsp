@@ -18,11 +18,8 @@
 	<div data-options="region:'center'" style="overflow: hidden;">
 		<div id="mainTabs">
 			<div title="首页" data-options="iconCls:'icon-filter'">
-		<!-- 	<table id="tts" style="width:600px;height:400px"></table> -->
 				<iframe src="<%=request.getContextPath()%>/main/home.do" allowTransparency="true" style="border: 0; width: 100%; height: 99%;" frameBorder="0"></iframe>
-				
 			</div>
-			 
 		</div>
 	</div>
 	<div data-options="region:'south',href:'<%=request.getContextPath()%>/main/south.do',border:false" style="height: 30px; overflow: hidden;"></div>
@@ -41,49 +38,9 @@
 			</table>
 		</form>
 	</div>
-
-	<div id="passwordDialog" title="修改密码" style="display: none;">
-		<form  method="post" class="easyui-form">
-			<table class="table">
-				<tr>
-					<th>旧密码</th>
-					<td><input id="oldpwd" name="oldPwd" type="password" class="easyui-validatebox" data-options="required:true" /></td>
-				</tr>
-				<tr>
-					<th>新密码</th>
-					<td><input id="newpwd" name="newPwd" type="password" class="easyui-validatebox" data-options="required:true" /></td>
-				</tr>
-				<tr>
-					<th>重复密码</th>
-					<td><input type="password" class="easyui-validatebox" data-options="required:true,validType:'equals[\'#newpwd\']'" /></td>
-				</tr>
-			</table>
-		</form>
-	</div>
-	
+<%@include file="updatepwd.jsp"%>
+		
 	<script type="text/javascript" charset="utf-8">
-<%-- 	$(function(){
-		$('#tts').treegrid({    
-		    url:'<%=request.getContextPath()%>/resource/getResourceTree.do',    
-		    idField:'id',    
-		    treeField:'text',  
-		    method:'post',
-		    columns:[[    
-		        {field:'id',title:'id',width:60,align:'right'},    
-		        {field:'text',title:'text',width:80}, 
-		        {field:'attributes',title:'url',width:80,
-		        	formatter:function(value,row,index){
-		        		if(value){
-		        			return value.url;
-		        		}else{
-		        			return "";
-		        		}
-		        	}	
-		        }, 
-		    ]]    
-		});  
-	}) --%>
-	
 	/*
 	*自定义验证规则----两次密码必须一致
 	*/
@@ -260,32 +217,7 @@
 		return str;
 };
 
-$.fn.tree.defaults.loadFilter = function(data, parent) {
-	var opt = $(this).data().tree.options;
-	var idFiled, textFiled, parentField;
-	if (opt.parentField) {
-		idFiled = opt.idFiled || 'id';
-		textFiled = opt.textFiled || 'text';
-		parentField = opt.parentField;
-		var i, l, treeData = [], tmpMap = [];
-		for (i = 0, l = data.length; i < l; i++) {
-			tmpMap[data[i][idFiled]] = data[i];
-		}
-		for (i = 0, l = data.length; i < l; i++) {
-			if (tmpMap[data[i][parentField]] && data[i][idFiled] != data[i][parentField]) {
-				if (!tmpMap[data[i][parentField]]['children'])
-					tmpMap[data[i][parentField]]['children'] = [];
-				data[i]['text'] = data[i][textFiled];
-				tmpMap[data[i][parentField]]['children'].push(data[i]);
-			} else {
-				data[i]['text'] = data[i][textFiled];
-				treeData.push(data[i]);
-			}
-		}
-		return treeData;
-	}
-	return data;
-};
+
 
 	
 	
