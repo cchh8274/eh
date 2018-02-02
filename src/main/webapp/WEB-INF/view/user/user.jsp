@@ -22,7 +22,7 @@
 <script type="text/javascript" charset="utf-8">
 $(function(){
 	 $("#areaDataGrid").datagrid({
-         url:"<%=request.getContextPath()%>/area/findAreaList.do",
+         url:"<%=request.getContextPath()%>/user/queryUserList.do",
 				method : 'post',
 				pagination : true,
 				rownumbers : true,
