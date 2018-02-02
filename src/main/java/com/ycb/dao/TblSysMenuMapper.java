@@ -1,5 +1,7 @@
 package com.ycb.dao;
 
+import java.util.List;
+
 import com.ycb.entity.TblSysMenu;
 
 public interface TblSysMenuMapper {
@@ -14,4 +16,6 @@ public interface TblSysMenuMapper {
     int updateByPrimaryKeySelective(TblSysMenu record);
 
     int updateByPrimaryKey(TblSysMenu record);
+
+	List<TblSysMenu> selectMenuAll();
 }

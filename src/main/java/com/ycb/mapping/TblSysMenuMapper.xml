@@ -149,4 +149,7 @@
       resourcetypeId = #{resourcetypeid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectMenuAll" resultMap="BaseResultMap">
+  	select * from  tbl_sys_menu
+  </select>
 </mapper>

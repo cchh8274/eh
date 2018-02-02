@@ -9,15 +9,16 @@ import java.util.List;
 public class MenuInfo {
 	private int id;
 	private String text;
-	private String state = "open";// open,closed
-	private boolean checked = false;
-	private Object attributes;
-	private List<MenuInfo> children;
+	private List<MenuInfo> list;
+	private String url;
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
 	private String iconCls;
 	private String pid;
-	
-	
-	
 	public int getId() {
 		return id;
 	}
@@ -30,29 +31,11 @@ public class MenuInfo {
 	public void setText(String text) {
 		this.text = text;
 	}
-	public String getState() {
-		return state;
+	public List<MenuInfo> getList() {
+		return list;
 	}
-	public void setState(String state) {
-		this.state = state;
-	}
-	public boolean isChecked() {
-		return checked;
-	}
-	public void setChecked(boolean checked) {
-		this.checked = checked;
-	}
-	public Object getAttributes() {
-		return attributes;
-	}
-	public void setAttributes(Object attributes) {
-		this.attributes = attributes;
-	}
-	public List<MenuInfo> getChildren() {
-		return children;
-	}
-	public void setChildren(List<MenuInfo> children) {
-		this.children = children;
+	public void setList(List<MenuInfo> list) {
+		this.list = list;
 	}
 	public String getIconCls() {
 		return iconCls;
@@ -66,5 +49,7 @@ public class MenuInfo {
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
+	
+	
 	
 }
