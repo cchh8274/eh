@@ -1,5 +1,7 @@
 package com.ycb.dao;
 
+import java.util.List;
+
 import com.ycb.entity.WxOrder;
 
 public interface WxOrderMapper {
@@ -14,6 +16,10 @@ public interface WxOrderMapper {
     int updateByPrimaryKeySelective(WxOrder record);
 
     int updateByPrimaryKey(WxOrder record);
+    
+    WxOrder queryOrder(String orderno);
 
-	WxOrder queryOrder(String orderno);
+  	String queryCountManchine(String openID);
+
+  	List<WxOrder> queryMachinebyOpenid(String openID);
 }

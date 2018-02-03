@@ -30,5 +30,6 @@ public class Constants {
 	public  static final String USERINFO_URL="";
 	
 	public  static final String ACCESS_TOKEN_URL="https://api.weixin.qq.com/cgi-bin/token";
+	public  static final String WX_PAY_ORDER="https://api.mch.weixin.qq.com/pay/unifiedorder";
 		
 }

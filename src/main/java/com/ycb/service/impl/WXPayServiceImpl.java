@@ -1,5 +1,6 @@
 package com.ycb.service.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import com.ycb.controller.WXController;
 import com.ycb.dao.MachineMapper;
 import com.ycb.dao.WxBackResultMapper;
 import com.ycb.dao.WxOrderMapper;
+import com.ycb.entity.Machine;
 import com.ycb.entity.WxBackResult;
 import com.ycb.entity.WxOrder;
 import com.ycb.model.PayConfig;
@@ -21,6 +23,7 @@ import com.ycb.model.RequestOrder;
 import com.ycb.service.WXPayService;
 import com.ycb.util.AmountUtils;
 import com.ycb.util.Constants;
+import com.ycb.util.DateUtils;
 import com.ycb.util.HttpUtils;
 import com.ycb.util.IDGeneratorTools;
 import com.ycb.util.Sign;
@@ -48,21 +51,11 @@ public class WXPayServiceImpl implements WXPayService {
 			vo.setOrderno(orderNo);
 			PayConfig payInfo = new PayConfig();
 			insertWXorder(vo); // 出入业务系统表
-			// Map<String, String> data = createWxData(vo);
 			String dataxml = createWxData(vo, payInfo.getKey());
-
-			// WXPay wxpay = new
-			// WXPay(payInfo,WXPayConstants.SignType.MD5,true);
-			// logger.info("请求微信的报文为=>" + JSON.toJSONString(data));
 			logger.info("请求微信的报文为=>" + dataxml);
-			// Map<String, String> resp = wxpay.unifiedOrder(data);
-//			String responseXML = HttpUtils.submitPost("https://api.mch.weixin.qq.com/sandboxnew/pay/unifiedorder", dataxml);
-			String responseXML = HttpUtils.submitPost("https://api.mch.weixin.qq.com/pay/unifiedorder", dataxml);
+			String responseXML = HttpUtils.submitPost(Constants.WX_PAY_ORDER, dataxml);
 			logger.info("请求微信返回的报文为=>" + responseXML);
 			Map<String, String> resp = WXPayUtil.xmlToMap(responseXML);
-			// logger.info("请求微信返回的报文为=>" + JSON.toJSONString(resp));
-			// c boolean res= wxpay.isResponseSignatureValid(data);
-//			logger.info("判断签名是一致=>" + res);
 			if (!resp.get("result_code").equals("SUCCESS")
 					|| !resp.get("return_code").equals("SUCCESS")) {
 				call.put("code", "false");
@@ -76,7 +69,6 @@ public class WXPayServiceImpl implements WXPayService {
 			call.put("timeStamp", Sign.create_timestamp());
 			call.put("nonceStr", wxnocestr);
 			call.put("signType", "MD5");
-			// call.put("paySign",wxsign);
 			logger.info("微信返回组装的MAP=>" + JSON.toJSONString(call));
 			String jmSign = WXPayUtil.generateSignature(call, payInfo.getKey());
 			logger.info("签名一次结果进行签名=》" + wxsign);
@@ -113,6 +105,11 @@ public class WXPayServiceImpl implements WXPayService {
 		wxOrder.setOpenId(vo.getOpenid());
 		wxOrder.setUnit(vo.getUnit());
 		wxOrder.setOrderNo(vo.getOrderno());
+		wxOrder.setMachine(vo.getMach());
+		wxOrder.setArea(vo.getArea());
+		wxOrder.setPaytime(DateUtils.formatDate(vo.getStartTime(), "yyyyMMddHHmmss"));
+		wxOrder.setPayStatus("false");
+		wxOrder.setCreatetime(new Date());
 		wxOrderMapper.insertSelective(wxOrder);
 	}
 
@@ -120,7 +117,7 @@ public class WXPayServiceImpl implements WXPayService {
 		Map<String, String> data = new HashMap<String, String>();
 		// data.put("device_info", "WEB"); // 商品描述
 //		data.put("sign_type", "MD5");
-		data.put("body", "小张南山店-超市"); // 商品描述
+		data.put("body", "北京24机器-名额"); // 商品描述
 		data.put("out_trade_no", vo.getOrderno()); // 商户订单号
 		data.put("appid", "wx88cb890e1e079473");
 		data.put("mch_id", "1496252192");
@@ -143,20 +140,24 @@ public class WXPayServiceImpl implements WXPayService {
 	 */
 	public void callBackWXpay(Map<String, String> resultMap) throws Exception {
 		String code = resultMap.get("return_code");
-		if (!code.equals("success")) {
+		if (!code.equals("SUCCESS")) {
 			return;
 		}
 		String orderno = resultMap.get("out_trade_no");
 		WxOrder order = wxOrderMapper.queryOrder(orderno);
-		String amout = AmountUtils.changeF2Y(resultMap.get("total_fee"));
+		String amout = resultMap.get("total_fee");
 		if (!amout.equals(order.getTotalFee())) {
 			resultMap.clear();
 			resultMap.put("return_code", "FAIL");
 			resultMap.put("return_msg", "失敗");
 		}
-		
+		WxOrder  wxorder=new WxOrder();
+		wxorder.setId(order.getId());
+		wxorder.setPayStatus("true");
+		wxOrderMapper.updateByPrimaryKeySelective(wxorder);
 		resultMap.clear();
-		insertCallBack(resultMap);
+//		insertCallBack(resultMap);
+		updateNumberManinche(order.getMachine(),order.getUnit(),order.getNum());
 		resultMap.put("return_code", "SUCCESS");
 		resultMap.put("return_msg", "OK");
 
@@ -168,6 +169,15 @@ public class WXPayServiceImpl implements WXPayService {
 		
 		wxBackResultMapper.insertSelective(wxBackResult);
 		
+	}
+	
+	private void updateNumberManinche(String name,String unit,String num){
+		Machine  machine= machineMapper.queryMachineByName(unit, name);
+		Machine  numMachine=new Machine();
+		numMachine.setLaplces(Long.valueOf(machine.getLaplces())+Long.valueOf(num)+"".trim());
+		numMachine.setRplces(Long.valueOf(machine.getRplces())-Long.valueOf(num)+"".trim());
+		numMachine.setId(machine.getId());
+		machineMapper.updateByPrimaryKeySelective(numMachine);
 	}
 	
 	private static String toketULR(String id) {

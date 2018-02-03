@@ -97,6 +97,7 @@ public class WXController {
 				// 将流转换成字符串
 				String result = new String(outStream.toByteArray(), "UTF-8");
 				logger.info("微信结果通知的报文结构为, WX =>" + result);
+				System.out.println("获取的报文结构为=》"+result);
 				logger.info("微信回调开始=>" + result);
 				resultMap = WXPayUtil.xmlToMap(result);
 			}

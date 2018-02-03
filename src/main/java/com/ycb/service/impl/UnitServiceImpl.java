@@ -20,4 +20,11 @@ public class UnitServiceImpl implements UnitService {
 		return null;
 	}
 
+
+	@Override
+	public List<Unit> selectUnitbyArea(String name) {
+		List<Unit> li2 = unitMapper.selectByAreaName(name);
+		return li2;
+	}
+
 }

@@ -16,6 +16,6 @@ public interface UnitMapper {
     int updateByPrimaryKeySelective(Unit record);
 
     int updateByPrimaryKey(Unit record);
-
-	List<Unit> selectByAreaName(String name);
+    
+    List<Unit> selectByAreaName(String name);
 }

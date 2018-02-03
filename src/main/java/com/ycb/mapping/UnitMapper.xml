@@ -5,9 +5,10 @@
 		<id column="id" jdbcType="INTEGER" property="id" />
 		<result column="area" jdbcType="VARCHAR" property="area" />
 		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="location" jdbcType="VARCHAR" property="location" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, area, name
+		id, area, name, location
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
@@ -21,11 +22,11 @@
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="com.ycb.entity.Unit">
-		insert into unit (id, area, name
-		)
+		insert into unit (id, area, name,
+		location)
 		values (#{id,jdbcType=INTEGER}, #{area,jdbcType=VARCHAR},
-		#{name,jdbcType=VARCHAR}
-		)
+		#{name,jdbcType=VARCHAR},
+		#{location,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="com.ycb.entity.Unit">
 		insert into unit
@@ -39,6 +40,9 @@
 			<if test="name != null">
 				name,
 			</if>
+			<if test="location != null">
+				location,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -49,6 +53,9 @@
 			</if>
 			<if test="name != null">
 				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="location != null">
+				#{location,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -61,17 +68,21 @@
 			<if test="name != null">
 				name = #{name,jdbcType=VARCHAR},
 			</if>
+			<if test="location != null">
+				location = #{location,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.ycb.entity.Unit">
 		update unit
 		set area = #{area,jdbcType=VARCHAR},
-		name = #{name,jdbcType=VARCHAR}
+		name = #{name,jdbcType=VARCHAR},
+		location = #{location,jdbcType=VARCHAR}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 	<select id="selectByAreaName" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
-		SELECT * from unit WHERE area =#{_parameter}
+		SELECT location from unit WHERE area =#{_parameter}
 	</select>
 </mapper>

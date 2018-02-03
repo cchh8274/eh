@@ -214,4 +214,7 @@
 	<select id="queryMachine" parameterType="java.lang.String" resultType="java.lang.Integer">
 		select id from machine where adress =#{unit} and name=#{mach}
 	</select>
+	<select id="queryMachineByName"  parameterType="java.lang.String"  resultMap="BaseResultMap">
+		SELECT laplces,rplces,id from  machine  where adress =#{unit} and name =#{name}
+	</select>
 </mapper>

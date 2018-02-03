@@ -75,10 +75,6 @@ public class AreaServiceImpl implements AreaService {
 	@Override
 	public String selectArea() throws UnsupportedEncodingException {
 		List<Area> list = areaMapper.selectArea();
-		for (Area area : list) {
-			List<Unit> li2 = unitMapper.selectByAreaName(area.getName());
-			area.setList(li2);
-		}
 		return JSON.toJSONString(list);
 	}
 

@@ -38,5 +38,7 @@ public interface MachineMapper {
 
 	int queryMachine(@Param("unit")String unit, @Param("mach")String mach);
 
+	Machine queryMachineByName(@Param("unit")String unit, @Param("name") String name);
+
 	
 }

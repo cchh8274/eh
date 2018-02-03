@@ -8,4 +8,6 @@ public interface UnitService {
 
 	List<Unit> selectUnitList(String name);
 
+	List<Unit> selectUnitbyArea(String name);
+
 }
