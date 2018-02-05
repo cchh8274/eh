@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycb.dao.WxEarningsMapper">
+  <resultMap id="BaseResultMap" type="com.ycb.entity.WxEarnings">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="earingmoney" jdbcType="VARCHAR" property="earingmoney" />
+    <result column="estarttime" jdbcType="TIMESTAMP" property="estarttime" />
+    <result column="earingmonth" jdbcType="VARCHAR" property="earingmonth" />
+    <result column="is_status" jdbcType="VARCHAR" property="isStatus" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, openid, earingmoney, estarttime, earingmonth, is_status, createTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wx_earnings
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wx_earnings
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ycb.entity.WxEarnings">
+    insert into wx_earnings (id, openid, earingmoney, 
+      estarttime, earingmonth, is_status, 
+      createTime)
+    values (#{id,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{earingmoney,jdbcType=VARCHAR}, 
+      #{estarttime,jdbcType=TIMESTAMP}, #{earingmonth,jdbcType=VARCHAR}, #{isStatus,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ycb.entity.WxEarnings">
+    insert into wx_earnings
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="openid != null">
+        openid,
+      </if>
+      <if test="earingmoney != null">
+        earingmoney,
+      </if>
+      <if test="estarttime != null">
+        estarttime,
+      </if>
+      <if test="earingmonth != null">
+        earingmonth,
+      </if>
+      <if test="isStatus != null">
+        is_status,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="earingmoney != null">
+        #{earingmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="estarttime != null">
+        #{estarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="earingmonth != null">
+        #{earingmonth,jdbcType=VARCHAR},
+      </if>
+      <if test="isStatus != null">
+        #{isStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ycb.entity.WxEarnings">
+    update wx_earnings
+    <set>
+      <if test="openid != null">
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="earingmoney != null">
+        earingmoney = #{earingmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="estarttime != null">
+        estarttime = #{estarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="earingmonth != null">
+        earingmonth = #{earingmonth,jdbcType=VARCHAR},
+      </if>
+      <if test="isStatus != null">
+        is_status = #{isStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ycb.entity.WxEarnings">
+    update wx_earnings
+    set openid = #{openid,jdbcType=VARCHAR},
+      earingmoney = #{earingmoney,jdbcType=VARCHAR},
+      estarttime = #{estarttime,jdbcType=TIMESTAMP},
+      earingmonth = #{earingmonth,jdbcType=VARCHAR},
+      is_status = #{isStatus,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

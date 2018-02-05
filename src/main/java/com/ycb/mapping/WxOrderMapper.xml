@@ -177,4 +177,7 @@
 		resultMap="BaseResultMap">
 		select * from wx_order where open_id =#{openID} and pay_status ='true' 
 	</select>
+	<select id="selectCountOrder" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from wx_order where 1=1
+	</select>
 </mapper>

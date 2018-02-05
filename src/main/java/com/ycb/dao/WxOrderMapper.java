@@ -1,6 +1,7 @@
 package com.ycb.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ycb.entity.WxOrder;
 
@@ -22,4 +23,6 @@ public interface WxOrderMapper {
   	String queryCountManchine(String openID);
 
   	List<WxOrder> queryMachinebyOpenid(String openID);
+
+	int selectCountOrder(Map<String, Object> map);
 }

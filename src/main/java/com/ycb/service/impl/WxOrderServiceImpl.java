@@ -65,5 +65,15 @@ public class WxOrderServiceImpl implements WxOrderService {
 			}
 		}
 	}
+
+	@Override
+	public void queryWxOrderAll(Map<String, Object> map) {
+		int total=wxOrderMapper.selectCountOrder(map);
+		if(total<0){
+			return ;
+		}
+		map.put("total", total);
+//		map.put("rows", wxOrderMapper.queryWxOrderAll(map));
+	}
 	
 }	

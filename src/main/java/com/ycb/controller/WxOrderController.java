@@ -25,8 +25,10 @@ public class WxOrderController {
 	
 	@RequestMapping("/queryall")
 	@ResponseBody
-	public Map<String,Object>  queryWxOrderAll(Integer rows,Integer page){
-		
-		return null;
+	public Map<String,Object>  queryWxOrderAll(Integer rows,Integer page,Map<String,Object> map){
+		map.put("pagesize", rows);
+		map.put("page", page);
+		wxOrderService.queryWxOrderAll(map);
+		return map;
 	}
 }

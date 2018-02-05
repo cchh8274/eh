@@ -9,4 +9,6 @@ public interface WxOrderService {
 
 	List<Map<String, Object>> queryMachinebyOpenid(String openID) throws Exception;
 
+	void queryWxOrderAll(Map<String, Object> map);
+
 }
