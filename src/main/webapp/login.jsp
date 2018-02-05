@@ -10,8 +10,8 @@
 <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="icon" href="../../favicon.ico">
-
+<link rel="icon" href="/common/ycb.ico">
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/easyui1.4.5/jquery.min.js"></script>
 <title>易创吧后台管理系统</title>
 
 <!-- Bootstrap core CSS -->
@@ -96,25 +96,51 @@
 	<div class="container" style="margin-top:100px">
 		<form class="form-signin">
 			<h2 class="form-signin-heading">Please sign in</h2>
-			<label for="inputEmail" class="sr-only">user name</label> <input
-				type="text" id="inputEmail" class="form-control"
-				placeholder="user name" required autofocus> <label
-				for="inputPassword" class="sr-only">Password</label> <input
-				type="password" id="inputPassword" class="form-control"
-				placeholder="Password" required>
+			<label for="inputEmail" class="sr-only">user name</label> 
+			<input  type="text" id="inputEmail" class="form-control" placeholder="user name" required autofocus> 
+			<label for="inputPassword" class="sr-only">Password</label> 
+			<input 	type="password" id="inputPassword" class="form-control" placeholder="Password" required>
 			<div class="checkbox">
 				<label> <input type="checkbox" value="remember-me">
 					Remember me
 				</label>
 			</div>
-			<button class="btn btn-lg btn-primary btn-block" type="button">Sign
+			<button class="btn btn-lg btn-primary btn-block" type="button" onclick="login()">Sign
 				in</button>
 		</form>
 
 	</div>
-	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 <script type="text/javascript" charset="utf-8">
+function login(){
+	var loginname=$("#inputEmail").val();
+	var password=$("#inputPassword").val();
+	if(loginname == null || loginname == '' || loginname == undefined){
+		alert("请输入用户名!")
+		return;
+	}
+	if(password == null || password == '' || password == undefined){
+		alert("请输入密码!")
+		return;
+	}
+	var data= "loginname="+loginname+"&password="+password;
+	alert(data)
+	$.ajax({
+		   type: "POST",
+		   url: "<%=request.getContextPath()%>/login/login.do",
+		   data: data,
+		   success: function(msg){
+			   if(msg.code == "true"){
+				   window.location.href="<%=request.getContextPath()%>/main/main.do";
+			   }else{
+				   	alert("用户名或者密码错误!")
+			   }
+		   },
+		   error:function(e){
+			   console.log(e);
+			   alert("系统异常请联系管理员!")
+		   }
+	});
+}
 </script>
 </html>
