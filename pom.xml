@@ -228,7 +228,7 @@
 			<artifactId>wxpay-sdk</artifactId>
 			<version>0.0.3</version>
 		</dependency>
-		  <dependency>  
+		 <dependency>  
             <groupId>org.quartz-scheduler</groupId>  
             <artifactId>quartz</artifactId>  
             <version>2.2.1</version>  
@@ -237,8 +237,8 @@
         <dependency>  
             <groupId>org.springframework</groupId>  
             <artifactId>spring-context-support</artifactId>  
-            <version>${spring.version}</version>  
-        </dependency>  
+            <version>${project.spring.version}</version>  
+        </dependency> 
 	</dependencies>
 <!-- 	<repositories> -->
 <!-- 			<repository> -->

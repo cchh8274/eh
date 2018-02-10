@@ -6,7 +6,10 @@
 		http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd"
+    xmlns:task="http://www.springframework.org/schema/task"   
+    >
 		
 		<!-- 引入属性文件 -->
 	<context:property-placeholder location="classpath:config.properties" />
@@ -14,23 +17,8 @@
 	<!-- 注解扫描包 -->
 	<context:component-scan base-package="com.ycb.service" />
 	<!--定时任务 -->
-	<bean id="jobs" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="tatgetObject">
-			<bean class="com.ycb.job.JobTest" />
-		</property>	
-		<property name="targetMethod	"  value="jobs"/>
-		<property name="concurrent" value="false" />
-	</bean>
-	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">  
-	    <property name="jobDetail" ref="jobs" />  
-	    <property name="startDelay" value="0" /><!-- 调度工厂实例化后，经过0秒开始执行调度 -->  
-	    <property name="repeatInterval" value="2000" /><!-- 每2秒调度一次 -->  
-    </bean> 
-<!--      <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">   -->
-<!-- 		<property name="triggers">   -->
-<!-- 		<list>   -->
-<!-- 		<ref bean="cronTrigger" />   -->
-<!-- 		</list>   -->
-<!-- 		</property>   -->
-<!-- 	</bean>   -->
+      <bean id="firstCron" class="com.ycb.job.JobTest"/>
+     <task:scheduled-tasks>      
+        <task:scheduled ref="firstCron" method="jobs" cron="0/5 * * * * ?"/>
+    </task:scheduled-tasks>
 </beans>
