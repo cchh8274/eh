@@ -180,4 +180,7 @@
 	<select id="selectCountOrder" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select count(1) from wx_order where 1=1
 	</select>
+	<select id="queryUsergroupby"  resultType="java.lang.String">
+		select  t.`open_id`  from `wx_order` t where t.`open_id` 
+	</select>
 </mapper>

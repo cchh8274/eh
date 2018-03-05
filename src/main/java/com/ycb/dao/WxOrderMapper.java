@@ -25,4 +25,6 @@ public interface WxOrderMapper {
   	List<WxOrder> queryMachinebyOpenid(String openID);
 
 	int selectCountOrder(Map<String, Object> map);
+
+	List<String> queryUsergroupby();
 }

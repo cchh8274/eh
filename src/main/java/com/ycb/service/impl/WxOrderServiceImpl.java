@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.ycb.dao.WxOrderMapper;
 import com.ycb.entity.WxOrder;
+import com.ycb.entity.WxUser;
 import com.ycb.service.WxOrderService;
 import com.ycb.util.AmountUtils;
 import com.ycb.util.DateUtils;
@@ -74,6 +75,15 @@ public class WxOrderServiceImpl implements WxOrderService {
 		}
 		map.put("total", total);
 //		map.put("rows", wxOrderMapper.queryWxOrderAll(map));
+	}
+	
+	/**
+	 * 同步微信用户
+	 */
+	@Override
+	public List<String> queryUsergroupby() {
+		List<String> list=wxOrderMapper.queryUsergroupby();
+		return list;
 	}
 	
 }	
