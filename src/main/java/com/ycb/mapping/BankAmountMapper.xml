@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycb.dao.BankAmountMapper">
+	<resultMap id="BaseResultMap" type="com.ycb.entity.BankAmount">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="bankname" jdbcType="VARCHAR" property="bankname" />
+		<result column="bankAmount" jdbcType="VARCHAR" property="bankamount" />
+		<result column="people" jdbcType="VARCHAR" property="people" />
+		<result column="phone" jdbcType="VARCHAR" property="phone" />
+		<result column="idcard" jdbcType="VARCHAR" property="idcard" />
+		<result column="openid" jdbcType="VARCHAR" property="openid" />
+		<result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, bankname, bankAmount, people, phone, idcard, openid, createtime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from bank_amount
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from bank_amount
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.ycb.entity.BankAmount">
+		insert into bank_amount (id, bankname, bankAmount,
+		people, phone, idcard,
+		openid, createtime)
+		values (#{id,jdbcType=INTEGER}, #{bankname,jdbcType=VARCHAR},
+		#{bankamount,jdbcType=VARCHAR},
+		#{people,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR},
+		#{openid,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.ycb.entity.BankAmount">
+		insert into bank_amount
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="bankname != null">
+				bankname,
+			</if>
+			<if test="bankamount != null">
+				bankAmount,
+			</if>
+			<if test="people != null">
+				people,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="idcard != null">
+				idcard,
+			</if>
+			<if test="openid != null">
+				openid,
+			</if>
+			<if test="createtime != null">
+				createtime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="bankname != null">
+				#{bankname,jdbcType=VARCHAR},
+			</if>
+			<if test="bankamount != null">
+				#{bankamount,jdbcType=VARCHAR},
+			</if>
+			<if test="people != null">
+				#{people,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="idcard != null">
+				#{idcard,jdbcType=VARCHAR},
+			</if>
+			<if test="openid != null">
+				#{openid,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.ycb.entity.BankAmount">
+		update bank_amount
+		<set>
+			<if test="bankname != null">
+				bankname = #{bankname,jdbcType=VARCHAR},
+			</if>
+			<if test="bankamount != null">
+				bankAmount = #{bankamount,jdbcType=VARCHAR},
+			</if>
+			<if test="people != null">
+				people = #{people,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="idcard != null">
+				idcard = #{idcard,jdbcType=VARCHAR},
+			</if>
+			<if test="openid != null">
+				openid = #{openid,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				createtime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.ycb.entity.BankAmount">
+		update bank_amount
+		set bankname = #{bankname,jdbcType=VARCHAR},
+		bankAmount = #{bankamount,jdbcType=VARCHAR},
+		people = #{people,jdbcType=VARCHAR},
+		phone = #{phone,jdbcType=VARCHAR},
+		idcard = #{idcard,jdbcType=VARCHAR},
+		openid = #{openid,jdbcType=VARCHAR},
+		createtime = #{createtime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="selectBankAmountByOpenID" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		SELECT * from bank_amount t where t.openid =#{openID}
+	</select>
+</mapper>
