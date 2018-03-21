@@ -42,8 +42,8 @@ public class BankAmountController {
 	
 	@RequestMapping("/searchBankAmount")
 	@ResponseBody
-	public String searchBankAmount(String  openID) {
-		List<BankAmount> list=bankService.searchBankAmount(openID);
+	public String searchBankAmount(String  openid) {
+		List<BankAmount> list=bankService.searchBankAmount(openid);
 		return JSON.toJSONString(list);
 	}
 }

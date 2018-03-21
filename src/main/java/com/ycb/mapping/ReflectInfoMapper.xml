@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycb.dao.ReflectInfoMapper">
+  <resultMap id="BaseResultMap" type="com.ycb.entity.ReflectInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="orderno" jdbcType="VARCHAR" property="orderno" />
+    <result column="card" jdbcType="VARCHAR" property="card" />
+    <result column="bankname" jdbcType="VARCHAR" property="bankname" />
+    <result column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="money" jdbcType="VARCHAR" property="money" />
+    <result column="sydate" jdbcType="VARCHAR" property="sydate" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, orderno, card, bankname, openid, username, money, sydate, createtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from reflect_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from reflect_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ycb.entity.ReflectInfo">
+    insert into reflect_info (id, orderno, card, 
+      bankname, openid, username, 
+      money, sydate, createtime
+      )
+    values (#{id,jdbcType=INTEGER}, #{orderno,jdbcType=VARCHAR}, #{card,jdbcType=VARCHAR}, 
+      #{bankname,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{money,jdbcType=VARCHAR}, #{sydate,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ycb.entity.ReflectInfo">
+    insert into reflect_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderno != null">
+        orderno,
+      </if>
+      <if test="card != null">
+        card,
+      </if>
+      <if test="bankname != null">
+        bankname,
+      </if>
+      <if test="openid != null">
+        openid,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="sydate != null">
+        sydate,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="card != null">
+        #{card,jdbcType=VARCHAR},
+      </if>
+      <if test="bankname != null">
+        #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="sydate != null">
+        #{sydate,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ycb.entity.ReflectInfo">
+    update reflect_info
+    <set>
+      <if test="orderno != null">
+        orderno = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="card != null">
+        card = #{card,jdbcType=VARCHAR},
+      </if>
+      <if test="bankname != null">
+        bankname = #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null">
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="sydate != null">
+        sydate = #{sydate,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ycb.entity.ReflectInfo">
+    update reflect_info
+    set orderno = #{orderno,jdbcType=VARCHAR},
+      card = #{card,jdbcType=VARCHAR},
+      bankname = #{bankname,jdbcType=VARCHAR},
+      openid = #{openid,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      money = #{money,jdbcType=VARCHAR},
+      sydate = #{sydate,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
