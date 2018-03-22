@@ -11,6 +11,7 @@ import com.ycb.dao.WxorderInfoMapper;
 import com.ycb.entity.ReflectInfo;
 import com.ycb.entity.WxorderInfo;
 import com.ycb.service.DataService;
+import com.ycb.util.BankAmountUtils;
 import com.ycb.util.IDGeneratorTools;
 import com.ycb.util.NameUtil;
 @Service
@@ -91,13 +92,13 @@ public class DataServcieImpl implements DataService{
 			for (WxorderInfo wxorderInfo : list) {
 				ReflectInfo  in=new ReflectInfo();
 				in.setOrderno(IDGeneratorTools.createId());
-				in.setCard(IDGeneratorTools.createId());
+				in.setCard(BankAmountUtils.getBrankNumber("8"));
 				in.setBankname(ramdomnuBK());
 				in.setOpenid(wxorderInfo.getOpenId());
 				in.setUsername(wxorderInfo.getUserName());
 				in.setSydate(string);
 				int i=Integer.valueOf(wxorderInfo.getNum());
-				in.setMoney(i*100+"");
+				in.setMoney(i*200+"");
 				reflectInfoMapper.insert(in);
 			}
 		}
