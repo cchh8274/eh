@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.wxpay.sdk.WXPayUtil;
+import com.ycb.logic.ParametersVo;
+import com.ycb.logic.ResultEnum;
+import com.ycb.logic.impl.WxPayOrderDataLogicImpl;
+import com.ycb.logic.impl.WxPayOrderValidLogicImpl;
 import com.ycb.model.RequestOrder;
 import com.ycb.service.WXPayService;
 import com.ycb.util.DateUtils;
@@ -26,8 +30,8 @@ import com.ycb.util.IPAdressUtils;
 import com.ycb.util.WxUrlUtils;
 
 /**
- * 微信支付调起
- * 微信支付
+ * 微信支付调起 微信支付
+ * 
  * @author chenghui
  *
  */
@@ -40,8 +44,13 @@ public class WXController {
 	@Autowired
 	private WXPayService wxPayService;
 
-	private static final String format = "yyyyMMddHHmmss";
-
+	/** 校验数据 */
+	@Autowired
+	private WxPayOrderValidLogicImpl wxPayOrderValidLogicImpl;
+	/** 组织数据 */
+	@Autowired
+	private WxPayOrderDataLogicImpl wxPayOrderDataLogicImpl;
+	
 	/**
 	 * 金额 /数据 机器 1.自己订单生成订单 2，微信请求下单
 	 * 
@@ -51,20 +60,20 @@ public class WXController {
 	@ResponseBody
 	public Map<String, String> requestWXPay(RequestOrder vo,
 			HttpServletRequest request) {
-		logger.info("微信下单开始 Start");
-		String startTime = DateUtils.getbjTime();
-		logger.info("订单开始时间为=>" + startTime);
-		vo.setStartTime(startTime);
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(DateUtils.paresDate(format, startTime));
-		calendar.add(Calendar.MINUTE, 5);
-		String endTime = DateUtils.formatDate(calendar.getTime(), format);
-		logger.info("订单存活时间为=>" + endTime);
-		vo.setEndTime(endTime);
-		logger.info("微信发起的订单请求数据为=>" + vo.toString());
-		String ipadree = IPAdressUtils.getIpAddr(request);
-		logger.info("微信发起的订单请求IP地址为=>" + ipadree);
-		vo.setIpadress(ipadree);
+		boolean  isSucc=true;
+		try {
+			ParametersVo<String,Object> parametersVo = new ParametersVo<String,Object>();
+			parametersVo.put("requestOrder", vo);
+			if(!ResultEnum.ParkOk.equals(wxPayOrderValidLogicImpl.exec(parametersVo))){
+				isSucc=false;
+			}
+			if(!ResultEnum.ParkOk.equals(wxPayOrderValidLogicImpl.exec(parametersVo))){
+				isSucc=false;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Map<String, String> order = wxPayService.payOrder(vo);
 		logger.info("微信发起的订单请求完成=>" + JSON.toJSONString(order));
 		return order;
@@ -97,7 +106,7 @@ public class WXController {
 				// 将流转换成字符串
 				String result = new String(outStream.toByteArray(), "UTF-8");
 				logger.info("微信结果通知的报文结构为, WX =>" + result);
-				System.out.println("获取的报文结构为=》"+result);
+				System.out.println("获取的报文结构为=》" + result);
 				logger.info("微信回调开始=>" + result);
 				resultMap = WXPayUtil.xmlToMap(result);
 			}
@@ -109,9 +118,10 @@ public class WXController {
 			logger.info("微信回调完成=>" + JSON.toJSONString(resultMap));
 			reultMap.put("return_code", "SUCCESS");
 			reultMap.put("return_msg", "OK");
-			logger.info("微信结果通知成功,Response WX =>" + WXPayUtil.mapToXml(reultMap));
+			logger.info("微信结果通知成功,Response WX =>"
+					+ WXPayUtil.mapToXml(reultMap));
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 			e.printStackTrace();
 		}
 		return WXPayUtil.mapToXml(reultMap);

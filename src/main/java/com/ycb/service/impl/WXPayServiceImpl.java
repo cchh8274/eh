@@ -43,12 +43,12 @@ public class WXPayServiceImpl implements WXPayService {
 	public Map<String, String> payOrder(RequestOrder vo) {
 		Map<String, String> call = new HashMap<String, String>();
 		try {
-			String orderNo = IDGeneratorTools.createId();
-			logger.info("生成的订单号为=>" + orderNo);
-			String amount = AmountUtils.changeY2F(vo.getTotalfee());
-			logger.info("生成的订单金额为=>" + amount);
-			vo.setTotalfee(amount);
-			vo.setOrderno(orderNo);
+//			String orderNo = IDGeneratorTools.createId();
+//			logger.info("生成的订单号为=>" + orderNo);
+//			String amount = AmountUtils.changeY2F(vo.getTotalfee());
+//			logger.info("生成的订单金额为=>" + amount);
+//			vo.setTotalfee(amount);
+//			vo.setOrderno(orderNo);
 			PayConfig payInfo = new PayConfig();
 			insertWXorder(vo); // 出入业务系统表
 			String dataxml = createWxData(vo, payInfo.getKey());

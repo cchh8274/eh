@@ -1,7 +1,7 @@
 package com.ycb.model;
 
 public class RequestOrder {
-	
+	private String  openid;  //openid
 	private String  area; //区域
 	private String  unit;// 大学
 	private String  mach;//机器
@@ -9,7 +9,6 @@ public class RequestOrder {
 	private String  totalfee; //金额
 	private String  startTime; //开始时间
 	private String  endTime; //结束时间
-	private String  openid;  //openid
 	private String  orderno; //订单号
 	private String  ipadress; //ipadress
 	private String  url;
