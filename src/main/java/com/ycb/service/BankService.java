@@ -2,12 +2,12 @@ package com.ycb.service;
 
 import java.util.List;
 
-import com.ycb.entity.BankAmount;
+import cn.kanmars.ecm.entity.TblBankamountInfo;
 
 public interface BankService {
 
-	void addBankAmount(BankAmount bankAmount);
+	int addBankAmount(TblBankamountInfo bankAmount);
 
-	List<BankAmount> searchBankAmount(String openID);
+	List<TblBankamountInfo> searchBankAmount(String openID);
 
 }

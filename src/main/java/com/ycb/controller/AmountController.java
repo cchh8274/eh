@@ -8,11 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
-import com.ycb.entity.Amount;
-import com.ycb.entity.Machine;
-import com.ycb.entity.TotalAmount;
 import com.ycb.service.AmountService;
 import com.ycb.util.DataGridJson;
 import com.ycb.util.PageUtil;
@@ -26,7 +22,7 @@ import com.ycb.util.PageUtil;
 @Controller
 @RequestMapping("/amount")
 public class AmountController {
-
+	
 	@Autowired
 	private AmountService amountService;
 
