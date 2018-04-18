@@ -10,6 +10,7 @@ import com.ycb.service.MachineService;
 import com.ycb.util.DataGridJson;
 import com.ycb.util.PageUtil;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by zhm on 2018/1/3.
+ * 主要功能 
+ * 1.查询该区域下所有的咖啡机
+ * update by chenghui 
  */
 @Controller
 @RequestMapping("/machine")
@@ -34,12 +38,15 @@ public class MachineController extends BaseController{
 	@ResponseBody
 	public String queryMachine(String code) {
 		try {
-			LOGGER.info("MachineController.queryMachine--查询的到的区域列表时间为"+ DateUtils.getCurrDate());
-			String infos = machineService.queryMachine();
-			LOGGER.info("MachineController.queryMachine--查询的到的区域列表为" + infos);
+			if(StringUtils.isEmpty(code)){
+				return this.toJSONString("区域编码不能为空");
+			}
+			LOGGER.info("MachineController.queryMachine--查询的到的机器列表时间为"+ DateUtils.getCurrDate());
+			String infos = machineService.queryMachine(code);
+			LOGGER.info("MachineController.queryMachine--查询的到的机器列表为" + infos);
 			return this.toJSONString(infos);
 		} catch (Exception e) {
-			LOGGER.info("AreaController.queryArea--查询的到的区域列表出现异常");
+			LOGGER.info("MachineController.queryMachine--查询的到的机器列表出现异常");
 			LOGGER.error(e.getMessage(), e);
 			return this.toJSONString("系统异常!");
 		}

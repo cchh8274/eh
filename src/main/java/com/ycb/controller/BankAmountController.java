@@ -20,14 +20,19 @@ import com.ycb.exception.BaseException;
 import com.ycb.service.BankService;
 
 /**
- * 银行账户
- * 
+ * 银行账户接口
+ * 1. 用户绑定银行卡接口
+ * 	  校验银行卡是否存在
+ *   校验基础非空验证信息
+ *   保存数据库
+ * 2. 用户查询银行卡接口
+ * 	  通过open_id 查询该用户的所绑定的银行卡
  * @author chenghui
  *
  */
 @RequestMapping("/bankAmount")
 @Controller
-public class BankAmountController {
+public class BankAmountController extends BaseController{
 	
 	private static Log logger=LogFactory.getLog(BankAmountController.class);
 	

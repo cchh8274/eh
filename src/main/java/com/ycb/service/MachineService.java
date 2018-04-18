@@ -12,23 +12,13 @@ import com.ycb.util.ReturnJson;
  * Created by zhm on 2018/1/3.
  */
 public interface MachineService {
-    ReturnJson addMachine(Machine machine);
-
-    Machine findMachine(int id);
-
-    ReturnJson deleteMachine(int id);
-
-    ReturnJson updateMachine(Machine machine);
-
-    PageUtil<Machine> findMachineList(PageUtil<Machine> pageUtil);
-
-    ReturnJson deleteMachineArr(String ids);
 
 	Integer queryMachineCount(Integer i);
 
 	Integer queryMachineCountMonth(Integer i);
 
-	List<Unit> selectUnit();
 
 	List<Machine> queryUnitMat(String name);
+
+	String queryMachine(String code);
 }

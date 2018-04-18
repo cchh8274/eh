@@ -1,12 +1,11 @@
 package com.ycb.service.impl;
 
-import com.ycb.dao.MachineMapper;
-import com.ycb.entity.Amount;
-import com.ycb.entity.Machine;
-import com.ycb.entity.Unit;
+import cn.kanmars.ecm.dao.TblMachineInfoMapper;
+import cn.kanmars.ecm.entity.TblMachineInfo;
+
+import com.alibaba.fastjson.JSON;
 import com.ycb.service.MachineService;
 import com.ycb.util.PageUtil;
-import com.ycb.util.ReturnJson;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,98 +22,9 @@ public class MachineServiceImp implements MachineService{
 
 
     @Autowired
-    private MachineMapper machineMapper;
+    private TblMachineInfoMapper tblMachineInfoMapper;
 
-    @Override
-    public ReturnJson addMachine(Machine machine) {
 
-        ReturnJson rj = new ReturnJson();
-
-        if(machine == null){
-
-        }
-        int i =  machineMapper.insert(machine);
-        if (i>0){
-            rj.setMsg("添加机器成功!");
-            rj.setSuccess(true);
-        }else{
-            rj.setSuccess(false);
-            rj.setMsg("添加机器成功，请联系管理员!");
-        }
-        return rj;
-    }
-
-    @Override
-    public Machine findMachine(int id) {
-        if("".equals(id)){
-
-        }
-        Machine machine = machineMapper.selectByPrimaryKey(id);
-
-        return machine;
-    }
-
-    @Override
-    public ReturnJson deleteMachine(int id) {
-
-        ReturnJson rj = new ReturnJson();
-
-        int i = machineMapper.deleteByPrimaryKey(id);
-
-        if (i>0){
-            rj.setMsg("修改成功");
-            rj.setSuccess(true);
-        }else{
-            rj.setSuccess(false);
-            rj.setMsg("修改失败");
-        }
-        return rj;
-    }
-
-    @Override
-    public ReturnJson updateMachine(Machine machine) {
-
-        ReturnJson rj = new ReturnJson();
-
-        int i = machineMapper.updateByPrimaryKey(machine);
-
-        if (i>0){
-            rj.setMsg("修改成功");
-            rj.setSuccess(true);
-        }else{
-            rj.setSuccess(false);
-            rj.setMsg("修改失败");
-        }
-        return rj;
-    }
-
-    @Override
-    public PageUtil<Machine> findMachineList(PageUtil<Machine> pageUtil) {
-        List<Machine> list =  machineMapper.selectMachineList(pageUtil);
-        Integer totalCount=machineMapper.selectCount(pageUtil);
-        pageUtil.setTotalCount(totalCount);
-        pageUtil.setList(list);
-        return pageUtil;
-    }
-
-    @Override
-    public ReturnJson deleteMachineArr(String ids) {
-        ReturnJson rj = new ReturnJson();
-        String[] split = ids.split(",");
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i <split.length ; i++) {
-            list.add(Integer.valueOf(split[i]));
-        }
-        int j = machineMapper.deleteMachineArr(list);
-        if (j>0){
-            rj.setMsg("删除成功");
-            rj.setSuccess(true);
-        }else{
-            rj.setSuccess(false);
-            rj.setMsg("删除失败");
-        }
-        return rj;
-    }
 
 	@Override
 	public Integer queryMachineCount(Integer i) {
@@ -136,5 +46,12 @@ public class MachineServiceImp implements MachineService{
 	@Override
 	public List<Machine> queryUnitMat(String name) {
 		return machineMapper.queryUnitMat(name);
+	}
+
+	@Override
+	public String queryMachine(String code) {
+		TblMachineInfo  info=new TblMachineInfo();
+		info.setAdress(code);
+		return JSON.toJSONString(tblMachineInfoMapper.selectList(info));
 	}
 }
