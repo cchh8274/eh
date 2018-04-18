@@ -13,14 +13,15 @@ import cn.com.xbase.frame.util.DateUtils;
 import com.ycb.service.AreaService;
 
 /**
- * 查询区域接口
- * 1.查询首页要展示的区域
+ * 查询区域接口 1.查询首页要展示的区域
+ * 
  * @author chenghui
  *
  */
 @Controller
 @RequestMapping("/area")
-public class AreaController {
+public class AreaController extends BaseController {
+
 	@Autowired
 	private AreaService areaService;
 
@@ -34,16 +35,15 @@ public class AreaController {
 	@RequestMapping(value = "selectArea", method = RequestMethod.POST)
 	@ResponseBody
 	public String selectArea() {
-		
 		try {
-			LOGGER.info("AreaController.queryArea--查询的到的区域列表时间为"+DateUtils.getCurrDate());
+			LOGGER.info("AreaController.queryArea--查询的到的区域列表时间为"+ DateUtils.getCurrDate());
 			String infos = areaService.selectArea();
 			LOGGER.info("AreaController.queryArea--查询的到的区域列表为" + infos);
-			return infos;
+			return this.toJSONString(infos);
 		} catch (Exception e) {
 			LOGGER.info("AreaController.queryArea--查询的到的区域列表出现异常");
-			LOGGER.error(e.getMessage(),e);
-			return "";
+			LOGGER.error(e.getMessage(), e);
+			return this.toJSONString("系统异常!");
 		}
 	}
 

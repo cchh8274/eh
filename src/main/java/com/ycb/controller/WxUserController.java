@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.github.wxpay.sdk.WXPayUtil;
 import com.ycb.service.WxOrderService;
 import com.ycb.service.WxUserService;
 import com.ycb.util.HttpUtils;
@@ -26,8 +25,7 @@ import com.ycb.util.WxUrlUtils;
 @RequestMapping("/wx")
 public class WxUserController {
 
-	private static final Logger logger = Logger
-			.getLogger(WxUserController.class);
+	private static final Logger logger = Logger.getLogger(WxUserController.class);
 
 	@Autowired
 	private WxUserService wxUserService;
