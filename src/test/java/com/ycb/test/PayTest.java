@@ -7,7 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.wxpay.sdk.WXPay;
 import com.github.wxpay.sdk.WXPayConstants;
 import com.github.wxpay.sdk.WXPayUtil;
-import com.ycb.model.PayConfig;
+import com.ycb.bean.PayConfig;
 import com.ycb.util.Constants;
 import com.ycb.util.HttpUtils;
 

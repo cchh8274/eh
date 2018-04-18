@@ -6,11 +6,11 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 import com.github.wxpay.sdk.WXPayUtil;
+import com.ycb.bean.PayConfig;
+import com.ycb.bean.RequestOrder;
 import com.ycb.logic.ILogic;
 import com.ycb.logic.ParametersVo;
 import com.ycb.logic.ResultEnum;
-import com.ycb.model.PayConfig;
-import com.ycb.model.RequestOrder;
 import com.ycb.util.Constants;
 import com.ycb.util.HttpUtils;
 
@@ -23,8 +23,7 @@ import com.ycb.util.HttpUtils;
  *
  */
 @Component
-public class WxPayOrderRequestLogicImpl implements
-		ILogic<ParametersVo<String, Object>> {
+public class WxPayOrderRequestLogicImpl implements	ILogic<ParametersVo<String, Object>> {
 
 	@Override
 	public ResultEnum exec(ParametersVo<String, Object> param) throws Exception {

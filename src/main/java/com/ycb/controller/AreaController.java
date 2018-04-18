@@ -13,7 +13,8 @@ import cn.com.xbase.frame.util.DateUtils;
 import com.ycb.service.AreaService;
 
 /**
- * 
+ * 查询区域接口
+ * 1.查询首页要展示的区域
  * @author chenghui
  *
  */
@@ -33,6 +34,7 @@ public class AreaController {
 	@RequestMapping(value = "selectArea", method = RequestMethod.POST)
 	@ResponseBody
 	public String selectArea() {
+		
 		try {
 			LOGGER.info("AreaController.queryArea--查询的到的区域列表时间为"+DateUtils.getCurrDate());
 			String infos = areaService.selectArea();
@@ -41,7 +43,7 @@ public class AreaController {
 		} catch (Exception e) {
 			LOGGER.info("AreaController.queryArea--查询的到的区域列表出现异常");
 			LOGGER.error(e.getMessage(),e);
-			return null;
+			return "";
 		}
 	}
 

@@ -5,10 +5,10 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import com.ycb.bean.RequestOrder;
 import com.ycb.logic.ILogic;
 import com.ycb.logic.ParametersVo;
 import com.ycb.logic.ResultEnum;
-import com.ycb.model.RequestOrder;
 
 /**
  * 校验前台传输的数据正确性 判断金额 判断份数 判断订单信息 请求微信之前的校验

@@ -6,7 +6,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSON;
 import com.github.wxpay.sdk.WXPay;
 import com.github.wxpay.sdk.WXPayConstants;
-import com.ycb.model.PayConfig;
+import com.ycb.bean.PayConfig;
 
 public class PatTest {
 	public static void main(String[] args) {

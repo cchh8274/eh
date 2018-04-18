@@ -1,4 +1,4 @@
-package com.ycb.model;
+package com.ycb.bean;
 
 import java.util.List;
 /**

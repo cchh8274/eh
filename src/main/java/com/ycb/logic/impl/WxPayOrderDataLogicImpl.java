@@ -6,10 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Component;
 
+import com.ycb.bean.RequestOrder;
 import com.ycb.logic.ILogic;
 import com.ycb.logic.ParametersVo;
 import com.ycb.logic.ResultEnum;
-import com.ycb.model.RequestOrder;
 import com.ycb.util.AmountUtils;
 import com.ycb.util.DateUtils;
 import com.ycb.util.IDGeneratorTools;

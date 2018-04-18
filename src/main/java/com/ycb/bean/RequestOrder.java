@@ -1,4 +1,4 @@
-package com.ycb.model;
+package com.ycb.bean;
 
 public class RequestOrder {
 	private String  openid;  //openid
