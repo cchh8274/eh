@@ -44,7 +44,7 @@ public class AreaController extends BaseController {
 		} catch (Exception e) {
 			LOGGER.info("AreaController.queryArea--查询的到的区域列表出现异常");
 			LOGGER.error(e.getMessage(), e);
-			return this.toJSONString("系统异常!");
+			return this.toJSONString("error","系统异常!");
 		}
 	}
 

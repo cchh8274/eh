@@ -1,7 +1,6 @@
 package com.ycb.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,30 +19,23 @@ import com.ycb.exception.BaseException;
 import com.ycb.service.BankService;
 
 /**
- * 银行账户接口
- * 1. 用户绑定银行卡接口
- * 	  校验银行卡是否存在
- *   校验基础非空验证信息
- *   保存数据库
- * 2. 用户查询银行卡接口
- * 	  通过open_id 查询该用户的所绑定的银行卡
+ * 银行账户接口 1. 用户绑定银行卡接口 校验银行卡是否存在 校验基础非空验证信息 保存数据库 2. 用户查询银行卡接口 通过open_id
+ * 查询该用户的所绑定的银行卡
+ * 
  * @author chenghui
  *
  */
 @RequestMapping("/bankAmount")
 @Controller
-public class BankAmountController extends BaseController{
-	
-	private static Log logger=LogFactory.getLog(BankAmountController.class);
-	
+public class BankAmountController extends BaseController {
+
+	private static Log logger = LogFactory.getLog(BankAmountController.class);
+
 	@Autowired
 	private BankService bankService;
-	
-	
+
 	/**
-	 * 1.校验数据
-	 * 2.查询是否绑定过
-	 * 3.查询银行卡，名称 。姓名是否唯一
+	 * 1.校验数据 2.查询是否绑定过 3.查询银行卡，名称 。姓名是否唯一
 	 * 
 	 * @param bankAmount
 	 * @return
@@ -57,29 +49,31 @@ public class BankAmountController extends BaseController{
 		map.put("logKey", _log_key);
 		try {
 			map.put("bankAmount", bankAmount);
-			if(validAmount(map)){
-				int i = bankService.addBankAmount(bankAmount);
-				if(i !=1){
-					throw new BaseException("保存数据库失败,重新发起请求");
-				}
-				return this.toJSONString("保存银行卡成功!");
+			if (!validAmount(map)) {
+				return this.toJSONString("error", (String) map.get("message"));
 			}
+			int i = bankService.addBankAmount(bankAmount);
+			if (i != 1) {
+				throw new BaseException("绑定银行卡失败,重新发起请求");
+			}
+			return this.toJSONString("保存银行卡成功!");
 		} catch (Exception e) {
-			logger.info("BankAmountController,添加银行卡异常"+e.getMessage());
-			logger.error("BankAmountController,添加银行卡异常"+e.getMessage(),e);
-			return this.toJSONString("系统异常!");
+			logger.info("BankAmountController,添加银行卡异常" + e.getMessage());
+			logger.error("BankAmountController,添加银行卡异常" + e.getMessage(), e);
+			return this.toJSONString("error","系统异常!");
 		}
 	}
 
 	private boolean validAmount(Map<String, Object> map) {
-		TblBankamountInfo bankAmount=(TblBankamountInfo) map.get("bankAmount");
-		String log_key=(String) map.get("logkey");
-		if(bankAmount == null){
-			logger.info("BankAmountController,接受到的数据为空,logkey:"+log_key);
+		TblBankamountInfo bankAmount = (TblBankamountInfo) map
+				.get("bankAmount");
+		String log_key = (String) map.get("logkey");
+		if (bankAmount == null) {
+			logger.info("BankAmountController,接受到的数据为空,logkey:" + log_key);
 			map.put("message", "传输数据不能为空");
 			return false;
 		}
-		logger.info("BankAmountController,校验数据开始,logkey:"+log_key);
+		logger.info("BankAmountController,校验数据开始,logkey:" + log_key);
 		if (StringUtils.isEmpty(bankAmount.getOpenid())) {
 			map.put("message", "openid不能为空");
 			return false;
@@ -104,12 +98,14 @@ public class BankAmountController extends BaseController{
 			map.put("message", "姓名不能为空");
 			return false;
 		}
-		logger.info("BankAmountController,校验数据通过,logkey:"+log_key+",openid:"+bankAmount.getOpenid());
+		logger.info("BankAmountController,校验数据通过,logkey:" + log_key
+				+ ",openid:" + bankAmount.getOpenid());
 		return true;
 	}
-	
+
 	/**
 	 * 查询我的银行卡
+	 * 
 	 * @param openid
 	 * @return
 	 */
@@ -118,15 +114,20 @@ public class BankAmountController extends BaseController{
 	public String queryBankAmount(String openid) {
 		try {
 			logger.info("BankAmountController.queryBankAmount查询个人银行账号开始");
-			if(StringUtils.isEmpty(openid)){
+			if (StringUtils.isEmpty(openid)) {
 				logger.info("BankAmountController.queryBankAmount查询个人银行账号开始,当前OpenID为空");
-				return this.toJSONString("openid不能为空!");
+				return this.toJSONString("error","openid不能为空!");
 			}
-			logger.info("BankAmountController.queryBankAmount查询个人银行账号开始,当前OpenID为:"+openid);
-			List<BankAmount> list = bankService.queryBankAmount(openid);
+			logger.info("BankAmountController.queryBankAmount查询个人银行账号开始,当前OpenID为:"
+					+ openid);
+			String list = bankService.queryBankAmount(openid);
+			logger.info("BankAmountController.queryBankAmount查询个人银行账号完成,当前OpenID为:"
+					+ openid);
 			return JSON.toJSONString(list);
 		} catch (Exception e) {
-			// TODO: handle exception
+			logger.error("BankAmountController.queryBankAmount查询个人银行账号异常,"+e.getMessage(),e);
+			return this.toJSONString("error","系统异常!");
 		}
+		
 	}
 }

@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import cn.kanmars.ecm.dao.TblAreaInfoMapper;
+import cn.kanmars.ecm.dao.TblUniversityInfoMapper;
 import cn.kanmars.ecm.entity.TblAreaInfo;
+import cn.kanmars.ecm.entity.TblUniversityInfo;
 
 import com.alibaba.fastjson.JSON;
 import com.ycb.service.AreaService;
@@ -19,6 +21,8 @@ import com.ycb.service.AreaService;
 public class AreaServiceImpl implements AreaService {
 	@Autowired
 	private TblAreaInfoMapper tblAreaInfoMapper;
+	@Autowired
+	private TblUniversityInfoMapper tblUniversityInfoMapper;
 
 	@Override
 	public String selectArea() throws Exception {
@@ -31,12 +35,13 @@ public class AreaServiceImpl implements AreaService {
 			HashMap<String,String> info=new HashMap<String,String>();
 			info.put("name", tblAreaInfo.getAreaName());
 			info.put("code", tblAreaInfo.getId().toString());
-			List<>
-			info.put("unversity", )
+			TblUniversityInfo  unversity=new TblUniversityInfo();
+			unversity.setAreaId(tblAreaInfo.getId().toString());
+			List<TblUniversityInfo>  unversitys=tblUniversityInfoMapper.selectList(unversity);
+			info.put("unversity", JSON.toJSONString(unversitys));
 			infos.add(info);
 		}
-		String area=JSON.toJSONString(infos);
-		return StringUtils.isEmpty(area)?"":area;
+		return JSON.toJSONString(infos);
 	}
 
 }
