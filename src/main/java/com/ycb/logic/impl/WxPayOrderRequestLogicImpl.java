@@ -73,24 +73,26 @@ public class WxPayOrderRequestLogicImpl implements	ILogic<ParametersVo<String, O
 		request.put("openid", vo.getOpenid());// 用户标识
 	}
 	
-	private  HashMap  copyWxOrderinfo(){
+	private  HashMap  copyWxOrderinfo(RequestOrder requestOrder){
 		HashMap<String,String>  wxorder=new HashMap<String, String>();
 		wxorder.put("id", IDGeneratorTools.createId());
-		wxorder.put("id", IDGeneratorTools.createId());
-		wxorder.put("id", IDGeneratorTools.createId());
-		wxorder.put("id", IDGeneratorTools.createId());
-		wxorder.put("id", IDGeneratorTools.createId());
-		wxorder.put("id", IDGeneratorTools.createId());
-		wxorder.put("id", IDGeneratorTools.createId());
-		wxorder.put("id", IDGeneratorTools.createId());
-		wxorder.put("id", IDGeneratorTools.createId());
-		wxorder.put("id", IDGeneratorTools.createId());
-		wxorder.put("id", IDGeneratorTools.createId());
-		wxorder.put("id", IDGeneratorTools.createId());
-		wxorder.put("id", IDGeneratorTools.createId());
-		wxorder.put("id", IDGeneratorTools.createId());
-		wxorder.put("id", IDGeneratorTools.createId());
-		wxorder.put("id", IDGeneratorTools.createId());
-		return null;
-	}
+		wxorder.put("order_no", requestOrder.getOrderno());
+		wxorder.put("body", Constants.WX_BODY);
+		wxorder.put("detail", Constants.WX_DETAIL);
+		wxorder.put("number", requestOrder.getNum());
+		wxorder.put("price", Constants.GOOD_PRICE); 
+		wxorder.put("total_fee", requestOrder.getTotalfee());
+		wxorder.put("spbill_create_ip", requestOrder.getIpadress());
+		wxorder.put("pay_start_time", requestOrder.getStartTime());
+		wxorder.put("pay_end_time", requestOrder.getEndTime());
+		wxorder.put("goods_tag", "");
+		wxorder.put("openid", requestOrder.getOpenid());
+		wxorder.put("pay_time", ""); 
+		wxorder.put("pay_status", Constants.PAY_STATUS_INIT); //待支付状态
+		wxorder.put("maniche_id", requestOrder.getAreacode());
+		wxorder.put("maniche_id", requestOrder.getMachine());
+		wxorder.put("university_id", requestOrder.getUnitcode());
+		wxorder.put("create_time", DateUtils.getCurrDateTime());
+		wxorder.put("create_user", "易创吧科技");
+		return wxorder;
 }
