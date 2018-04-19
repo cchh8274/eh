@@ -8,12 +8,17 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import oracle.net.aso.p;
+
+import org.apache.commons.math.analysis.interpolation.LoessInterpolator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import cn.com.xbase.frame.util.DateUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -22,10 +27,9 @@ import com.ycb.bean.RequestOrder;
 import com.ycb.logic.ParametersVo;
 import com.ycb.logic.ResultEnum;
 import com.ycb.logic.impl.WxPayOrderDataLogicImpl;
+import com.ycb.logic.impl.WxPayOrderRequestLogicImpl;
 import com.ycb.logic.impl.WxPayOrderValidLogicImpl;
 import com.ycb.service.WXPayService;
-import com.ycb.util.DateUtils;
-import com.ycb.util.HttpUtils;
 import com.ycb.util.IPAdressUtils;
 import com.ycb.util.WxUrlUtils;
 
@@ -37,7 +41,7 @@ import com.ycb.util.WxUrlUtils;
  */
 @Controller
 @RequestMapping("/ycb/wxpay")
-public class WXController {
+public class WXController extends BaseController{
 
 	private static final Logger logger = Logger.getLogger(WXController.class);
 
@@ -50,7 +54,9 @@ public class WXController {
 	/** 组织数据 */
 	@Autowired
 	private WxPayOrderDataLogicImpl wxPayOrderDataLogicImpl;
-	
+	/** 调用sdk下单 */
+	@Autowired
+	private WxPayOrderRequestLogicImpl wxPayOrderRequestLogicImpl;
 	/**
 	 * 金额 /数据 机器 1.自己订单生成订单 2，微信请求下单
 	 * 
@@ -58,25 +64,35 @@ public class WXController {
 	 */
 	@RequestMapping(value = "requestOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> requestWXPay(RequestOrder vo,
-			HttpServletRequest request) {
-		boolean  isSucc=true;
+	public String requestWXPay(RequestOrder vo,HttpServletRequest request) {
+		String logkey=DateUtils.getCurrDate();
+		logger.info("WXController.requestWXPay--微信支付下单请求开始,logkey:"+logkey);
 		try {
 			ParametersVo<String,Object> parametersVo = new ParametersVo<String,Object>();
 			parametersVo.put("requestOrder", vo);
+			logkey=vo.getOpenid()+"_"+logkey;
+			parametersVo.put("logkey", logkey);
 			if(!ResultEnum.ParkOk.equals(wxPayOrderValidLogicImpl.exec(parametersVo))){
-				isSucc=false;
+				logger.info("WXController.wxPayOrderValidLogicImpl.exec--,校验不通过,resron:"+parametersVo.getResDesc()+",logkey:"+logkey);
+				parametersVo.setResCode("002");
+				return this.toJSONString(parametersVo.toResultString(null));
 			}
-			if(!ResultEnum.ParkOk.equals(wxPayOrderValidLogicImpl.exec(parametersVo))){
-				isSucc=false;
+			parametersVo.put("request", request);
+			if(!ResultEnum.ParkOk.equals(wxPayOrderDataLogicImpl.exec(parametersVo))){
+				parametersVo.setResCode("002");
+				return this.toJSONString(parametersVo.toResultString(null));
 			}
+			if(!ResultEnum.ParkOk.equals(wxPayOrderRequestLogicImpl.exec(parametersVo))){
+				parametersVo.setResCode("002");
+				return this.toJSONString(parametersVo.toResultString(null));
+			}
+			logger.info("WXController.requestWXPay--微信支付下单请求完成,logkey:"+logkey);
+			return this.toJSONString(parametersVo.toResultString(null));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.info("WXController.requestWXPay--微信支付下单请求异常,logkey:"+logkey);
+			logger.error("WXController.requestWXPay--微信支付下单请求异常,logkey:"+logkey+","+e.getMessage(),e);
+			return this.toJSONString("error","系统异常!");
 		}
-		Map<String, String> order = wxPayService.payOrder(vo);
-		logger.info("微信发起的订单请求完成=>" + JSON.toJSONString(order));
-		return order;
 	}
 
 	/**

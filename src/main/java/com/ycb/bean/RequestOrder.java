@@ -1,53 +1,44 @@
 package com.ycb.bean;
-
+/**
+ * 请求微信下单的bean
+ * @author chenghui
+ *
+ */
 public class RequestOrder {
 	private String  openid;  //openid
-	private String  area; //区域
-	private String  unit;// 大学
-	private String  mach;//机器
+	private String  areacode; //区域编码
+	private String  unitcode;// 大学编码
+	private String  machine;//机器编码
 	private String  num; //单位 份数
 	private String  totalfee; //金额
 	private String  startTime; //开始时间
 	private String  endTime; //结束时间
 	private String  orderno; //订单号
-	private String  ipadress; //ipadress
-	private String  url;
-	
-	public String getUrl() {
-		return url;
+	private String  ipadress; //ipadress下单的ip地址
+	private String  notifyurl; //回调地址
+	public String getOpenid() {
+		return openid;
 	}
-	public void setUrl(String url) {
-		this.url = url;
+	public void setOpenid(String openid) {
+		this.openid = openid;
 	}
-	public String getIpadress() {
-		return ipadress;
+	public String getAreacode() {
+		return areacode;
 	}
-	public void setIpadress(String ipadress) {
-		this.ipadress = ipadress;
+	public void setAreacode(String areacode) {
+		this.areacode = areacode;
 	}
-	public String getOrderno() {
-		return orderno;
+	public String getUnitcode() {
+		return unitcode;
 	}
-	public void setOrderno(String orderno) {
-		this.orderno = orderno;
+	public void setUnitcode(String unitcode) {
+		this.unitcode = unitcode;
 	}
-	public String getArea() {
-		return area;
+	public String getMachine() {
+		return machine;
 	}
-	public void setArea(String area) {
-		this.area = area;
-	}
-	public String getUnit() {
-		return unit;
-	}
-	public void setUnit(String unit) {
-		this.unit = unit;
-	}
-	public String getMach() {
-		return mach;
-	}
-	public void setMach(String mach) {
-		this.mach = mach;
+	public void setMachine(String machine) {
+		this.machine = machine;
 	}
 	public String getNum() {
 		return num;
@@ -73,19 +64,25 @@ public class RequestOrder {
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	public String getOpenid() {
-		return openid;
+	public String getOrderno() {
+		return orderno;
 	}
-	public void setOpenid(String openid) {
-		this.openid = openid;
+	public void setOrderno(String orderno) {
+		this.orderno = orderno;
+	}
+	public String getIpadress() {
+		return ipadress;
+	}
+	public void setIpadress(String ipadress) {
+		this.ipadress = ipadress;
 	}
 	@Override
 	public String toString() {
-		return "RequestOrder [area=" + area + ", unit=" + unit + ", mach="
-				+ mach + ", num=" + num + ", totalfee=" + totalfee
-				+ ", startTime=" + startTime + ", endTime=" + endTime
-				+ ", openid=" + openid + ", orderno=" + orderno + ", ipadress="
-				+ ipadress + "]";
+		return "RequestOrder [openid=" + openid + ", areacode=" + areacode
+				+ ", unitcode=" + unitcode + ", machine=" + machine + ", num="
+				+ num + ", totalfee=" + totalfee + ", startTime=" + startTime
+				+ ", endTime=" + endTime + ", orderno=" + orderno
+				+ ", ipadress=" + ipadress + ", notifyurl=" + notifyurl + "]";
 	}
 	
 		

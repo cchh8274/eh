@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ycb.dao.BankAmountMapper;
 import com.ycb.entity.BankAmount;
 import com.ycb.service.BankService;
+import com.ycb.service.TblBankamountInfo;
 @Service
 public class BankServceiImpl implements BankService {
 	
@@ -23,9 +24,21 @@ public class BankServceiImpl implements BankService {
 	}
 
 
+	/**
+	 * 保存银行卡信息
+	 */
 	@Override
-	public List<BankAmount> searchBankAmount(String openID) {
-		return bankAmountMapper.selectBankAmountByOpenID(openID);
+	public int addBankAmount(TblBankamountInfo bankAmount) {
+		this.se
+		return 0;
 	}
 
+	/**
+	 * 查询银行卡信息列表
+	 */
+	@Override
+	public List<TblBankamountInfo> queryBankAmount(String openid) {
+		return null;
+	}
+	
 }

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * Created by zhm on 2018/1/3.
  * 主要功能 
- * 1.查询该区域下所有的咖啡机
+ * 1.查询该大学下所有的咖啡机
  * update by chenghui 
  */
 @Controller
@@ -39,7 +39,7 @@ public class MachineController extends BaseController{
 	public String queryMachine(String code) {
 		try {
 			if(StringUtils.isEmpty(code)){
-				return this.toJSONString("区域编码不能为空");
+				return this.toJSONString("大学编码不能为空");
 			}
 			LOGGER.info("MachineController.queryMachine--查询的到的机器列表时间为"+ DateUtils.getCurrDate());
 			String infos = machineService.queryMachine(code);

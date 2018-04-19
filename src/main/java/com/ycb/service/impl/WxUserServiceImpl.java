@@ -1,10 +1,14 @@
 package com.ycb.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
+
+import cn.com.xbase.frame.util.HttpUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ycb.service.WxUserService;
-import com.ycb.util.HttpUtils;
 @Service
 public class WxUserServiceImpl implements WxUserService {
 	
@@ -30,5 +34,21 @@ public class WxUserServiceImpl implements WxUserService {
 			String response=HttpUtils.submitGet(url);
 		JSONObject  token=JSONObject.parseObject(response);
 		return (String) token.get("access_token");
+	}
+
+
+
+
+	@Override
+	public void insetListWxUser(List<HashMap<String, Object>> userInfos) {
+		
+	}
+
+
+
+
+	@Override
+	public String queryNextOpenid() {
+		return null;
 	}
 }

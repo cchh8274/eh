@@ -17,8 +17,19 @@
 	<!-- 注解扫描包 -->
 	<context:component-scan base-package="com.ycb.service" />
 	<!--定时任务 -->
-      <bean id="firstCron" class="com.ycb.job.JobTest"/>
+     <bean id="firstCron" class="com.ycb.job.JobTest"/>
      <task:scheduled-tasks>      
         <task:scheduled ref="firstCron" method="jobs" cron="0/5 * * * * ?"/>
     </task:scheduled-tasks>
+	<!--   同步微信用户信息job -->
+      <bean id="syncWxUserCron" class="com.ycb.job.SyncWxUserJob"/>
+     <task:scheduled-tasks>      
+        <task:scheduled ref="syncWxUserCron" method="jobs" cron="0 55 23 ? * *"/>
+    </task:scheduled-tasks>
+    <!--   同步微信用户信息job -->
+     <bean id="createAccountJob" class="com.ycb.job.CreateAccountJob"/>
+     <task:scheduled-tasks>      
+        <task:scheduled ref="createAccountJob" method="jobs" cron="0 55 23 ? * *"/>
+    </task:scheduled-tasks>
+    
 </beans>

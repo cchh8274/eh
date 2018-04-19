@@ -34,5 +34,11 @@ public class BaseController  {
 		jsonObj.put("info",str);
 		return jsonObj.toJSONString();
 	}
+	public String toJSONString(String code,String str) {
+		JSONObject  jsonObj=new JSONObject();
+		jsonObj.put("code",this.ERROR);
+		jsonObj.put("info",str);
+		return jsonObj.toJSONString();
+	}
 
 }

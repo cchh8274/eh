@@ -1,35 +1,29 @@
 package com.ycb.service.impl;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ycb.dao.ReflectMapper;
-import com.ycb.dao.TotalAmountMapper;
-import com.ycb.entity.Reflect;
-import com.ycb.entity.TotalAmount;
 import com.ycb.service.ReflectService;
-import com.ycb.util.IDGeneratorTools;
 @Service
 public class ReflectServiceImpl implements ReflectService {
-	@Autowired	
-	private ReflectMapper reflectMapper;
-	@Autowired
-	private TotalAmountMapper  totalAmountMapper;
 
+	/**
+	 * 查询银行卡是否存在
+	 */
 	@Override
-	public String reflectMoney(Reflect reflect) {
-		reflect.setCreatetime(new Date());
-		reflect.setOrderno(IDGeneratorTools.createId());
-		reflectMapper.insert(reflect);
-		TotalAmount tmoney=totalAmountMapper.selectAmonut(reflect.getOpenid());
-		BigDecimal lmoney=new BigDecimal(tmoney.getMoney()).subtract(new BigDecimal(reflect.getMoney()));
-		TotalAmount tas=new TotalAmount();
-		tas.setId(tmoney.getId());
-		tas.setMoney(Integer.valueOf(lmoney.toString()));
-		totalAmountMapper.updateByPrimaryKeySelective(tas);
-		return lmoney.toString();
+	public String queryBankAmount(String bank) {
+		
+		return null;
+	}
+	/**
+	 * 体现
+	 */
+	@Override
+	public void reflectMoney(Map<String, String> map) {
+		//1.查询账户
+		//2.判断余额
+		//3.扣减金额
+		//4.入体现明细
 	}
 }

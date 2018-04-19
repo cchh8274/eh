@@ -1,4 +1,4 @@
-package com.ycb.util;
+package com.ycb.yutil;
 
 import java.util.ResourceBundle;
 

@@ -13,8 +13,9 @@ import cn.com.xbase.frame.util.DateUtils;
 import com.ycb.service.AreaService;
 
 /**
- * 查询区域接口 1.查询首页要展示的区域
- * 
+ * 查询区域接口
+ *  1.查询首页要展示的区域
+ *   查询每个区域下的所对应大学的名称 code 和页面点的位置
  * @author chenghui
  *
  */

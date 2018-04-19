@@ -9,8 +9,8 @@ import com.github.wxpay.sdk.WXPay;
 import com.github.wxpay.sdk.WXPayUtil;
 import com.ycb.util.Constants;
 import com.ycb.util.HttpUtils;
-import com.ycb.util.KeyUtils;
 import com.ycb.util.Sign;
+import com.ycb.yutil.KeyUtils;
 
 public class WxPayTest {
 	public static void main(String[] args) {

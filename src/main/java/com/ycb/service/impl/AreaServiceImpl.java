@@ -31,6 +31,8 @@ public class AreaServiceImpl implements AreaService {
 			HashMap<String,String> info=new HashMap<String,String>();
 			info.put("name", tblAreaInfo.getAreaName());
 			info.put("code", tblAreaInfo.getId().toString());
+			List<>
+			info.put("unversity", )
 			infos.add(info);
 		}
 		String area=JSON.toJSONString(infos);

@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import cn.com.xbase.frame.util.HttpUtils;
+
 import com.github.wxpay.sdk.WXPayUtil;
 import com.ycb.bean.PayConfig;
 import com.ycb.bean.RequestOrder;
@@ -12,7 +14,7 @@ import com.ycb.logic.ILogic;
 import com.ycb.logic.ParametersVo;
 import com.ycb.logic.ResultEnum;
 import com.ycb.util.Constants;
-import com.ycb.util.HttpUtils;
+import com.ycb.util.IDGeneratorTools;
 
 /**
  * 1. 保存订单信息-》订单表 
@@ -69,5 +71,26 @@ public class WxPayOrderRequestLogicImpl implements	ILogic<ParametersVo<String, O
 		 * 当支付方式为公众号支付,为必选字段
 		 */
 		request.put("openid", vo.getOpenid());// 用户标识
+	}
+	
+	private  HashMap  copyWxOrderinfo(){
+		HashMap<String,String>  wxorder=new HashMap<String, String>();
+		wxorder.put("id", IDGeneratorTools.createId());
+		wxorder.put("id", IDGeneratorTools.createId());
+		wxorder.put("id", IDGeneratorTools.createId());
+		wxorder.put("id", IDGeneratorTools.createId());
+		wxorder.put("id", IDGeneratorTools.createId());
+		wxorder.put("id", IDGeneratorTools.createId());
+		wxorder.put("id", IDGeneratorTools.createId());
+		wxorder.put("id", IDGeneratorTools.createId());
+		wxorder.put("id", IDGeneratorTools.createId());
+		wxorder.put("id", IDGeneratorTools.createId());
+		wxorder.put("id", IDGeneratorTools.createId());
+		wxorder.put("id", IDGeneratorTools.createId());
+		wxorder.put("id", IDGeneratorTools.createId());
+		wxorder.put("id", IDGeneratorTools.createId());
+		wxorder.put("id", IDGeneratorTools.createId());
+		wxorder.put("id", IDGeneratorTools.createId());
+		return null;
 	}
 }

@@ -1,9 +1,11 @@
 package com.ycb.service;
 
-import com.ycb.entity.Reflect;
+import java.util.Map;
 
 public interface ReflectService {
 
-	String reflectMoney(Reflect reflect);
+	String queryBankAmount(String string);
+
+	void reflectMoney(Map<String, String> map);
 
 }

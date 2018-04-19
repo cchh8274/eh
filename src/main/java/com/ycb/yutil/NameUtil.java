@@ -1,4 +1,4 @@
-package com.ycb.util;
+package com.ycb.yutil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

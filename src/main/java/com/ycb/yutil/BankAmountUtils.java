@@ -1,4 +1,4 @@
-package com.ycb.util;
+package com.ycb.yutil;
 
 import org.apache.commons.lang3.StringUtils;
 

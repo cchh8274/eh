@@ -3,6 +3,9 @@ package com.ycb.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,72 +13,43 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.ycb.service.AmountService;
-import com.ycb.util.DataGridJson;
-import com.ycb.util.PageUtil;
 
 /**
- * 账户管理 查询我的账户 我的余额 所有账户的余额
+ * 账户管理
+ * 查询我的账户 我的余额 所有账户的余额
  * 
  * @author
  *
  */
 @Controller
 @RequestMapping("/amount")
-public class AmountController {
+public class AmountController extends BaseController{
+	
+	private static final Log LOGGER=LogFactory.getLog(AmountController.class);
 	
 	@Autowired
 	private AmountService amountService;
 
-	@RequestMapping("/queryAmount")
-	@ResponseBody
-	public DataGridJson queryAllAmount(PageUtil<Machine> pageUtil,
-			Integer rows, Integer page) {
-		pageUtil.setCpage(page);
-		pageUtil.setPageSize(rows);
-		pageUtil = amountService.queryAllAmount(pageUtil);
-		DataGridJson dj = new DataGridJson();
-		dj.setTotal(pageUtil.getTotalCount());
-		dj.setRows(pageUtil.getList());
-		return dj;
-	}
-
-	@RequestMapping("/queryMyAmount")
-	@ResponseBody
-	public Amount queryMyAmount(String userID) {
-		return amountService.queryMyAmount(userID);
-	}
-
-	@RequestMapping("/queryamount")
+	/**
+	 * 通过openid 查询账户总额
+	 * @param openid
+	 * @return
+	 */
+	@RequestMapping("/queryUserAmount")
 	@ResponseBody
 	public String queryamount(String openid) {
-		Map<String, String> map = new HashMap<>();
-		TotalAmount ta = amountService.queryamount(openid);
-		if (ta == null) {
-			map.put("result", "");
-		} else {
-			map.put("result", String.valueOf(ta.getMoney()));
-		}
-		return JSON.toJSONString(map);
-
-	}
-
-	@RequestMapping("/addtotalMoney")
-	@ResponseBody
-	public String addTotalMoney(TotalAmount ta) {
-		Map<String, String> map = new HashMap<>();
 		try {
-			if (org.apache.commons.lang3.StringUtils.isBlank(ta.getOpenid())) {
-				map.put("result", "success");
-				return JSON.toJSONString(map);
+			if(StringUtils.isEmpty(openid)){
+				return this.toJSONString("error", "openid不能为空!");
 			}
-			amountService.addTotalMoney(ta);
-			map.put("result", "success");
-			return JSON.toJSONString(map);
+			String totalMoney = amountService.queryamount(openid);
+			return this.toJSONString(totalMoney);
 		} catch (Exception e) {
-			e.printStackTrace();
-			map.put("result", "fail");
-			return JSON.toJSONString(map);
+			LOGGER.error("AmountController.queryamount--查询账户余额异常,openid:"+openid+","+e.getMessage(),e);
+			return this.toJSONString("error", "系统异常!");
 		}
 	}
+
+	
 
 }
