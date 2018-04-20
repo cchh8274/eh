@@ -3,16 +3,23 @@ package com.ycb.service.impl;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.com.xbase.frame.util.HttpUtils;
+import cn.kanmars.ecm.dao.TblWxUserInfoMapper;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ycb.service.WxUserService;
 @Service
 public class WxUserServiceImpl implements WxUserService {
 	
-	public static final String session="6_L8lHye85Yq_P2zOONX2EsZesdaPvj7_gHQ2fXXqVvX6hbtAYSf2-NnYLlRf0R2Qp8PlhQ01fHOOxQpfDn7VaHdj-D2GD3lNx8A3ObfCG-uLay0EUxBR-E1E5S8wLlKkrChqXifX_wltsenjiDLBeAJAVDT";
+	public static final String session="6_L8lHye85Yq_P2zOONX2EsZesdaPvj7_"
+			+ "gHQ2fXXqVvX6hbtAYSf2-NnYLlRf0R2Qp8PlhQ01fHOOxQpfDn7V"
+			+ "aHdj-D2GD3lNx8A3ObfCG-uLay0EUxBR-E1E5S8wLlKkrChqXifX_wlts"
+			+ "enjiDLBeAJAVDT";
+	@Autowired
+	private TblWxUserInfoMapper tblWxUserInfoMapper;
 	
 	@Override
 	public String getUserInfo(String openID) throws Exception {
@@ -40,8 +47,8 @@ public class WxUserServiceImpl implements WxUserService {
 
 
 	@Override
-	public void insetListWxUser(List<HashMap<String, Object>> userInfos) {
-		
+	public void insetListWxUser(List<HashMap> userInfos) throws Exception{
+		tblWxUserInfoMapper.insertBatch(userInfos);
 	}
 
 

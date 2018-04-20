@@ -16,16 +16,16 @@ import com.ycb.service.MachineService;
 import com.ycb.service.WxOrderService;
 import com.ycb.util.IDGeneratorTools;
 
-/**
- * 从订单中同步每个人购买的咖啡机咖啡机
- * 不关心哪个机器
- * 只关心哪个区域的哪个大学 几个名额
- * @author chenghui 1.查询订单表 2.入咖啡机表
+/***
+ * 每个月14号晚上进行[当月] 的收益汇总求和 千万不要累加前一个月的数据
+ * 账户求和
+ * @author chenghui
+ *
  */
 @Service
-public class SyncCoffeManicheJob {
+public class SyncAmountAEarninsGatherJob {
 	private static final Log LOGGER = LogFactory
-			.getLog(SyncCoffeManicheJob.class);
+			.getLog(SyncAmountAEarninsGatherJob.class);
 
 	@Autowired
 	private WxOrderService wxOrderService;

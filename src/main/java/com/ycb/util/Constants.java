@@ -29,6 +29,8 @@ public class Constants {
 	/** 冻结 Status **/
 	public static final String FREEZE_STATUS_OK = "010";
 	public static final String FREEZE_STATUS_NO = "020";
+	/** 收益日 **/
+	public static final String EARNINGS_MONTH="-15";
 	
 	
 	/** wechat bastis **/

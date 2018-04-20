@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.kanmars.ecm.dao.TblAreaInfoMapper;
+import cn.kanmars.ecm.dao.TblMachineGatherInfoMapper;
 import cn.kanmars.ecm.dao.TblMachineInfoMapper;
 import cn.kanmars.ecm.dao.TblOrderDealMapper;
 import cn.kanmars.ecm.dao.TblOrderInfoMapper;
@@ -42,6 +43,8 @@ public class WxOrderServiceImpl implements WxOrderService {
 	private TblWxUserInfoMapper tblWxUserInfoMapper;
 	@Autowired
 	private TblMachineInfoMapper tblMachineInfoMapper;
+	@Autowired
+	private TblMachineGatherInfoMapper  tblMachineGatherInfoMapper;
 	
 	@Override
 	public String queryCountManchine(String openID) {
@@ -132,10 +135,22 @@ public class WxOrderServiceImpl implements WxOrderService {
 		map.put("id", hashMap.get("universityId"));
 		hashMap.put("unversityName", tblUniversityInfoMapper.queryOneMap(map).get("unversityName"));
 	}
-
+	
+	
 	@Override
 	public void insertBatch(List<HashMap> list) throws Exception{
 		tblOrderInfoMapper.insertBatch(list);
+	}
+
+	@Override
+	public List<HashMap> queryUserManinche() {
+		HashMap<String,String> search=new HashMap<String, String>();
+		search.put("payStatus",Constants.PAY_STATUS_SUCCESS);
+		
+		//select sum(number),openid,areaid,unid from tbl_order_deal where pay_status='020' group by openid,areaid,unid;
+		
+		List<HashMap> list=tblOrderDealMapper.queryUserManinche(search);
+		return list;
 	}
 	
 	

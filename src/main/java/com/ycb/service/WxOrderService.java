@@ -14,11 +14,25 @@ public interface WxOrderService {
 	void queryWxOrderAll(Map<String, Object> map);
 
 	List<String> queryUsergroupby();
-
+	/**
+	 * 查询支付成功的订单
+	 * @param yesterday
+	 * @return
+	 */
 	List<HashMap> queryDealList(String yesterday);
-
+	/**
+	 * 查询订单基础信息
+	 * @param hashMap
+	 */
 	void queryBatisinfo(HashMap hashMap);
-
+	/**
+	 * 批量插入订单数据
+	 * @param list
+	 * @throws Exception
+	 */
 	void insertBatch(List<HashMap> list) throws Exception;
+
+	List<HashMap> queryUserManinche();
+
 
 }

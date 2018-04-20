@@ -55,7 +55,7 @@ public class SyncWxUserJob {
 				return;
 			}
 			List<Object> array = JSON.parseArray(userlist);
-			List<HashMap<String, Object>> userInfos=new ArrayList<HashMap<String,Object>>();
+			List<HashMap> userInfos=new ArrayList<HashMap>();
 			for (Object object : array) {
 				if(copyUserInfo(token, object.toString()) ==null){
 					continue;
@@ -80,23 +80,24 @@ public class SyncWxUserJob {
 		JSONObject info=(JSONObject) JSON.parse(response);
 		HashMap<String,Object>  hashMap=new HashMap<String, Object>();
 		hashMap.put("id", IDGeneratorTools.createId());
-		hashMap.put("id", info.getString("openid"));
-		hashMap.put("id", info.getString("nickname"));
-		hashMap.put("id", info.getString("sex"));
-		hashMap.put("id", info.getString("city"));
-		hashMap.put("id", info.getString("country"));
-		hashMap.put("id", info.getString("province"));
-		hashMap.put("id", info.getString("language"));
-		hashMap.put("id", info.getString("headimgurl"));
-		hashMap.put("id", info.getString("subscribe_time"));
-		hashMap.put("id", info.getString("unionid"));
-		hashMap.put("id", info.getString("remark"));
-		hashMap.put("id", info.getString("groupid"));
-		hashMap.put("id", info.getString("subscribe_scene"));
-		hashMap.put("id", info.getString("qr_scene"));
-		hashMap.put("id", info.getString("qr_scene_str"));
-		hashMap.put("id", "system");
-		hashMap.put("id", new Date());
+		hashMap.put("openid", info.getString("openid"));
+		hashMap.put("nickname", info.getString("nickname"));
+		hashMap.put("sex", info.getString("sex"));
+		hashMap.put("city", info.getString("city"));
+		hashMap.put("country", info.getString("country"));
+		hashMap.put("province", info.getString("province"));
+		hashMap.put("language", info.getString("language"));
+		hashMap.put("headimgurl", info.getString("headimgurl"));
+		hashMap.put("subscribeTime", info.getString("subscribe_time"));
+		hashMap.put("unionid", info.getString("unionid"));
+		hashMap.put("remark", info.getString("remark"));
+		hashMap.put("groupid", info.getString("groupid"));
+		hashMap.put("subscribeScene", info.getString("subscribe_scene"));
+		hashMap.put("qrScene", info.getString("qr_scene"));
+		hashMap.put("qrSceneStr", info.getString("qr_scene_str"));
+		hashMap.put("createUser", "system");
+		hashMap.put("createtTime", new Date());
 		return hashMap; 
 	}
+
 }

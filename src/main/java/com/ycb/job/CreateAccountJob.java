@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import cn.com.xbase.frame.util.DateUtils;
 
-import com.ycb.service.AccountService;
+import com.ycb.service.AmountService;
 import com.ycb.util.Constants;
 import com.ycb.util.IDGeneratorTools;
 
@@ -31,7 +31,7 @@ public class CreateAccountJob {
 			.getLog(CreateAccountJob.class);
 	
 	@Autowired
-	private AccountService accountService;
+	private AmountService amountService;
 	
 	public void jobs() {
 		try {
@@ -39,7 +39,7 @@ public class CreateAccountJob {
 		LOGGER.info("CreateAccountJob.jobs--创建虚拟账户开始,logkey:"+now);
 		String yesterday=DateUtils.countDate(now, -1);
 		LOGGER.info("CreateAccountJob.jobs--创建虚拟账户时间为"+yesterday+",logkey:"+now);
-		List<String> list=accountService.queryAccount(yesterday);
+		List<String> list=amountService.queryAccount(yesterday);
 		LOGGER.info("CreateAccountJob.jobs--创建虚拟账户数量为"+list.size()+",logkey:"+now);
 		List<HashMap> batchlist=new ArrayList<HashMap>(list.size());
 		for (String openid : list) {
@@ -56,7 +56,7 @@ public class CreateAccountJob {
 			data.put("isFreeze",Constants.FREEZE_STATUS_OK);
 			batchlist.add(data);
 		}
-		accountService.insertAccount(batchlist);
+		amountService.insertAccount(batchlist);
 		LOGGER.info("CreateAccountJob.jobs--创建虚拟账户完成,logkey:"+now);
 		} catch (Exception e) {
 			LOGGER.info("CreateAccountJob.jobs--创建虚拟账户异常,logkey:"+DateUtils.getCurrDate());

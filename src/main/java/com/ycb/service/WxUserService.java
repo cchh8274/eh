@@ -8,8 +8,8 @@ public interface WxUserService {
 
 	String getUserInfo(String openID) throws Exception;
 
-	void insetListWxUser(List<HashMap<String, Object>> userInfos);
-
 	String queryNextOpenid();
+
+	void insetListWxUser(List<HashMap> userInfos) throws Exception;
 
 }
