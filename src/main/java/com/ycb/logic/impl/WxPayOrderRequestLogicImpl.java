@@ -1,12 +1,20 @@
 package com.ycb.logic.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cn.com.xbase.frame.util.DateUtils;
 import cn.com.xbase.frame.util.HttpUtils;
+import cn.kanmars.ecm.dao.TblOrderDealMapper;
 
+import com.alibaba.fastjson.JSON;
 import com.github.wxpay.sdk.WXPayUtil;
 import com.ycb.bean.PayConfig;
 import com.ycb.bean.RequestOrder;
@@ -15,28 +23,74 @@ import com.ycb.logic.ParametersVo;
 import com.ycb.logic.ResultEnum;
 import com.ycb.util.Constants;
 import com.ycb.util.IDGeneratorTools;
+import com.ycb.util.Sign;
 
 /**
  * 1. 保存订单信息-》订单表 
  * 2. 组织要请求微信的数据 请求微信sdk 调用微信支付统一下单的接口 http 
  * 3. 解析微信返回的数据
- * 
+ * !!!,微信支付的关键点就是签名，签名失败是导致收不到的回调的大多数原因
  * @author chenghui
  *
  */
 @Component
 public class WxPayOrderRequestLogicImpl implements	ILogic<ParametersVo<String, Object>> {
-
+	
+	private static Log LOGGER=LogFactory.getLog(WxPayOrderRequestLogicImpl.class);
+	
+	@Autowired
+	private TblOrderDealMapper  tblOrderDealMapper;
+	
 	@Override
 	public ResultEnum exec(ParametersVo<String, Object> param) throws Exception {
 		RequestOrder  requestOrder=(RequestOrder) param.get("requestOrder");
+		String  logkey=(String) param.get("logkey");
+		LOGGER.info("WxPayOrderRequestLogicImpl.exec--请求微信支付开始,logkey:"+logkey);
+		LOGGER.info("WxPayOrderRequestLogicImpl.exec--保存支付订单数据开始,logkey:"+logkey);
+		List<HashMap> list=new ArrayList<HashMap>(1);
+				list.add(copyWxOrderinfo(requestOrder));
+		int i =tblOrderDealMapper.insertBatch(list);
+		LOGGER.info("WxPayOrderRequestLogicImpl.exec--保存支付订单数据完成,logkey:"+logkey);
+		LOGGER.info("WxPayOrderRequestLogicImpl.exec--创建微信支付接口数据完开始,logkey:"+logkey);
 		PayConfig payInfo = new PayConfig();
 		Map<String,String> requestmap=new HashMap<String,String>();
 		createRequestMap(requestmap,requestOrder);
+		LOGGER.info("WxPayOrderRequestLogicImpl.exec--创建微信支付接口数据完成,logkey:"+logkey);
 		String requestXml=WXPayUtil.generateSignature(requestmap, payInfo.getKey());
+		LOGGER.info("WxPayOrderRequestLogicImpl.exec--请求微信统一下单的接口开始,请求微信的xml:"+requestXml+",logkey:"+logkey);
 		String reponse=HttpUtils.submitPost(Constants.WX_PAY_ORDER, requestXml);
+		LOGGER.info("WxPayOrderRequestLogicImpl.exec--请求微信统一下单的接口完成,微信接口返回的xml:"+reponse+",logkey:"+logkey);
 		Map<String,String> respnoseMap=WXPayUtil.xmlToMap(reponse);
-		return null;
+		if(!requestmap.get("result_code").equals(Constants.PAY_STATUS_SUCCESS) 
+				||respnoseMap.get("return_code").equals(Constants.PAY_STATUS_SUCCESS)){
+			param.setResDesc("微信支付接口调用失败!");
+			LOGGER.info("WxPayOrderRequestLogicImpl.exec--请求微信统一下单的接口调用失败,微信接口未返回成功:"+reponse+",logkey:"+logkey);
+			return ResultEnum.ParkCase01;
+		}
+		/**
+		 * 返回前端，拉起支付窗口
+		 */
+		String pay = respnoseMap.get("prepay_id");
+		String wxsign = respnoseMap.get("sign");
+		String wxnocestr = respnoseMap.get("nonce_str");
+		/** 反馈给前端的数据 ,前端用于拉起支付窗口**/
+		HashMap<String,String>  resultMap=new HashMap<String, String>();
+		/** appID  必选项  注意I大写  */
+		resultMap.put("appId", payInfo.getAppID());
+		/** package  必选项  统一下单接口返回的字符串 参数的键必须为 package value 必须为 prepay_id= 拼接  */
+		resultMap.put("package", "prepay_id=" + pay);
+		/** 反馈前端的时间戳  必须选项**/
+		resultMap.put("timeStamp", Sign.create_timestamp());
+		/** 随机字符串  必选项  统一下单接口返回的随机字符串 注意S 大写  */
+		resultMap.put("nonceStr", wxnocestr);
+		/** 签名方式  必选项 默认MD5 注意T 大写  */
+		resultMap.put("signType", "MD5");
+		LOGGER.info("WxPayOrderRequestLogicImpl.exec--反馈前端支付,要签名的数据为"+JSON.toJSONString(resultMap)+",logkey:"+logkey);
+		String result = WXPayUtil.generateSignature(resultMap, payInfo.getKey());
+		resultMap.put("sign", result);
+		param.setResDesc(JSON.toJSONString(resultMap));
+		LOGGER.info("WxPayOrderRequestLogicImpl.exec--反馈前端支付,微信接口返回的xml:"+JSON.toJSONString(resultMap)+",logkey:"+logkey);
+		return ResultEnum.ParkOk;
 	}
 
 	/**
@@ -76,23 +130,29 @@ public class WxPayOrderRequestLogicImpl implements	ILogic<ParametersVo<String, O
 	private  HashMap  copyWxOrderinfo(RequestOrder requestOrder){
 		HashMap<String,String>  wxorder=new HashMap<String, String>();
 		wxorder.put("id", IDGeneratorTools.createId());
-		wxorder.put("order_no", requestOrder.getOrderno());
-		wxorder.put("body", Constants.WX_BODY);
-		wxorder.put("detail", Constants.WX_DETAIL);
+		wxorder.put("orderNo", requestOrder.getOrderno());
+		wxorder.put("body", Constants.WX_GOOD_BODY);
+		wxorder.put("detail", Constants.WX_GOOD_DETAIL);
 		wxorder.put("number", requestOrder.getNum());
-		wxorder.put("price", Constants.GOOD_PRICE); 
-		wxorder.put("total_fee", requestOrder.getTotalfee());
-		wxorder.put("spbill_create_ip", requestOrder.getIpadress());
-		wxorder.put("pay_start_time", requestOrder.getStartTime());
-		wxorder.put("pay_end_time", requestOrder.getEndTime());
-		wxorder.put("goods_tag", "");
+		wxorder.put("price", Constants.WX_GOOD_PRICE); 
+		wxorder.put("totalFee", requestOrder.getTotalfee());
+		wxorder.put("spbillCreateIp", requestOrder.getIpadress());
+		wxorder.put("payStartTime", requestOrder.getStartTime());
+		wxorder.put("payEndTime", requestOrder.getEndTime());
+		wxorder.put("goodsTag", "");
 		wxorder.put("openid", requestOrder.getOpenid());
-		wxorder.put("pay_time", ""); 
-		wxorder.put("pay_status", Constants.PAY_STATUS_INIT); //待支付状态
-		wxorder.put("maniche_id", requestOrder.getAreacode());
-		wxorder.put("maniche_id", requestOrder.getMachine());
-		wxorder.put("university_id", requestOrder.getUnitcode());
-		wxorder.put("create_time", DateUtils.getCurrDateTime());
-		wxorder.put("create_user", "易创吧科技");
+		wxorder.put("payTime", ""); 
+		wxorder.put("payStatus", Constants.PAY_STATUS_INIT); //待支付状态
+		wxorder.put("areaId", requestOrder.getAreacode());
+		wxorder.put("manicheId", requestOrder.getMachine());
+		wxorder.put("universityId", requestOrder.getUnitcode());
+		wxorder.put("createTime", DateUtils.getCurrDateTime());
+		wxorder.put("createUser", "易创吧科技");
 		return wxorder;
+	}
+
+
+
+
+
 }

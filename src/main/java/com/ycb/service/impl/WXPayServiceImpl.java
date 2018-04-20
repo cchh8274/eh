@@ -53,7 +53,7 @@ public class WXPayServiceImpl implements WXPayService {
 			insertWXorder(vo); // 出入业务系统表
 			String dataxml = createWxData(vo, payInfo.getKey());
 			logger.info("请求微信的报文为=>" + dataxml);
-			String responseXML = HttpUtils.submitPost(Constants.WX_PAY_ORDER, dataxml);
+			String responseXML = cn.com.xbase.frame.util.HttpUtils.submitPost(Constants.WX_PAY_ORDER, dataxml);
 			logger.info("请求微信返回的报文为=>" + responseXML);
 			Map<String, String> resp = WXPayUtil.xmlToMap(responseXML);
 			if (!resp.get("result_code").equals("SUCCESS")

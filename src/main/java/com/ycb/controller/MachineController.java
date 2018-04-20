@@ -37,7 +37,7 @@ public class MachineController extends BaseController{
 	public String queryMachine(String code) {
 		try {
 			if(StringUtils.isEmpty(code)){
-				return this.toJSONString("大学编码不能为空");
+				return this.toJSONString("error","大学编码不能为空");
 			}
 			LOGGER.info("MachineController.queryMachine--查询的到的机器列表时间为"+ DateUtils.getCurrDate());
 			String infos = machineService.queryMachine(code);
@@ -46,42 +46,11 @@ public class MachineController extends BaseController{
 		} catch (Exception e) {
 			LOGGER.info("MachineController.queryMachine--查询的到的机器列表出现异常");
 			LOGGER.error(e.getMessage(), e);
-			return this.toJSONString("系统异常!");
+			return this.toJSONString("error","系统异常!");
 		}
 	}
 
-
-
-
-    
-    //查询日销量
-    @RequestMapping(value = "queryMachineCount", method = RequestMethod.POST)
-    @ResponseBody
-    public Integer queryMachineCount(Integer i){
-        return machineService.queryMachineCount(i);
-    }
-    //查询月销量
-    @RequestMapping(value = "queryMachineCountMonth", method = RequestMethod.POST)
-	@ResponseBody
-	public  Integer  queryMyAmount(Integer i) {
-		return machineService.queryMachineCountMonth(i);
-	}
-	
-    //查询机器数
-    @RequestMapping(value = "queryUnitMat", method = RequestMethod.POST)
-	@ResponseBody
-	public  List<Machine>  queryUnitMat(String  name,HttpServletResponse response) {
-		return machineService.queryUnitMat(name);
-	}
     
    
-    
-    @RequestMapping(value = "selectUnit", method = RequestMethod.POST)
-    @ResponseBody
-    public List<Unit> selectUnit(){
-        return machineService.selectUnit();
-    }
-    
-    
     
 }

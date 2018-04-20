@@ -19,7 +19,10 @@ import com.ycb.exception.BaseException;
 import com.ycb.service.BankService;
 
 /**
- * 银行账户接口 1. 用户绑定银行卡接口 校验银行卡是否存在 校验基础非空验证信息 保存数据库 2. 用户查询银行卡接口 通过open_id
+ * 银行账户接口
+ *  1. 用户绑定银行卡接口 校验银行卡是否存在 校验基础非空验证信息 保存数据库
+ *     1).如果绑定过银行卡，直接带出基本信息
+ *  2. 用户查询银行卡接口 通过open_id
  * 查询该用户的所绑定的银行卡
  * 
  * @author chenghui
@@ -63,7 +66,7 @@ public class BankAmountController extends BaseController {
 			return this.toJSONString("error","系统异常!");
 		}
 	}
-
+	
 	private boolean validAmount(Map<String, Object> map) {
 		TblBankamountInfo bankAmount = (TblBankamountInfo) map
 				.get("bankAmount");

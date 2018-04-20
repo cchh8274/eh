@@ -10,17 +10,38 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.kanmars.ecm.dao.TblAreaInfoMapper;
+import cn.kanmars.ecm.dao.TblMachineInfoMapper;
+import cn.kanmars.ecm.dao.TblOrderDealMapper;
+import cn.kanmars.ecm.dao.TblOrderInfoMapper;
+import cn.kanmars.ecm.dao.TblUniversityInfoMapper;
+import cn.kanmars.ecm.dao.TblWxUserInfoMapper;
+
 import com.ycb.dao.WxOrderMapper;
 import com.ycb.entity.WxOrder;
 import com.ycb.entity.WxUser;
 import com.ycb.service.WxOrderService;
 import com.ycb.util.AmountUtils;
+import com.ycb.util.Constants;
 import com.ycb.util.DateUtils;
 
 @Service
 public class WxOrderServiceImpl implements WxOrderService {
 	@Autowired
 	private WxOrderMapper wxOrderMapper;
+	
+	@Autowired
+	private TblOrderDealMapper tblOrderDealMapper;
+	@Autowired
+	private TblOrderInfoMapper tblOrderInfoMapper;
+	@Autowired
+	private TblAreaInfoMapper tblAreaInfoMapper;
+	@Autowired
+	private TblUniversityInfoMapper tblUniversityInfoMapper;
+	@Autowired
+	private TblWxUserInfoMapper tblWxUserInfoMapper;
+	@Autowired
+	private TblMachineInfoMapper tblMachineInfoMapper;
 	
 	@Override
 	public String queryCountManchine(String openID) {
@@ -85,5 +106,52 @@ public class WxOrderServiceImpl implements WxOrderService {
 		List<String> list=wxOrderMapper.queryUsergroupby();
 		return list;
 	}
+	/**
+	 * 查询支付成功的订单
+	 */
+	@Override
+	public List<HashMap> queryDealList(String yesterday) {
+		HashMap  sql=new HashMap();
+		sql.put("createTime", yesterday);
+		sql.put("payStatus", Constants.PAY_STATUS_SUCCESS);
+		return tblOrderDealMapper.queryListMap(sql);
+	}
+
+	@Override
+	public void queryBatisinfo(HashMap hashMap) {
+		HashMap  map=new HashMap();
+		map.put("openid", hashMap.get("openid"));
+		hashMap.put("userName", tblWxUserInfoMapper.queryOneMap(map).get("userName"));
+		map.clear();
+		map.put("id", hashMap.get("manicheId"));
+		hashMap.put("manicheName", tblMachineInfoMapper.queryOneMap(map).get("manicheName"));
+		map.clear();
+		map.put("id", hashMap.get("areaId"));
+		hashMap.put("areaName", tblAreaInfoMapper.queryOneMap(map).get("areaName"));
+		map.clear();
+		map.put("id", hashMap.get("universityId"));
+		hashMap.put("unversityName", tblUniversityInfoMapper.queryOneMap(map).get("unversityName"));
+	}
+
+	@Override
+	public void insertBatch(List<HashMap> list) throws Exception{
+		tblOrderInfoMapper.insertBatch(list);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }	

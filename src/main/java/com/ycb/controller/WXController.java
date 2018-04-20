@@ -75,19 +75,20 @@ public class WXController extends BaseController{
 			if(!ResultEnum.ParkOk.equals(wxPayOrderValidLogicImpl.exec(parametersVo))){
 				logger.info("WXController.wxPayOrderValidLogicImpl.exec--,校验不通过,resron:"+parametersVo.getResDesc()+",logkey:"+logkey);
 				parametersVo.setResCode("002");
-				return this.toJSONString(parametersVo.toResultString(null));
+				return this.toJSONString(parametersVo.toResultString());
 			}
 			parametersVo.put("request", request);
 			if(!ResultEnum.ParkOk.equals(wxPayOrderDataLogicImpl.exec(parametersVo))){
 				parametersVo.setResCode("002");
-				return this.toJSONString(parametersVo.toResultString(null));
+				return this.toJSONString(parametersVo.toResultString());
 			}
 			if(!ResultEnum.ParkOk.equals(wxPayOrderRequestLogicImpl.exec(parametersVo))){
 				parametersVo.setResCode("002");
-				return this.toJSONString(parametersVo.toResultString(null));
+				return this.toJSONString(parametersVo.toResultString());
 			}
+			
 			logger.info("WXController.requestWXPay--微信支付下单请求完成,logkey:"+logkey);
-			return this.toJSONString(parametersVo.toResultString(null));
+			return this.toJSONString(parametersVo.toResultString());
 		} catch (Exception e) {
 			logger.info("WXController.requestWXPay--微信支付下单请求异常,logkey:"+logkey);
 			logger.error("WXController.requestWXPay--微信支付下单请求异常,logkey:"+logkey+","+e.getMessage(),e);
@@ -141,26 +142,6 @@ public class WXController extends BaseController{
 			e.printStackTrace();
 		}
 		return WXPayUtil.mapToXml(reultMap);
-	}
-
-	/**
-	 * 获取用户的openID
-	 * 
-	 * @return
-	 */
-	@RequestMapping("/openid")
-	@ResponseBody
-	public Map<String, String> requestOpenid(String code) {
-		logger.info("当前的请求成功 ,code为=》" + code);
-		String url = WxUrlUtils.getOpenid(code);
-		logger.info("授权转义的URL ,URL为=》" + url);
-		String result = HttpUtils.submitGet(url);
-		logger.info("请求微信=》返回的结果为=》" + result);
-		JSONObject info = JSON.parseObject(result);
-		Map<String, String> map = new HashMap<String, String>();
-		logger.info("请求微信 JSON=》返回的结果为=》" + info);
-		map.put("openid", (String) info.get("openid"));
-		return map;
 	}
 
 	@RequestMapping("/config")

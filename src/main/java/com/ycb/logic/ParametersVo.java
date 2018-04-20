@@ -27,14 +27,8 @@ public class ParametersVo<K, V> extends HashMap<K, V> implements Serializable {
 	 * @param vo
 	 * @return
 	 */
-	public  String toResultString(Object vo){
+	public  String toResultString(){
 		this.clear(); //清除所有数据
-		if(vo != null){
-			this.setResDesc("");
-			Map<String,Object> map=new HashMap<String, Object>();
-			map.put("result", vo);
-			this.setObj(map);	
-		}
 		return JSON.toJSONString(this);
 	}
 	

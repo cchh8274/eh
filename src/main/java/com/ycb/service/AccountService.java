@@ -7,6 +7,6 @@ public interface AccountService {
 
 	List<String> queryAccount(String yesterday);
 
-	void insertAccount(HashMap<String, String> data);
+	void insertAccount(List<HashMap> batchlist) throws Exception;
 
 }

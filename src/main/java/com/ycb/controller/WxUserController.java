@@ -1,5 +1,6 @@
 package com.ycb.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -8,16 +9,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
+
+import cn.com.xbase.frame.util.HttpUtils;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ycb.service.WxOrderService;
 import com.ycb.service.WxUserService;
-import com.ycb.util.HttpUtils;
 import com.ycb.util.WxUrlUtils;
 
 /**
  * 微信用户管理
- * 
+ * 静默登录,用户无感知的情况下登录
+ * 1.微信用户订单页面登录 
+ * 2.我的页面登录
  * @author chenghui
  *
  */
@@ -25,12 +31,35 @@ import com.ycb.util.WxUrlUtils;
 @RequestMapping("/wx")
 public class WxUserController {
 
-	private static final Logger logger = Logger.getLogger(WxUserController.class);
+	private static final Logger LOGGER = Logger.getLogger(WxUserController.class);
 
 	@Autowired
 	private WxUserService wxUserService;
 	@Autowired
 	private WxOrderService wxOrderService;
+	
+	
+
+	/**
+	 * 获取用户的openID
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/openid")
+	@ResponseBody
+	public Map<String, String> requestOpenid(String code) {
+		LOGGER.info("当前的请求成功 ,code为=》" + code);
+		String url = WxUrlUtils.getOpenid(code);
+		LOGGER.info("授权转义的URL ,URL为=》" + url);
+		String result = HttpUtils.submitGet(url);
+		LOGGER.info("请求微信=》返回的结果为=》" + result);
+		JSONObject info = JSON.parseObject(result);
+		Map<String, String> map = new HashMap<String, String>();
+		LOGGER.info("请求微信 JSON=》返回的结果为=》" + info);
+		map.put("openid", (String) info.get("openid"));
+		return map;
+	}
+	
 	/**
 	 * 微信用户登录
 	 * @param code
