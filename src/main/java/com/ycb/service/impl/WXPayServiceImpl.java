@@ -1,6 +1,5 @@
 package com.ycb.service.impl;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,23 +7,21 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.com.xbase.frame.util.DateUtils;
+import cn.com.xbase.frame.util.HttpUtils;
+import cn.kanmars.ecm.dao.TblMachineInfoMapper;
+import cn.kanmars.ecm.dao.TblOrderDealMapper;
+import cn.kanmars.ecm.dao.TblPayResultInfoMapper;
+import cn.kanmars.ecm.entity.TblMachineInfo;
+import cn.kanmars.ecm.entity.TblPayResultInfo;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.wxpay.sdk.WXPayUtil;
-import com.ycb.bean.PayConfig;
-import com.ycb.bean.RequestOrder;
 import com.ycb.controller.WXController;
-import com.ycb.dao.MachineMapper;
-import com.ycb.dao.WxBackResultMapper;
-import com.ycb.dao.WxOrderMapper;
-import com.ycb.entity.Machine;
-import com.ycb.entity.WxBackResult;
-import com.ycb.entity.WxOrder;
+import com.ycb.exception.WxException;
 import com.ycb.service.WXPayService;
-import com.ycb.util.AmountUtils;
 import com.ycb.util.Constants;
-import com.ycb.util.DateUtils;
-import com.ycb.util.HttpUtils;
 import com.ycb.util.IDGeneratorTools;
 import com.ycb.util.Sign;
 
@@ -33,56 +30,11 @@ public class WXPayServiceImpl implements WXPayService {
 	private static final Logger logger = Logger.getLogger(WXController.class);
 
 	@Autowired
-	private WxOrderMapper wxOrderMapper;
+	private TblOrderDealMapper tblOrderDealMapper;
 	@Autowired
-	private MachineMapper machineMapper;
+	private TblMachineInfoMapper tblmachineInfoMapper;
 	@Autowired
-	private WxBackResultMapper wxBackResultMapper;
-
-	@Override
-	public Map<String, String> payOrder(RequestOrder vo) {
-		Map<String, String> call = new HashMap<String, String>();
-		try {
-//			String orderNo = IDGeneratorTools.createId();
-//			logger.info("生成的订单号为=>" + orderNo);
-//			String amount = AmountUtils.changeY2F(vo.getTotalfee());
-//			logger.info("生成的订单金额为=>" + amount);
-//			vo.setTotalfee(amount);
-//			vo.setOrderno(orderNo);
-			PayConfig payInfo = new PayConfig();
-			insertWXorder(vo); // 出入业务系统表
-			String dataxml = createWxData(vo, payInfo.getKey());
-			logger.info("请求微信的报文为=>" + dataxml);
-			String responseXML = cn.com.xbase.frame.util.HttpUtils.submitPost(Constants.WX_PAY_ORDER, dataxml);
-			logger.info("请求微信返回的报文为=>" + responseXML);
-			Map<String, String> resp = WXPayUtil.xmlToMap(responseXML);
-			if (!resp.get("result_code").equals("SUCCESS")
-					|| !resp.get("return_code").equals("SUCCESS")) {
-				call.put("code", "false");
-				return call;
-			}
-			String pay = resp.get("prepay_id");
-			String wxsign = resp.get("sign");
-			String wxnocestr = resp.get("nonce_str");
-			call.put("appId", payInfo.getAppID());
-			call.put("package", "prepay_id=" + pay);
-			call.put("timeStamp", Sign.create_timestamp());
-			call.put("nonceStr", wxnocestr);
-			call.put("signType", "MD5");
-			logger.info("微信返回组装的MAP=>" + JSON.toJSONString(call));
-			String jmSign = WXPayUtil.generateSignature(call, payInfo.getKey());
-			logger.info("签名一次结果进行签名=》" + wxsign);
-			logger.info("签名二次结果进行签名=》" + jmSign);
-			boolean bsign = isSign(call, payInfo.getKey(), jmSign);
-			// call.put("paySign",jmSign);
-			logger.info("返回结果两者签名校验=》" + bsign);
-			logger.info("微信返回组装的MAP 签名完成=>" + JSON.toJSONString(call));
-		} catch (Exception e) {
-			e.printStackTrace();
-			call.put("code", "false");
-		}
-		return call;
-	}
+	private TblPayResultInfoMapper  tblPayResultInfoMapper;
 
 	private boolean isSign(Map<String, String> call, String key, String sign)
 			throws Exception {
@@ -93,44 +45,6 @@ public class WXPayServiceImpl implements WXPayService {
 		return WXPayUtil.isSignatureValid(xml, key);
 	}
 
-	/**
-	 * 插入业务系统表
-	 * 
-	 * @param vo
-	 */
-	private void insertWXorder(RequestOrder vo) {
-		WxOrder wxOrder = new WxOrder();
-		wxOrder.setTotalFee(vo.getTotalfee());
-		wxOrder.setNum(vo.getNum());
-		wxOrder.setOpenId(vo.getOpenid());
-		wxOrder.setUnit(vo.getUnit());
-		wxOrder.setOrderNo(vo.getOrderno());
-		wxOrder.setMachine(vo.getMach());
-		wxOrder.setArea(vo.getArea());
-		wxOrder.setPaytime(DateUtils.formatDate(vo.getStartTime(), "yyyyMMddHHmmss"));
-		wxOrder.setPayStatus("false");
-		wxOrder.setCreatetime(new Date());
-		wxOrderMapper.insertSelective(wxOrder);
-	}
-
-	private String createWxData(RequestOrder vo, String key) throws Exception {
-		Map<String, String> data = new HashMap<String, String>();
-		// data.put("device_info", "WEB"); // 商品描述
-//		data.put("sign_type", "MD5");
-		data.put("body", "北京24机器-名额"); // 商品描述
-		data.put("out_trade_no", vo.getOrderno()); // 商户订单号
-		data.put("appid", "wx88cb890e1e079473");
-		data.put("mch_id", "1496252192");
-		data.put("nonce_str", WXPayUtil.generateNonceStr());
-		data.put("total_fee", vo.getTotalfee());// 标价金额
-		data.put("spbill_create_ip", vo.getIpadress());// 终端IP
-		data.put("time_start", vo.getStartTime());// 交易起始时间
-		data.put("time_expire", vo.getEndTime());// 交易结束时间
-		data.put("notify_url", Constants.notify_url);// 通知地址
-		data.put("trade_type", Constants.trade_type);// 交易类型
-		data.put("openid", vo.getOpenid());// 用户标识
-		return WXPayUtil.generateSignedXml(data, key);
-	}
 
 
 	/**
@@ -141,23 +55,29 @@ public class WXPayServiceImpl implements WXPayService {
 	public void callBackWXpay(Map<String, String> resultMap) throws Exception {
 		String code = resultMap.get("return_code");
 		if (!code.equals("SUCCESS")) {
-			return;
+			throw new WxException("支付接口返回失败");
 		}
 		String orderno = resultMap.get("out_trade_no");
-		WxOrder order = wxOrderMapper.queryOrder(orderno);
+		HashMap map=new HashMap();
+		map.put("orderNo", orderno);
+		HashMap orderData = tblOrderDealMapper.queryOneMap(map);
 		String amout = resultMap.get("total_fee");
-		if (!amout.equals(order.getTotalFee())) {
-			resultMap.clear();
-			resultMap.put("return_code", "FAIL");
-			resultMap.put("return_msg", "失敗");
+		if (!amout.equals(orderData.get("total_fee"))) {
+			throw new WxException("支付返回金额和下单金额不一致");
 		}
-		WxOrder  wxorder=new WxOrder();
-		wxorder.setId(order.getId());
-		wxorder.setPayStatus("true");
-		wxOrderMapper.updateByPrimaryKeySelective(wxorder);
+		map.clear();
+		map.put("id", orderData.get("id"));
+		map.put("payTime_new", resultMap.get("time_end"));
+		map.put("payStatus_new", Constants.PAY_STATUS_SUCCESS);
+		tblOrderDealMapper.updateCAS(map);
 		resultMap.clear();
-//		insertCallBack(resultMap);
-		updateNumberManinche(order.getMachine(),order.getUnit(),order.getNum());
+		//扣减库存
+		TblMachineInfo  machine= tblmachineInfoMapper.selectByPrimaryKey((String) orderData.get("maniche_id"),null);
+		TblMachineInfo  numMachine=new TblMachineInfo();
+		numMachine.setOutSalePlace(Long.valueOf(machine.getOutSalePlace())+Long.valueOf((String) orderData.get("number"))+"".trim());
+		numMachine.setLeftPlace(Long.valueOf(machine.getLeftPlace())-Long.valueOf((String) orderData.get("number"))+"".trim());
+		numMachine.setId(machine.getId());
+		tblmachineInfoMapper.updateByPrimaryKey(numMachine);
 		resultMap.put("return_code", "SUCCESS");
 		resultMap.put("return_msg", "OK");
 
@@ -165,20 +85,31 @@ public class WXPayServiceImpl implements WXPayService {
 	
 	
 	private void insertCallBack(Map<String, String> resultMap){
-		WxBackResult  wxBackResult=new WxBackResult();
-		
-		wxBackResultMapper.insertSelective(wxBackResult);
-		
+		TblPayResultInfo  result=new TblPayResultInfo();
+		result.setAppid(IDGeneratorTools.createId());
+		result.setMchId(Constants.MCH_ID);
+		result.setDeviceInfo(resultMap.get("device_info"));
+		result.setNonceStr(resultMap.get("nonce_str"));
+		result.setSign(resultMap.get("sign"));
+		result.setSignType(resultMap.get("sign_type"));
+		result.setResultCode(resultMap.get("result_code"));
+		result.setErrCode(resultMap.get("err_code"));
+		result.setErrCodeDes(resultMap.get("err_code_des"));
+		result.setOpenid(resultMap.get("openid"));
+		result.setIsSubscribe(resultMap.get("is_subscribe"));
+		result.setTradeType(resultMap.get("trade_type"));
+		result.setBankType(resultMap.get("bank_type"));
+		result.setTotalFee(resultMap.get("total_fee"));
+		result.setSettlementTotalFee(resultMap.get("settlement_total_fee"));
+		result.setFeeType(resultMap.get("fee_type"));
+		result.setTransactionIdtransactionId(resultMap.get("transaction_idtransaction_id"));
+		result.setOutTradeNo(resultMap.get("out_trade_no"));
+		result.setTimeEnd(resultMap.get("time_end"));
+		result.setCreateTime(DateUtils.getCurrDate());
+		result.setCreateUser("system");
+		tblPayResultInfoMapper.insert(result);
 	}
 	
-	private void updateNumberManinche(String name,String unit,String num){
-		Machine  machine= machineMapper.queryMachineByName(unit, name);
-		Machine  numMachine=new Machine();
-		numMachine.setLaplces(Long.valueOf(machine.getLaplces())+Long.valueOf(num)+"".trim());
-		numMachine.setRplces(Long.valueOf(machine.getRplces())-Long.valueOf(num)+"".trim());
-		numMachine.setId(machine.getId());
-		machineMapper.updateByPrimaryKeySelective(numMachine);
-	}
 	
 	private static String toketULR(String id) {
 		String token = HttpUtils
@@ -194,7 +125,7 @@ public class WXPayServiceImpl implements WXPayService {
 	@Override
 	public Map<String, String> config(String url) {
 		Map<String, String> signmap = Sign.sign(toketULR("1"), url);
-		signmap.put("appId", Constants.appid);
+		signmap.put("appId", Constants.APPID);
 		logger.info("生成数据=》" + JSON.toJSONString(signmap));
 		return signmap;
 	}

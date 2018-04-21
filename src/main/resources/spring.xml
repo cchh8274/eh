@@ -16,6 +16,7 @@
 
 	<!-- 注解扫描包 -->
 	<context:component-scan base-package="com.ycb.service" />
+	
 	<!--定时任务 -->
      <bean id="firstCron" class="com.ycb.job.JobTest"/>
      <task:scheduled-tasks>      

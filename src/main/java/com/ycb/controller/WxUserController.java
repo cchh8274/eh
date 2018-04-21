@@ -68,16 +68,16 @@ public class WxUserController {
 	@ResponseBody
 	@RequestMapping("/getUserInfo")
 	public String getUserInfo(String code) {
-		logger.info("当前请求是我的页面微信登录..");
+		LOGGER.info("当前请求是我的页面微信登录..");
 		try {
-			logger.info("当前登录的微信用户的openID=>" + code);
-			logger.info("当前的请求成功 ,code为=》" + code);
+			LOGGER.info("当前登录的微信用户的openID=>" + code);
+			LOGGER.info("当前的请求成功 ,code为=》" + code);
 			String url = WxUrlUtils.getOpenid(code);
-			logger.info("授权转义的URL ,URL为=》" + url);
+			LOGGER.info("授权转义的URL ,URL为=》" + url);
 			String result = HttpUtils.submitGet(url);
-			logger.info("请求微信=》返回的结果为=》" + result);
+			LOGGER.info("请求微信=》返回的结果为=》" + result);
 			JSONObject info = JSON.parseObject(result);
-			logger.info("请求微信 JSON=》返回的结果为=》" + info);
+			LOGGER.info("请求微信 JSON=》返回的结果为=》" + info);
 			String userurl="https://api.weixin.qq.com/sns/userinfo?"
 					+ "access_token="+info.get("access_token")
 					+ "&openid="+info.get("openid")
@@ -85,12 +85,12 @@ public class WxUserController {
 			String response=HttpUtils.submitGet(userurl);
 			Map<String, Object> map=JSON.parseObject(response);
 			String num=wxOrderService.queryCountManchine((String) map.get("openid"));
-			logger.info("获取微信用户信息 JSON=》返回的结果为=》" + response);
-			logger.info("查询到的咖啡机数据量为=》" + num);
+			LOGGER.info("获取微信用户信息 JSON=》返回的结果为=》" + response);
+			LOGGER.info("查询到的咖啡机数据量为=》" + num);
 			map.put("cofNum", num);
 			return  JSON.toJSONString(map);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			LOGGER.error(e.getMessage(), e);
 			return null;
 		}
 	}

@@ -146,7 +146,7 @@ public class WxPayOrderRequestLogicImpl implements	ILogic<ParametersVo<String, O
 		wxorder.put("areaId", requestOrder.getAreacode());
 		wxorder.put("manicheId", requestOrder.getMachine());
 		wxorder.put("universityId", requestOrder.getUnitcode());
-		wxorder.put("createTime", DateUtils.getCurrDateTime());
+		wxorder.put("createTime", DateUtils.getCurrDate());
 		wxorder.put("createUser", "易创吧科技");
 		return wxorder;
 	}
