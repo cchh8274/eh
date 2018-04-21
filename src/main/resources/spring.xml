@@ -23,7 +23,7 @@
         <task:scheduled ref="firstCron" method="jobs" cron="0/5 * * * * ?"/>
     </task:scheduled-tasks>
 	<!--   同步微信用户信息job -->
-      <bean id="syncWxUserCron" class="com.ycb.job.SyncWxUserJob"/>
+     <bean id="syncWxUserCron" class="com.ycb.job.SyncWxUserJob"/>
      <task:scheduled-tasks>      
         <task:scheduled ref="syncWxUserCron" method="jobs" cron="0 55 23 ? * *"/>
     </task:scheduled-tasks>

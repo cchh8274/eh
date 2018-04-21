@@ -127,6 +127,10 @@ public class WXController extends BaseController{
 			reultMap.put("return_msg", "OK");
 			LOGGER.info("WXController.responseResult--微信通知支付结果接口,通知成功,业务处理通过,转化结果为:"+ WXPayUtil.mapToXml(reultMap));
 		} catch (Exception e) {
+			reultMap.put("return_code", "FAIL");
+			reultMap.put("return_msg", "失敗");
+			LOGGER.info("WXController.responseResult--微信通知支付结果接口出现异常!");
+			LOGGER.error(e.getMessage(), e);
 			resultMap.put("return_code", "FAIL");
 			resultMap.put("return_msg", "失敗");
 			LOGGER.info("WXController.responseResult--微信通知支付结果接口出现异常!");

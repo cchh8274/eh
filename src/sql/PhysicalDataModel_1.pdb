@@ -2749,8 +2749,8 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:TableSymbol>
 <o:TableSymbol Id="o11">
 <a:CreationDate>1521555475</a:CreationDate>
-<a:ModificationDate>1524246150</a:ModificationDate>
-<a:Rect>((-65172,-28598), (-45526,-16100))</a:Rect>
+<a:ModificationDate>1524248357</a:ModificationDate>
+<a:Rect>((-61947,-28148), (-42301,-15650))</a:Rect>
 <a:LineColor>12615680</a:LineColor>
 <a:FillColor>16570034</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -2795,8 +2795,8 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:TableSymbol>
 <o:TableSymbol Id="o15">
 <a:CreationDate>1522508141</a:CreationDate>
-<a:ModificationDate>1524246161</a:ModificationDate>
-<a:Rect>((24268,8862), (48934,35384))</a:Rect>
+<a:ModificationDate>1524249824</a:ModificationDate>
+<a:Rect>((25318,1962), (49984,28484))</a:Rect>
 <a:LineColor>12615680</a:LineColor>
 <a:FillColor>16570034</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -2841,8 +2841,8 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:TableSymbol>
 <o:TableSymbol Id="o19">
 <a:CreationDate>1522509645</a:CreationDate>
-<a:ModificationDate>1524246154</a:ModificationDate>
-<a:Rect>((-38430,-25451), (-16468,-8003))</a:Rect>
+<a:ModificationDate>1524246802</a:ModificationDate>
+<a:Rect>((-39405,-23726), (-17443,-6278))</a:Rect>
 <a:LineColor>12615680</a:LineColor>
 <a:FillColor>16570034</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -2979,8 +2979,8 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:TableSymbol>
 <o:TableSymbol Id="o31">
 <a:CreationDate>1524246171</a:CreationDate>
-<a:ModificationDate>1524246174</a:ModificationDate>
-<a:Rect>((-16153,-21176), (3107,-8678))</a:Rect>
+<a:ModificationDate>1524246804</a:ModificationDate>
+<a:Rect>((-16496,-20201), (3150,-9353))</a:Rect>
 <a:LineColor>12615680</a:LineColor>
 <a:FillColor>16570034</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -3050,7 +3050,7 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>文本32</a:Code>
 <a:CreationDate>1524246320</a:CreationDate>
 <a:Creator>chenghui</a:Creator>
-<a:ModificationDate>1524246546</a:ModificationDate>
+<a:ModificationDate>1524246782</a:ModificationDate>
 <a:Modifier>chenghui</a:Modifier>
 <a:Comment>文本32</a:Comment>
 <a:DataType>varchar(32)</a:DataType>
@@ -6684,7 +6684,7 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>tbl_earnings_gather</a:Code>
 <a:CreationDate>1524246171</a:CreationDate>
 <a:Creator>chenghui</a:Creator>
-<a:ModificationDate>1524246530</a:ModificationDate>
+<a:ModificationDate>1524246800</a:ModificationDate>
 <a:Modifier>chenghui</a:Modifier>
 <a:Comment>收益汇总表</a:Comment>
 <a:Stereotype>tbl_earnings_gather</a:Stereotype>
@@ -6754,50 +6754,53 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:Column>
 <o:Column Id="o256">
 <a:ObjectID>885CB317-9F1E-42B5-BF3D-978327432DC1</a:ObjectID>
-<a:Name>Column_11</a:Name>
-<a:Code>Column_11</a:Code>
+<a:Name>openid</a:Name>
+<a:Code>openid</a:Code>
 <a:CreationDate>1524246530</a:CreationDate>
 <a:Creator>chenghui</a:Creator>
-<a:ModificationDate>1524246530</a:ModificationDate>
+<a:ModificationDate>1524246698</a:ModificationDate>
 <a:Modifier>chenghui</a:Modifier>
+<a:Comment>openid</a:Comment>
+<a:Stereotype>openid</a:Stereotype>
+<a:DataType>varchar(32)</a:DataType>
+<a:Length>32</a:Length>
+<c:Domain>
+<o:PhysicalDomain Ref="o36"/>
+</c:Domain>
 </o:Column>
 <o:Column Id="o257">
 <a:ObjectID>15F16951-4D8C-4D36-B834-35079185F42A</a:ObjectID>
-<a:Name>Column_10</a:Name>
-<a:Code>Column_10</a:Code>
+<a:Name>大学名称</a:Name>
+<a:Code>unversity_name</a:Code>
 <a:CreationDate>1524246530</a:CreationDate>
 <a:Creator>chenghui</a:Creator>
-<a:ModificationDate>1524246530</a:ModificationDate>
+<a:ModificationDate>1524246782</a:ModificationDate>
 <a:Modifier>chenghui</a:Modifier>
+<a:Comment>大学名称</a:Comment>
+<a:Stereotype>unversity_name</a:Stereotype>
+<a:DataType>varchar(32)</a:DataType>
+<a:Length>32</a:Length>
+<c:Domain>
+<o:PhysicalDomain Ref="o36"/>
+</c:Domain>
 </o:Column>
 <o:Column Id="o258">
 <a:ObjectID>F53F102F-7EBB-4918-9D9D-DCEE189A9DAE</a:ObjectID>
-<a:Name>Column_9</a:Name>
-<a:Code>Column_9</a:Code>
+<a:Name>区域名称</a:Name>
+<a:Code>area_name</a:Code>
 <a:CreationDate>1524246530</a:CreationDate>
 <a:Creator>chenghui</a:Creator>
-<a:ModificationDate>1524246530</a:ModificationDate>
+<a:ModificationDate>1524246771</a:ModificationDate>
 <a:Modifier>chenghui</a:Modifier>
+<a:Comment>区域名称</a:Comment>
+<a:Stereotype>area_name</a:Stereotype>
+<a:DataType>varchar(32)</a:DataType>
+<a:Length>32</a:Length>
+<c:Domain>
+<o:PhysicalDomain Ref="o36"/>
+</c:Domain>
 </o:Column>
 <o:Column Id="o259">
-<a:ObjectID>D274261A-C945-4C3A-A569-4575D2CD2E8A</a:ObjectID>
-<a:Name>Column_8</a:Name>
-<a:Code>Column_8</a:Code>
-<a:CreationDate>1524246530</a:CreationDate>
-<a:Creator>chenghui</a:Creator>
-<a:ModificationDate>1524246530</a:ModificationDate>
-<a:Modifier>chenghui</a:Modifier>
-</o:Column>
-<o:Column Id="o260">
-<a:ObjectID>B29F0F59-6D88-4524-A374-2FC31FC39C6E</a:ObjectID>
-<a:Name>Column_7</a:Name>
-<a:Code>Column_7</a:Code>
-<a:CreationDate>1524246530</a:CreationDate>
-<a:Creator>chenghui</a:Creator>
-<a:ModificationDate>1524246530</a:ModificationDate>
-<a:Modifier>chenghui</a:Modifier>
-</o:Column>
-<o:Column Id="o261">
 <a:ObjectID>71C7F2DC-9D45-420A-AF79-E4E4CA3079F6</a:ObjectID>
 <a:Name>收益区域</a:Name>
 <a:Code>area_id</a:Code>
@@ -6813,7 +6816,7 @@ TableComment 0 新宋体,8,N</a:FontList>
 <o:PhysicalDomain Ref="o36"/>
 </c:Domain>
 </o:Column>
-<o:Column Id="o262">
+<o:Column Id="o260">
 <a:ObjectID>602FFB84-B004-40AF-9E84-F279B06FDEC8</a:ObjectID>
 <a:Name>创建时间</a:Name>
 <a:Code>createtime</a:Code>
@@ -6829,7 +6832,7 @@ TableComment 0 新宋体,8,N</a:FontList>
 <o:PhysicalDomain Ref="o36"/>
 </c:Domain>
 </o:Column>
-<o:Column Id="o263">
+<o:Column Id="o261">
 <a:ObjectID>51A56DDC-427C-47F3-83C8-75AF5D6D96D5</a:ObjectID>
 <a:Name>创建人</a:Name>
 <a:Code>create_user</a:Code>
@@ -6847,7 +6850,7 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:Column>
 </c:Columns>
 <c:Keys>
-<o:Key Id="o264">
+<o:Key Id="o262">
 <a:ObjectID>AC66DBFE-9545-4977-871B-8F5A3C70091F</a:ObjectID>
 <a:Name>Key_1</a:Name>
 <a:Code>Key_1</a:Code>
@@ -6861,12 +6864,12 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:Key>
 </c:Keys>
 <c:PrimaryKey>
-<o:Key Ref="o264"/>
+<o:Key Ref="o262"/>
 </c:PrimaryKey>
 </o:Table>
 </c:Tables>
 <c:DefaultGroups>
-<o:Group Id="o265">
+<o:Group Id="o263">
 <a:ObjectID>AF1DFB58-93AD-4156-BAE0-8BD0F911C020</a:ObjectID>
 <a:Name>PUBLIC</a:Name>
 <a:Code>PUBLIC</a:Code>
@@ -6877,7 +6880,7 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:Group>
 </c:DefaultGroups>
 <c:TargetModels>
-<o:TargetModel Id="o266">
+<o:TargetModel Id="o264">
 <a:ObjectID>56837595-FDDD-44A3-BF48-D57CF534E123</a:ObjectID>
 <a:Name>MySQL 5.0</a:Name>
 <a:Code>MYSQL50</a:Code>
